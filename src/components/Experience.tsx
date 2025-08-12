@@ -4,6 +4,22 @@ import { Briefcase, Calendar, MapPin, Award, GraduationCap, Trophy } from 'lucid
 const Experience = () => {
   const workExperiences = [
     {
+      title: 'Intern',
+      company: 'Defence Research and Development Organisation (DRDO)',
+      location: 'India',
+      period: 'July 2025 - August 2025',
+      description: 'Designed and developed CampusHire Analytics, a comprehensive role-based placement management system. Created automated verification systems and streamlined recruitment workflows for educational institutions.',
+      achievements: [
+        'Developed CampusHire Analytics - a complete placement management system',
+        'Built role-based access for Students, T&P Officers, and Companies',
+        'Implemented automated verification and unique login ID systems',
+        'Created skill and CGPA tracking modules for recruitment optimization',
+        'Delivered responsive UI with efficient backend using PHP and MySQL',
+        'Streamlined recruitment workflows for educational institutions',
+        'Built comprehensive user management and authentication systems',
+      ]
+    },
+    {
       title: 'Head of Department (Data Science)',
       company: 'Renu Sharma Foundation',
       location: 'Remote',
