@@ -35,30 +35,7 @@ const Experience = () => {
         'Developed semantic matching algorithms and real-time feedback systems',
       ]
     },
-    {
-      title: 'Python Developer Intern',
-      company: 'Vault of Codes',
-      location: 'Remote',
-      period: 'Oct 2024',
-      description: 'Developed scalable Python applications, streamlined workflows, and debugged code for optimal performance. Created a To-Do List application as the main project.',
-      achievements: [
-        'Built scalable Python applications',
-        'Streamlined development workflows',
-        'Optimized code performance through debugging',
-      ]
-    },
-    {
-      title: 'Data Analytics and Visualization Job Simulation',
-      company: 'Accenture',
-      location: 'Remote',
-      period: 'June 2024',
-      description: 'Advised a hypothetical social media client as a Data Analyst. Cleaned, modeled, and analyzed 7 datasets to uncover key insights into content trends.',
-      achievements: [
-        'Analyzed 7 datasets for content trends',
-        'Created comprehensive PowerPoint presentations',
-        'Delivered insights to stakeholders',
-      ]
-    },
+    // Vault of Codes and Accenture entries removed per user request
   ];
 
   const education = [

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ArrowUp } from 'lucide-react';
 import Navigation from './components/Navigation';
@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import ExperiencePage from './pages/ExperiencePage';
 import SkillsPage from './pages/SkillsPage';
 import ProjectsPage from './pages/ProjectsPage';
+import CampusHirePage from './pages/CampusHirePage';
 
 function App() {
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -36,6 +37,7 @@ function App() {
           <Route path="/experience" element={<ExperiencePage />} />
           <Route path="/skills" element={<SkillsPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects/campushire" element={<CampusHirePage />} />
         </Routes>
         <Footer />
         

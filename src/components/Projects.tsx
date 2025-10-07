@@ -6,11 +6,12 @@ const Projects = () => {
     {
       title: 'CampusHire Analytics - Placement Management System',
       description: 'Placement management web application for verified student-company-T&P workflows, unique login code verification, and analytics dashboards.',
-      image: '/campushire-dashboard.png',
+  image: 'https://images.pexels.com/photos/3184639/pexels-photo-3184639.jpeg?auto=compress&cs=tinysrgb&w=1200',
       tags: ['Placement', 'Verification', 'Analytics'],
       techStack: ['PHP', 'MySQL', 'JavaScript', 'HTML/CSS'],
       githubUrl: 'https://github.com/KASAKBATRA/CampusHire_Analytics',
-      liveUrl: '/campushire',
+      liveUrl: '',
+      showDemo: false,
       linkedinUrl: '',
       category: 'analytics',
       icon: BarChart3,
@@ -86,7 +87,6 @@ const Projects = () => {
           </p>
         </div>
 
-        <div className="space-y-8">
           {/* Featured Project */}
           {projects.filter(project => project.featured).map((project, index) => {
             const ProjectIcon = project.icon;
@@ -140,15 +140,17 @@ const Projects = () => {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-4">
-                      <a 
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-gradient-to-r from-pink-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-pink-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2"
-                      >
-                        <ExternalLink size={18} />
-                        Live Demo
-                      </a>
+                      {project.showDemo !== false && project.liveUrl && (
+                        <a 
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-gradient-to-r from-pink-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-pink-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2"
+                        >
+                          <ExternalLink size={18} />
+                          Live Demo
+                        </a>
+                      )}
                       <a 
                         href={project.githubUrl}
                         target="_blank"
@@ -174,81 +176,86 @@ const Projects = () => {
               </div>
             );
           })}
-        </div>
 
         {/* Other Projects */}
         <div className="mt-16">
-          <h3 className="font-display text-2xl font-bold text-white mb-8 text-center animate-fade-in-up">Other Projects</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.filter(project => !project.featured).map((project, index) => {
-            const ProjectIcon = project.icon;
-            return (
-              <div 
-                key={index} 
-                className="group glass-morphism rounded-2xl overflow-hidden hover:border-primary-500/50 transition-all duration-300 animate-fade-in-up hover-lift-glow"
-                style={{ animationDelay: `${index * 200}ms` }}
-              >
-                <div className="relative overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-sm p-2 rounded-lg">
-                    <ProjectIcon className="text-primary-400" size={20} />
-                  </div>
-                </div>
+          <h3 className="font-display text-2xl font-bold text-white mb-6 text-center animate-fade-in-up">Other Projects</h3>
 
-                <div className="p-6">
-                  <h3 className="font-display text-xl font-semibold text-white mb-2 group-hover:text-primary-400 transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  <p className="text-slate-400 text-sm mb-4 leading-relaxed">
-                    {project.description}
-                  </p>
+          <div className="projects-carousel relative">
+            <button
+              className="carousel-nav left"
+              aria-label="Scroll left"
+              onClick={() => {
+                const track = document.querySelector('.carousel-track') as HTMLElement | null;
+                if (track) track.scrollBy({ left: -360, behavior: 'smooth' });
+              }}
+            >‹</button>
+            <div className="carousel-track" role="list">
+              {projects.filter(project => !project.featured).map((project, index) => {
+                return (
+                  <article key={index} role="listitem" className="carousel-item group glass-morphism rounded-2xl overflow-hidden transition-all duration-300 flex flex-col">
+                    <div
+                      className="thumb-wrap bg-slate-900/60"
+                      style={{ backgroundImage: `url(${project.image})` }}
+                      role="img"
+                      aria-label={project.title}
+                    />
 
-                  {/* Tech Stack */}
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {project.techStack.map((tech, techIndex) => (
-                      <span key={techIndex} className="bg-slate-700/50 text-slate-300 text-xs px-2 py-1 rounded-md border border-slate-600/50 font-medium">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+                    <div className="card-body p-4 flex-1 flex flex-col">
+                      <div className="author-row flex items-center gap-3 mb-3">
+                        <img src="/kasak-removebg-preview.png" alt="avatar" className="author-avatar" />
+                        <div>
+                          <div className="author-name text-white font-semibold">Kasak · Aspiring Data Scientist</div>
+                          <div className="author-sub text-slate-400 text-xs">B.Tech AI & Data Science</div>
+                        </div>
+                      </div>
 
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag, tagIndex) => (
-                      <span key={tagIndex} className="bg-primary-500/20 text-primary-400 text-xs px-3 py-1 rounded-full border border-primary-500/30">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                      <h4 className="font-display text-lg font-semibold text-white mb-2">{project.title}</h4>
+                      <p className="text-slate-400 text-sm mb-3 truncate-lines">{project.description}</p>
 
-                  <div className="flex items-center space-x-4">
-                    <a 
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-slate-400 hover:text-white transition-colors duration-200"
-                    >
-                      <Github size={18} className="mr-1" />
-                      Code
-                    </a>
-                    <a 
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-slate-400 hover:text-primary-400 transition-colors duration-200"
-                    >
-                      <ExternalLink size={18} className="mr-1" />
-                      View Project
-                    </a>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {project.tags.slice(0,3).map((tag, ti) => (
+                          <span key={ti} className="tag-pill">{tag}</span>
+                        ))}
+                      </div>
+
+                      <div className="mt-auto">
+                        <div className="stats-row flex items-center justify-between text-slate-400 text-sm">
+                          <div className="flex items-center gap-4">
+                            <div className="stat">❤️ 24</div>
+                            <div className="stat">💬 3</div>
+                            <div className="stat">🔗 2</div>
+                          </div>
+                          <div className="meta text-xs">2d • Public</div>
+                        </div>
+
+                        <div className="progress-bar mt-3 bg-slate-800 h-2 rounded-full overflow-hidden">
+                          <div className="progress-fill" style={{width: '64%', background: 'linear-gradient(90deg,#60a5fa,#06b6d4)'}} />
+                        </div>
+
+                        <div className="card-actions mt-4 flex gap-3">
+                          {project.liveUrl ? (
+                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="btn-demo">Live Demo</a>
+                          ) : (
+                            <button className="btn-demo disabled" disabled>Live Demo</button>
+                          )}
+
+                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="btn-code">Source</a>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+            <button
+              className="carousel-nav right"
+              aria-label="Scroll right"
+              onClick={() => {
+                const track = document.querySelector('.carousel-track') as HTMLElement | null;
+                if (track) track.scrollBy({ left: 360, behavior: 'smooth' });
+              }}
+            >›</button>
           </div>
         </div>
 
