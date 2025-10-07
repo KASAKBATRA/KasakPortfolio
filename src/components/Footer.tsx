@@ -20,7 +20,7 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="md:col-span-2">
             <div className="font-display text-2xl font-bold bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent mb-4">
-              Kasak Batra
+              Kasak
             </div>
             <p className="text-slate-400 leading-relaxed mb-6 max-w-md">
               AI & Data Science enthusiast passionate about turning data into decisions 
@@ -108,7 +108,7 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="border-t border-slate-700/30 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-slate-400 text-sm mb-4 md:mb-0">
-            © 2024 Kasak Batra. All rights reserved.
+            © 2025 Kasak. All rights reserved.
           </p>
           
           <div className="flex items-center space-x-4">

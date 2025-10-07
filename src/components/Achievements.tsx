@@ -142,11 +142,11 @@ const AchievementsFeed: React.FC<{ items: Achievement[] }> = ({ items }) => {
   }, [lightboxOpen, lightboxImages]);
 
   return (
-    <section className="py-20 bg-slate-900">
+    <section id="achievements" className="py-20 bg-slate-900">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-8">
-          <h2 className="font-display text-3xl font-bold text-white">“Chapters of Impact”</h2>
-          <p className="text-slate-400 mt-2 max-w-2xl mx-auto">A curated collection of achievements that reflect growth, passion, and purpose.</p>
+          <h2 className="font-display text-3xl font-bold text-white">Achievements</h2>
+          <p className="text-slate-400 mt-2 max-w-2xl mx-auto">A curated collection of accomplishments that reflect growth, passion, and impact.</p>
         </div>
 
         {/* Mobile: stacked full-width cards for better phone UX */}

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ArrowUp } from 'lucide-react';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
+import AIAssistant from './components/AIAssistant';
 import HomePage from './pages/HomePage';
 import ExperiencePage from './pages/ExperiencePage';
 import SkillsPage from './pages/SkillsPage';
@@ -39,9 +40,10 @@ function App() {
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/campushire" element={<CampusHirePage />} />
         </Routes>
-        <Footer />
+  <Footer />
+  <AIAssistant />
         
-        {/* Floating Back to Top Button */}
+  {/* Floating Back to Top Button */}
         <button
           onClick={scrollToTop}
           className={`back-to-top ${showBackToTop ? 'visible' : ''}`}

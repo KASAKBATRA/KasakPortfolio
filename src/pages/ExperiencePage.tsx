@@ -1,5 +1,32 @@
-import React from 'react';
 import Experience from '../components/Experience';
+import AchievementsFeed from '../components/Achievements';
+
+const sampleAchievements = [
+  {
+    id: 1,
+    images: ['/ach1.jpeg'],
+    caption: 'Built CampusHire Analytics — placement management with verification flows.',
+    highlight: 'CampusHire Analytics',
+    date: '2025-08-01',
+    tags: ['Placement', 'Verification']
+  },
+  {
+    id: 2,
+    images: ['/ach3.jpg'],
+    caption: 'Presented Image to Pencil Sketch at NCBISF-24 conference.',
+    highlight: 'Image to Pencil Sketch (NCBISF-24)',
+    date: '2024-12-01',
+    tags: ['OpenCV', 'ML']
+  },
+  {
+    id: 3,
+    images: ['/ach2.png'],
+    caption: 'EmotionsMemoria — an AI memory creator I built and deployed.',
+    highlight: 'EmotionsMemoria',
+    date: '2025-06-15',
+    tags: ['AI', 'Web']
+  }
+];
 
 const ExperiencePage = () => {
   return (
@@ -14,6 +41,10 @@ const ExperiencePage = () => {
         </div>
       </div>
       <Experience />
+      {/* Chapters of Impact under Experience & Education */}
+      <div className="mt-12">
+        <AchievementsFeed items={sampleAchievements} />
+      </div>
     </div>
   );
 };
