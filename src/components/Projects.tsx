@@ -1,8 +1,21 @@
-import React from 'react';
+// React import not required with automatic JSX runtime
 import { ExternalLink, Github, MapPin, Image, BarChart3, Heart, Sparkles } from 'lucide-react';
 
 const Projects = () => {
   const projects = [
+    {
+      title: 'CampusHire Analytics - Placement Management System',
+      description: 'Placement management web application for verified student-company-T&P workflows, unique login code verification, and analytics dashboards.',
+      image: '/campushire-dashboard.png',
+      tags: ['Placement', 'Verification', 'Analytics'],
+      techStack: ['PHP', 'MySQL', 'JavaScript', 'HTML/CSS'],
+      githubUrl: 'https://github.com/KASAKBATRA/CampusHire_Analytics',
+      liveUrl: '/campushire',
+      linkedinUrl: '',
+      category: 'analytics',
+      icon: BarChart3,
+      featured: true
+    },
     {
       title: 'EmotionsMemoria - AI Memory Creator',
       description: 'Immersive web application that transforms user-uploaded photos and videos into emotionally rich creations using AI. Features collages, animated memory wheels, certificates, and threaded timelines with AI-driven caption generation and emotion detection.',
@@ -14,7 +27,7 @@ const Projects = () => {
       linkedinUrl: 'https://www.linkedin.com/posts/kasak-batra_emotionsmemoria-webapplaunch-kasakcreates-activity-7347712837563097090-TrWi?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEUdggYBF1OWuFNixE5eVNoNOiuE3IPilW4',
       category: 'ai',
       icon: Heart,
-      featured: true
+      featured: false
     },
     {
       title: 'MapMyWork - Workforce Mapping',
