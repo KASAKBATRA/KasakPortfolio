@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+// EmailJS client (used for client-side email sending)
+declare module '@emailjs/browser';
+import emailjs from '@emailjs/browser';
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter } from 'lucide-react';
 
 const Contact = () => {
@@ -21,13 +24,39 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    alert('Message sent successfully!');
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setIsSubmitting(false);
+    try {
+      // Read EmailJS IDs from Vite env variables (create .env with VITE_EMAILJS_...)
+      const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE || 'your_service_id';
+      const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE || 'your_template_id';
+      const USER_ID = import.meta.env.VITE_EMAILJS_USER || 'your_user_id';
+
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      };
+
+      // Initialize EmailJS (helps ensure user id is set)
+      try {
+        emailjs.init(USER_ID);
+      } catch (e) {
+        // ignore init errors
+      }
+
+      const result = await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, USER_ID);
+      // success
+      console.log('EmailJS result', result);
+      alert('Message sent successfully!');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (err: any) {
+      console.error('EmailJS error', err);
+      // Try to show a helpful message if available
+      const message = err?.text || err?.message || JSON.stringify(err);
+      alert(`Failed to send message. ${message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

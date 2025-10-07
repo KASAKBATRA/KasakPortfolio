@@ -1,5 +1,5 @@
 import React from 'react';
-import { Briefcase, Calendar, MapPin, Award, GraduationCap, Trophy } from 'lucide-react';
+import { Briefcase, Calendar, MapPin, Award, GraduationCap } from 'lucide-react';
 
 const Experience = () => {
   const workExperiences = [
@@ -95,14 +95,7 @@ const Experience = () => {
     { name: 'Discrete Mathematics', issuer: 'NPTEL', year: '2023' },
   ];
 
-  const achievements = [
-    'Published research paper: "Image to Pencil Recognition Using Machine Learning Techniques and OpenCV" at NCBISF-24',
-    'Published research paper: "Data Science Techniques For Next Generation Cities" in IJPREMS Journal',
-    'Graphics Head at National Service Scheme (NSS) - Led team of 20, increased engagement by 75%',
-    'Organized multiple tech events including "TechQuest: Decode & Dominate" and "Code Breaker Challenge"',
-    'Volunteered at Khelo India Para Games 2024 in media, medical, catering & ceremonies',
-    'EPAM Systems Scholarship recipient for 2024 and 2025',
-  ];
+  
 
   const TimelineSection = ({ title, items, icon: Icon, color }: { 
     title: string; 
@@ -173,79 +166,60 @@ const Experience = () => {
           <div className="w-24 h-1 bg-gradient-to-r from-primary-400 to-accent-400 mx-auto"></div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Experience and Education */}
-          <div className="lg:col-span-2 space-y-8">
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Left: Work Experience */}
+          <div className="space-y-8">
             <TimelineSection 
               title="Work Experience" 
               items={workExperiences} 
               icon={Briefcase}
               color="bg-blue-600"
             />
-            
+          </div>
+
+          {/* Right: Education + Certifications + Leadership */}
+          <div className="space-y-8">
             <TimelineSection 
               title="Education" 
               items={education} 
               icon={GraduationCap}
               color="bg-green-600"
             />
-          </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Certifications */}
-            <div className="glass-morphism p-6 rounded-2xl hover-lift-glow">
-              <div className="flex items-center mb-6">
-                <Award className="text-yellow-400 mr-3" size={24} />
-                <h3 className="font-display text-xl font-semibold text-white">Certifications</h3>
-              </div>
-              
-              <div className="space-y-4">
-                {certifications.map((cert, index) => (
-                  <div key={index} className="border-l-2 border-primary-400/30 pl-4 py-2 hover:border-primary-400/60 transition-colors duration-300">
-                    <h4 className="font-medium text-white text-sm">{cert.name}</h4>
-                    <p className="text-slate-400 text-xs">{cert.issuer}</p>
-                    <div className="flex items-center justify-between">
-                      <p className="text-primary-400 text-xs">{cert.year}</p>
-                      {cert.note && <span className="text-green-400 text-xs">{cert.note}</span>}
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Certifications */}
+              <div className="glass-morphism p-6 rounded-2xl hover-lift-glow">
+                <div className="flex items-center mb-6">
+                  <Award className="text-yellow-400 mr-3" size={24} />
+                  <h3 className="font-display text-xl font-semibold text-white">Certifications</h3>
+                </div>
+                <div className="space-y-4">
+                  {certifications.map((cert, index) => (
+                    <div key={index} className="border-l-2 border-primary-400/30 pl-4 py-2 hover:border-primary-400/60 transition-colors duration-300">
+                      <h4 className="font-medium text-white text-sm">{cert.name}</h4>
+                      <p className="text-slate-400 text-xs">{cert.issuer}</p>
+                      <div className="flex items-center justify-between">
+                        <p className="text-primary-400 text-xs">{cert.year}</p>
+                        {cert.note && <span className="text-green-400 text-xs">{cert.note}</span>}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Key Achievements */}
-            <div className="glass-morphism p-6 rounded-2xl hover-lift-glow">
-              <div className="flex items-center mb-6">
-                <Trophy className="text-purple-400 mr-3" size={24} />
-                <h3 className="font-display text-xl font-semibold text-white">Key Achievements</h3>
-              </div>
-              
-              <div className="space-y-3">
-                {achievements.slice(0, 4).map((achievement, index) => (
-                  <div key={index} className="text-slate-300 text-sm leading-relaxed">
-                    <div className="flex items-start">
-                      <div className="w-1.5 h-1.5 bg-purple-400 rounded-full mr-3 mt-2 flex-shrink-0"></div>
-                      <span>{achievement}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Leadership */}
-            <div className="glass-morphism p-6 rounded-2xl hover-lift-glow">
-              <div className="flex items-center mb-6">
-                <Briefcase className="text-green-400 mr-3" size={24} />
-                <h3 className="font-display text-xl font-semibold text-white">Leadership</h3>
-              </div>
-              
-              <div className="flex flex-wrap gap-2">
-                {['Event Organization', 'Team Leadership', 'Graphics Design', 'Community Service', 'Research', 'Public Speaking'].map((skill, index) => (
-                  <span key={index} className="bg-green-500/20 text-green-400 text-xs px-3 py-1 rounded-full border border-green-500/30">
-                    {skill}
-                  </span>
-                ))}
+              {/* Leadership */}
+              <div className="glass-morphism p-6 rounded-2xl hover-lift-glow">
+                <div className="flex items-center mb-6">
+                  <Briefcase className="text-green-400 mr-3" size={24} />
+                  <h3 className="font-display text-xl font-semibold text-white">Leadership</h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {['Event Organization', 'Team Leadership', 'Graphics Design', 'Community Service', 'Research', 'Public Speaking'].map((skill, index) => (
+                    <span key={index} className="bg-green-500/20 text-green-400 text-xs px-3 py-1 rounded-full border border-green-500/30">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

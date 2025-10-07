@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Code2, Database, BarChart3, Brain, Wrench, BookOpen } from 'lucide-react';
 
 const Skills = () => {
@@ -103,44 +103,48 @@ const Skills = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {skillCategories.map((category, categoryIndex) => (
-            <div 
-              key={category.title} 
-              className="glass-morphism p-8 rounded-2xl hover:border-slate-600/50 transition-all duration-300 animate-fade-in-up hover-lift-glow"
-              style={{ animationDelay: `${categoryIndex * 200}ms` }}
-            >
-              <div className="flex items-center mb-6">
-                <div className={`p-3 rounded-lg ${getColorClasses(category.color).split(' ')[2]} mr-4`}>
-                  <category.icon className={getColorClasses(category.color).split(' ')[3]} size={24} />
-                </div>
-                <h3 className="font-display text-xl font-semibold text-white">{category.title}</h3>
-              </div>
-
-              <div className="space-y-4">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skill.name} className="relative">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-slate-300 font-medium">{skill.name}</span>
-                      <span className="text-slate-400 text-sm">{skill.level}%</span>
-                    </div>
-                    <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
-                      <div 
-                        className={`h-full bg-gradient-to-r ${getColorClasses(category.color).split(' ')[0]} ${getColorClasses(category.color).split(' ')[1]} transition-all duration-1000 ease-out`}
-                        style={{
-                          width: isVisible ? `${skill.level}%` : '0%',
-                          transitionDelay: `${categoryIndex * 200 + skillIndex * 100}ms`
-                        }}
-                      />
-                    </div>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {skillCategories.map((category, categoryIndex) => {
+            const cc = getColorClasses(category.color).split(' ');
+            return (
+              <div
+                key={category.title}
+                className="glass-morphism p-6 rounded-2xl hover:border-slate-600/50 transition-all duration-300 animate-fade-in-up hover-lift-glow flex flex-col h-full min-h-[280px]"
+                style={{ animationDelay: `${categoryIndex * 120}ms` }}
+              >
+                <div className="flex items-center mb-6">
+                  <div className={`p-3 rounded-lg ${cc[2]} mr-4 flex items-center justify-center`}>
+                    <category.icon className={`text-white ${cc[4] ? cc[4] : ''}`} size={20} />
                   </div>
-                ))}
+                  <h3 className="font-display text-lg font-semibold text-white">{category.title}</h3>
+                </div>
+
+                <div className="flex-1 space-y-4 mt-2">
+                  {category.skills.map((skill, skillIndex) => (
+                    <div key={skill.name}>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-slate-300 font-medium">{skill.name}</span>
+                        <span className="text-slate-400 text-sm w-12 text-right">{skill.level}%</span>
+                      </div>
+
+                      <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
+                        <div
+                          className={`h-full bg-gradient-to-r ${cc[0]} ${cc[1]} transition-all duration-1000 ease-out`}
+                          style={{
+                            width: isVisible ? `${skill.level}%` : '0%',
+                            transitionDelay: `${categoryIndex * 120 + skillIndex * 60}ms`
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
+  <div className="mt-10 grid grid-cols-4 gap-4 items-stretch">
           {[
             { icon: Code2, label: 'Projects', count: '15+', suffix: 'completed' },
             { icon: BookOpen, label: 'Research Papers', count: '2', suffix: 'published' },
@@ -150,12 +154,12 @@ const Skills = () => {
             <div 
               key={stat.label} 
               className="text-center group animate-fade-in-up"
-              style={{ animationDelay: `${600 + index * 100}ms` }}
+              style={{ animationDelay: `${300 + index * 80}ms` }}
             >
-              <div className="glass-morphism p-6 rounded-2xl group-hover:border-primary-500/50 transition-all duration-300 hover-lift-glow">
-                <stat.icon className="text-primary-400 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" size={32} />
-                <div className="text-2xl font-bold text-white mb-1">{stat.count}</div>
-                <div className="text-slate-400 text-sm">{stat.suffix}</div>
+              <div className="glass-morphism p-3 rounded-xl group-hover:border-primary-500/50 transition-all duration-300 hover-lift-glow">
+                <stat.icon className="text-primary-400 mx-auto mb-1 group-hover:scale-110 transition-transform duration-300" size={16} />
+                <div className="text-lg font-bold text-white mb-0">{stat.count}</div>
+                <div className="text-slate-400 text-xxs mt-0 text-[11px]">{stat.suffix}</div>
               </div>
             </div>
           ))}
