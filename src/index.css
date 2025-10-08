@@ -174,29 +174,7 @@
     transform: translateY(-2px) scale(1.05);
   }
 
-  /* AI Assistant styles */
-  .glass-tooltip {
-    background: linear-gradient(180deg, rgba(10,14,30,0.6), rgba(12,18,36,0.5));
-    border: 1px solid rgba(255,255,255,0.06);
-    backdrop-filter: blur(8px);
-  }
-
-  .shadow-neon {
-    box-shadow: 0 18px 60px rgba(99,102,241,0.12), 0 0 60px rgba(6,182,212,0.12), inset 0 0 18px rgba(255,255,255,0.015);
-  }
-
-  /* ensure the assistant stays above footer but not overlapping on small screens */
-  .ai-assistant-fixed { right: 1.25rem; bottom: 6rem; }
-
-  @media (max-width: 640px) {
-    .ai-assistant-fixed { right: 0.8rem; bottom: 6.4rem; }
-    .ai-assistant { transform: scale(0.95); }
-  }
-
-  .ai-assistant { transition: transform 160ms ease, box-shadow 200ms ease; }
-  .ai-assistant:hover { transform: translateY(-6px) scale(1.03); }
-  .ai-assistant .tooltip { pointer-events: none; }
-}
+  /* AI Assistant styles removed */
 
 @keyframes fadeInUp {
   to {
