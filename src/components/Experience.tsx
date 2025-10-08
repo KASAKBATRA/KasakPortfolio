@@ -66,10 +66,10 @@ const Experience = () => {
   ];
 
   const certifications = [
-    { name: 'Business Analytics and Data Mining Modeling using R', issuer: 'NPTEL', year: '2025', note: 'Top 2%' },
-    { name: 'Data Analytics with Python', issuer: 'NPTEL', year: '2024' },
-    { name: 'IBM Summer Training', issuer: 'IBM', year: '2024', note: 'ML, DL, Gen AI' },
-    { name: 'Discrete Mathematics', issuer: 'NPTEL', year: '2023' },
+    { name: 'Business Analytics and Data Mining Modeling using R', issuer: 'NPTEL', year: '2025', note: 'Top 2%', file: '/cert%201.png' },
+    { name: 'Data Analytics with Python', issuer: 'NPTEL', year: '2024', file: '/cert%202.png' },
+    { name: 'IBM Summer Training', issuer: 'IBM', year: '2024', note: 'ML, DL, Gen AI', file: '/cert%203.jpeg' },
+    { name: 'Discrete Mathematics', issuer: 'NPTEL', year: '2023', file: '/cert%204.png' },
   ];
 
   
@@ -173,11 +173,27 @@ const Experience = () => {
                 <div className="space-y-4">
                   {certifications.map((cert, index) => (
                     <div key={index} className="border-l-2 border-primary-400/30 pl-4 py-2 hover:border-primary-400/60 transition-colors duration-300">
-                      <h4 className="font-medium text-white text-sm">{cert.name}</h4>
-                      <p className="text-slate-400 text-xs">{cert.issuer}</p>
-                      <div className="flex items-center justify-between">
-                        <p className="text-primary-400 text-xs">{cert.year}</p>
-                        {cert.note && <span className="text-green-400 text-xs">{cert.note}</span>}
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h4 className="font-medium text-white text-sm">{cert.name}</h4>
+                          <p className="text-slate-400 text-xs">{cert.issuer}</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <p className="text-primary-400 text-xs">{cert.year}</p>
+                          {cert.note && <span className="text-green-400 text-xs">{cert.note}</span>}
+                          {/* Eye / view button - opens certificate from public folder */}
+                          <button
+                            aria-label={`View certificate ${index + 1}`}
+                            onClick={() => cert.file && window.open(cert.file, '_blank', 'noopener,noreferrer')}
+                            className="p-1 rounded-md bg-slate-800/40 hover:bg-slate-800/60 text-slate-200"
+                          >
+                            {/* simple eye svg */}
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                              <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
