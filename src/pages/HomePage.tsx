@@ -49,6 +49,13 @@ const HomePage = () => {
             caption: 'Mentored 15+ teams at Code Veda Hackathon; 5 teams advanced to the Top 16 (Finals). Proud to have supported their growth.',
             tags: ['Mentorship', 'Hackathon', 'Microsoft']
           }
+          ,{
+            id: 6,
+            highlight: '📘 Author of “Hello AI: A Friendly Introduction to Machine Learning” — Published by Eliva Press',
+            images: ['/Photo1.jpg', '/Photo2.jpg'],
+            caption: `Published my debut book “Hello AI: A Friendly Introduction to Machine Learning” — a beginner-friendly guide designed to simplify AI and ML concepts through practical insights and clear explanations. This journey started with a small thought and turned into months of research, writing, and persistence. Despite challenges and pauses along the way, I completed it with passion and faith. Later, I received an unexpected email from Eliva Press inviting me to publish my work — a moment that reignited my purpose and made this dream a reality. The book reflects my belief that even complex technologies can be understood with curiosity and heart. Today, seeing it officially published and available worldwide is one of the most fulfilling moments of my journey as a learner, creator, and now — an author. Published Links: Eliva Bookstore: https://elivabooks.com/en/book/book-2784504513  Amazon: https://www.amazon.com/dp/9999331718`,
+            tags: ['Author', 'AI', 'Machine Learning', 'Eliva Press', 'Publication', 'Achievement']
+          }
         ]}
       />
       <About />
