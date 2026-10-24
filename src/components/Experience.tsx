@@ -67,6 +67,11 @@ const experiences: ExperienceItem[] = [
 const Experience: React.FC = () => {
   const [expandedId, setExpandedId] = useState<string>('cag-yp');
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [visibleItems, setVisibleItems] = useState<Record<string, boolean>>({
+    'cag-yp': true,
+    'dics-faculty': true,
+    'cag-intern': true
+  });
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -76,7 +81,7 @@ const Experience: React.FC = () => {
       const windowHeight = window.innerHeight;
       const totalHeight = rect.height;
       const visibleTop = windowHeight - rect.top;
-      const progress = Math.min(Math.max(visibleTop / (totalHeight + windowHeight * 0.5), 0), 1);
+      const progress = Math.min(Math.max(visibleTop / (totalHeight + windowHeight * 0.4), 0), 1);
       setScrollProgress(progress);
     };
 
@@ -93,127 +98,151 @@ const Experience: React.FC = () => {
     <section
       id="experience"
       aria-labelledby="experience-heading"
-      className="py-24 sm:py-32 relative"
+      className="py-24 sm:py-32 relative perspective-container"
       ref={containerRef}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Editorial Section Label & Heading */}
+        {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-16 hairline-b pb-8">
           <div>
-            <div className="mono-label text-[#ff6a2b] mb-3 flex items-center gap-2">
+            <div className="mono-label text-[var(--accent-small)] mb-3 flex items-center gap-2 font-semibold">
               <span>01 / EXPERIENCE</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b]" />
             </div>
             <h2
               id="experience-heading"
-              className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-[#f2efe8] light:text-[#141311] tracking-tight"
+              className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-[var(--text-primary)] tracking-tight"
             >
-              Where audit rigor meets <span className="italic text-[#ff6a2b]">intelligence</span>.
+              Public Sector Audit &amp; <span className="italic text-[#ff6a2b]">Technical Pedagogy</span>.
             </h2>
           </div>
-          <p className="font-mono text-xs text-[#9a968d] light:text-[#6b665c] max-w-xs">
-            A track record in national auditing analytics, public welfare telemetry, and technical instruction.
+          <p className="font-mono text-xs text-[var(--text-muted)] max-w-xs font-medium">
+            Timeline of roles in data-driven audit, intelligence pipelines, and university-level instruction.
           </p>
         </div>
 
-        {/* Timeline Container with scroll progress indicator */}
+        {/* Timeline Layout */}
         <div className="relative pl-6 sm:pl-10">
           
-          {/* Vertical Track Background */}
-          <div className="absolute left-[7px] sm:left-[11px] top-4 bottom-4 w-[2px] bg-[var(--border-hairline)]" />
-          
-          {/* Dynamic Scroll Fill Line */}
+          {/* Background vertical track */}
+          <div className="absolute left-[11px] sm:left-[19px] top-4 bottom-4 w-[2px] bg-[var(--border-hairline)]" />
+
+          {/* Active orange vertical progress line */}
           <div
-            className="absolute left-[7px] sm:left-[11px] top-4 w-[2px] bg-[#ff6a2b] transition-all duration-150 ease-out"
+            className="absolute left-[11px] sm:left-[19px] top-4 w-[2px] bg-gradient-to-b from-[#ff6a2b] via-[#ff7e45] to-[#ff6a2b] transition-all duration-150"
             style={{
               height: `${scrollProgress * 95}%`,
             }}
           />
 
-          {/* Timeline Cards */}
-          <div className="space-y-8 sm:space-y-10">
+          {/* Experience Cards Stack */}
+          <div className="space-y-8">
             {experiences.map((exp, index) => {
               const isExpanded = expandedId === exp.id;
 
               return (
-                <div key={exp.id} className="relative group">
-                  
-                  {/* Timeline Dot */}
+                <div
+                  key={exp.id}
+                  className="relative group transition-all duration-500"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                  }}
+                >
+                  {/* Timeline Node Dot */}
                   <div
-                    className={`absolute -left-[27px] sm:-left-[39px] top-6 w-4 h-4 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
+                    className={`absolute -left-[30px] sm:-left-[46px] top-6 w-5 h-5 rounded-full border-2 transition-all duration-300 z-10 flex items-center justify-center ${
                       exp.isCurrent
-                        ? 'border-[#ff6a2b] bg-[#0e0d0b]'
-                        : 'border-[var(--border-hairline)] bg-[#141310] group-hover:border-[#ff6a2b]'
+                        ? 'border-[#ff6a2b] bg-[var(--bg-canvas)] shadow-[0_0_10px_rgba(255,106,43,0.8)]'
+                        : isExpanded
+                        ? 'border-[#ff6a2b] bg-[var(--bg-canvas)]'
+                        : 'border-[var(--border-hairline)] bg-[var(--bg-canvas)]'
                     }`}
                   >
                     {exp.isCurrent ? (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b] animate-ping" />
+                      <span className="w-2 h-2 rounded-full bg-[#ff6a2b] animate-ping" />
                     ) : (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#9a968d]" />
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full ${
+                          isExpanded ? 'bg-[#ff6a2b]' : 'bg-[var(--text-muted)]'
+                        }`}
+                      />
                     )}
                   </div>
 
-                  {/* Card Content (Click to expand) */}
+                  {/* Card Container */}
                   <div
-                    onClick={() => toggleExpand(exp.id)}
-                    className={`bento-card rounded-2xl p-6 sm:p-8 cursor-pointer transition-all duration-300 ${
+                    className={`rounded-2xl hairline-all bg-[var(--card-bg)] transition-all duration-300 overflow-hidden ${
                       isExpanded
                         ? 'border-[#ff6a2b]/50 shadow-xl'
-                        : 'hover:border-[#ff6a2b]/30'
+                        : 'hover:border-[#ff6a2b]/30 hover:shadow-md'
                     }`}
                   >
-                    {/* Header Row */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div>
-                        <div className="flex items-center gap-3">
-                          <h3 className="font-serif text-2xl sm:text-3xl font-normal text-[#f2efe8] light:text-[#141311]">
+                    {/* Header Bar - Clickable to Expand */}
+                    <button
+                      type="button"
+                      onClick={() => toggleExpand(exp.id)}
+                      className="w-full text-left p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-4 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
+                      aria-expanded={isExpanded}
+                    >
+                      <div className="space-y-1.5">
+                        <div className="flex flex-wrap items-center gap-2.5">
+                          <span className="font-serif text-2xl sm:text-3xl text-[var(--text-primary)] group-hover:text-[#ff6a2b] transition-colors">
                             {exp.role}
-                          </h3>
+                          </span>
                           {exp.isCurrent && (
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono tracking-widest uppercase bg-[#ff6a2b]/15 text-[#ff6a2b] border border-[#ff6a2b]/30">
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#ff6a2b]/15 text-[var(--accent-small)] border border-[#ff6a2b]/30 font-semibold">
                               <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b] animate-pulse" />
                               NOW
                             </span>
                           )}
                         </div>
-                        <p className="font-serif text-lg text-[#ff6a2b] mt-1 font-normal">
+
+                        <div className="font-serif text-lg text-[var(--text-secondary)] font-normal">
                           {exp.organization}
-                        </p>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-[var(--text-muted)] font-medium pt-1">
+                          <span className="flex items-center gap-1.5">
+                            <Calendar size={13} className="text-[#ff6a2b]" />
+                            {exp.period}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <MapPin size={13} className="text-[var(--text-muted)]" />
+                            {exp.location}
+                          </span>
+                        </div>
                       </div>
 
-                      <div className="flex items-center gap-3 self-start sm:self-center">
-                        <span className="font-mono text-xs text-[#9a968d] light:text-[#6b665c] bg-[#1a1814] light:bg-[#edeae3] px-3 py-1 rounded-full hairline-all">
-                          {exp.period}
+                      <div className="flex items-center gap-3 self-end md:self-center">
+                        <span className="hidden sm:inline-block font-mono text-[11px] uppercase tracking-wider text-[var(--text-muted)] font-medium">
+                          {isExpanded ? 'Collapse' : 'Details'}
                         </span>
                         <div
-                          className={`w-8 h-8 rounded-full hairline-all flex items-center justify-center text-[#9a968d] transition-transform duration-300 ${
-                            isExpanded ? 'rotate-180 text-[#ff6a2b]' : ''
+                          className={`w-8 h-8 rounded-full hairline-all bg-[var(--bg-surface-elevated)] flex items-center justify-center transition-transform duration-300 ${
+                            isExpanded ? 'rotate-180 text-[#ff6a2b]' : 'text-[var(--text-muted)]'
                           }`}
                         >
                           <ChevronDown size={16} />
                         </div>
                       </div>
-                    </div>
+                    </button>
 
-                    {/* Summary */}
-                    <p className="text-sm sm:text-base text-[#9a968d] light:text-[#6b665c] mt-4 leading-relaxed">
-                      {exp.summary}
-                    </p>
-
-                    {/* Expandable Bullets & Skills */}
+                    {/* Expandable Content Drawer */}
                     {isExpanded && (
-                      <div className="mt-6 pt-6 hairline-t space-y-5 animate-fade-in">
-                        <div>
-                          <h4 className="mono-label text-xs text-[#f2efe8] light:text-[#141311] mb-3">
-                            Key Deliverables &amp; Direct Impact
-                          </h4>
+                      <div className="px-6 pb-6 sm:px-7 sm:pb-7 pt-2 border-t border-[var(--border-hairline)] space-y-5 animate-fade-in">
+                        <p className="text-sm sm:text-base text-[var(--text-primary)] font-normal leading-relaxed">
+                          {exp.summary}
+                        </p>
+
+                        {/* Bulleted Accomplishments */}
+                        <div className="space-y-3">
+                          <div className="mono-label text-[var(--text-muted)] font-semibold">
+                            KEY RESPONSIBILITIES &amp; DELIVERABLES
+                          </div>
                           <ul className="space-y-2.5">
-                            {exp.bullets.map((bullet, bIdx) => (
-                              <li
-                                key={bIdx}
-                                className="flex items-start gap-3 text-sm text-[#f2efe8] light:text-[#141311] leading-relaxed"
-                              >
+                            {exp.bullets.map((bullet, idx) => (
+                              <li key={idx} className="flex items-start gap-2.5 text-sm sm:text-base text-[var(--text-secondary)]">
                                 <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b] mt-2 flex-shrink-0" />
                                 <span>{bullet}</span>
                               </li>
@@ -221,47 +250,41 @@ const Experience: React.FC = () => {
                           </ul>
                         </div>
 
-                        {/* Tech Stack Chips */}
-                        <div>
-                          <h4 className="mono-label text-[11px] text-[#9a968d] light:text-[#6b665c] mb-2.5">
-                            Technologies &amp; Frameworks
-                          </h4>
+                        {/* Tech & Competency Tags */}
+                        <div className="pt-2">
                           <div className="flex flex-wrap gap-2">
-                            {exp.skills.map(s => (
+                            {exp.skills.map((skill) => (
                               <span
-                                key={s}
-                                className="px-2.5 py-1 rounded text-xs font-mono bg-[#1b1915] light:bg-[#f0ede6] text-[#f2efe8] light:text-[#141311] hairline-all"
+                                key={skill}
+                                className="px-3 py-1 rounded-full text-xs font-mono bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] border border-[var(--border-hairline)] font-medium"
                               >
-                                {s}
+                                {skill}
                               </span>
                             ))}
                           </div>
                         </div>
 
+                        {/* External Organization Link */}
                         {exp.link && (
-                          <div className="pt-2 flex justify-end">
+                          <div className="pt-2">
                             <a
                               href={exp.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="inline-flex items-center gap-1.5 text-xs font-mono text-[#ff6a2b] hover:underline"
+                              className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-[var(--accent-small)] hover:underline font-semibold"
                             >
-                              <span>Official Portal</span>
+                              <span>Visit {exp.organization.split('(')[0].trim()}</span>
                               <ExternalLink size={12} />
                             </a>
                           </div>
                         )}
                       </div>
                     )}
-
                   </div>
-
                 </div>
               );
             })}
           </div>
-
         </div>
 
       </div>

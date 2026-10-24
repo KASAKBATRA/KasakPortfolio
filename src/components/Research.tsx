@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, ExternalLink, ArrowUpRight, FileText, ShoppingCart, Award } from 'lucide-react';
+import { BookOpen, ExternalLink, ArrowUpRight, ShoppingCart, Award, Eye, X } from 'lucide-react';
 
 interface Publication {
   id: string;
@@ -53,101 +53,171 @@ const publications: Publication[] = [
 ];
 
 const Research: React.FC = () => {
+  const [bookRotate, setBookRotate] = useState({ rotateY: -16, rotateX: 6 });
+  const [modalImage, setModalImage] = useState<string | null>(null);
+
+  const handleBookMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    setBookRotate({
+      rotateY: (x / (rect.width / 2)) * 24,
+      rotateX: -(y / (rect.height / 2)) * 14,
+    });
+  };
+
+  const handleBookMouseLeave = () => {
+    setBookRotate({ rotateY: -16, rotateX: 6 });
+  };
+
   return (
     <section
       id="research"
       aria-labelledby="research-heading"
-      className="py-24 sm:py-32 hairline-t"
+      className="py-24 sm:py-32 hairline-t perspective-container"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-16 hairline-b pb-8">
           <div>
-            <div className="mono-label text-[#ff6a2b] mb-3 flex items-center gap-2">
+            <div className="mono-label text-[var(--accent-small)] mb-3 flex items-center gap-2 font-semibold">
               <span>03 / RESEARCH &amp; PUBLICATIONS</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b]" />
             </div>
             <h2
               id="research-heading"
-              className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-[#f2efe8] light:text-[#141311] tracking-tight"
+              className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-[var(--text-primary)] tracking-tight"
             >
               Academic Inquiries &amp; <span className="italic text-[#ff6a2b]">Authorship</span>.
             </h2>
           </div>
-          <p className="font-mono text-xs text-[#9a968d] light:text-[#6b665c] max-w-xs">
+          <p className="font-mono text-xs text-[var(--text-muted)] max-w-xs font-medium">
             Published machine learning literature, journal investigations, and an authored textbook.
           </p>
         </div>
 
-        {/* Featured Book Bento Card */}
-        <div className="mb-14 bento-card rounded-3xl p-6 sm:p-10 hairline-all relative overflow-hidden group">
+        {/* Featured Book Bento Card with 3D Rotating Mockup */}
+        <div className="mb-14 bento-card rounded-3xl p-6 sm:p-10 hairline-all relative overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:border-[#ff6a2b]/40">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            {/* Book Meta & Copy (8 cols) */}
-            <div className="lg:col-span-8 space-y-5">
+            {/* Book Meta & Copy (7 cols) */}
+            <div className="lg:col-span-7 space-y-5">
               <div className="flex flex-wrap items-center gap-3">
-                <span className="px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider bg-[#ff6a2b]/15 text-[#ff6a2b] border border-[#ff6a2b]/30">
+                <span className="px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider bg-[#ff6a2b]/15 text-[var(--accent-small)] border border-[#ff6a2b]/30 font-semibold">
                   Featured Book Release
                 </span>
-                <span className="font-mono text-xs text-[#9a968d]">
+                <span className="font-mono text-xs text-[var(--text-muted)] font-medium">
                   ISBN: 9999331718 · Eliva Press
                 </span>
               </div>
 
-              <h3 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-[#f2efe8] light:text-[#141311] leading-tight">
+              <h3 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-[var(--text-primary)] leading-tight">
                 Hello AI: A Friendly Introduction to Machine Learning
               </h3>
 
-              <p className="font-mono text-xs text-[#ff6a2b] uppercase tracking-wider">
-                Published with Eliva Press (Worldwide Distribution) · 2024
+              <p className="text-sm sm:text-base text-[var(--text-secondary)] font-normal leading-relaxed">
+                Authored an intuitive primer introducing core machine learning principles, foundational algorithms, regression paradigms, and deep learning architectures to students and emerging practitioners.
               </p>
 
-              <p className="text-sm sm:text-base text-[#9a968d] light:text-[#6b665c] leading-relaxed max-w-2xl">
-                Authored to demystify artificial intelligence and machine learning fundamentals for beginners and practitioners. Covers intuitive math, neural logic, regression, clustering, and hands-on coding demonstrations.
-              </p>
+              {/* Book Highlights */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+                <div className="p-3 rounded-xl bg-[var(--bg-surface-elevated)] hairline-all">
+                  <div className="font-mono text-[10px] text-[var(--text-muted)] uppercase font-semibold">Publisher</div>
+                  <div className="font-serif text-base text-[var(--text-primary)] font-medium mt-0.5">Eliva Press</div>
+                </div>
+                <div className="p-3 rounded-xl bg-[var(--bg-surface-elevated)] hairline-all">
+                  <div className="font-mono text-[10px] text-[var(--text-muted)] uppercase font-semibold">Classification</div>
+                  <div className="font-serif text-base text-[var(--text-primary)] font-medium mt-0.5">ML Textbook</div>
+                </div>
+                <div className="p-3 rounded-xl bg-[var(--bg-surface-elevated)] hairline-all col-span-2 sm:col-span-1">
+                  <div className="font-mono text-[10px] text-[var(--text-muted)] uppercase font-semibold">Author</div>
+                  <div className="font-serif text-base text-[var(--text-primary)] font-medium mt-0.5">Kasak Batra</div>
+                </div>
+              </div>
 
-              <div className="flex flex-wrap items-center gap-4 pt-3">
+              {/* Purchase / Store Links */}
+              <div className="flex flex-wrap items-center gap-3 pt-3 font-mono text-xs">
                 <a
-                  href="https://www.amazon.com/dp/9999331718"
+                  href="https://www.amazon.in/dp/9999331718"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#ff6a2b] hover:bg-[#ff7e45] text-white text-xs font-mono uppercase tracking-wider transition-all duration-300 shadow-md shadow-[#ff6a2b]/20"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#ff6a2b] hover:bg-[#ff7e45] text-white font-semibold transition-all shadow-md shadow-[#ff6a2b]/25 hover:-translate-y-0.5"
                 >
                   <ShoppingCart size={14} />
-                  <span>Amazon Store (Paperback)</span>
-                  <ArrowUpRight size={14} />
+                  <span>Amazon India</span>
+                  <ExternalLink size={12} />
                 </a>
 
                 <a
-                  href="https://elivabooks.com/en/book/book-2784504513"
+                  href="https://www.elivapress.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full hairline-all bg-[#161512] light:bg-[#f0ede6] hover:border-[#ff6a2b] text-[#f2efe8] light:text-[#141311] text-xs font-mono uppercase tracking-wider transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full hairline-all bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] hover:border-[#ff6a2b] font-semibold transition-all hover:-translate-y-0.5"
                 >
-                  <BookOpen size={14} />
-                  <span>Eliva Press Bookstore</span>
-                  <ExternalLink size={13} />
+                  <span>Publisher Catalog</span>
+                  <ArrowUpRight size={12} />
                 </a>
+
+                <button
+                  type="button"
+                  onClick={() => setModalImage('/projects/hello-ai-cover.svg')}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-[var(--text-muted)] hover:text-[#ff6a2b] transition-colors"
+                >
+                  <Eye size={14} />
+                  <span>Inspect Cover</span>
+                </button>
               </div>
             </div>
 
-            {/* Book Photos Mockup (4 cols) */}
-            <div className="lg:col-span-4 flex items-center justify-center gap-3">
-              <div className="relative group/photo">
-                <img
-                  src="/Photo1.jpg"
-                  alt="Hello AI Book Cover by Kasak Batra"
-                  className="w-36 sm:w-44 h-auto rounded-lg shadow-2xl hairline-all transform -rotate-3 hover:rotate-0 transition-transform duration-300 object-cover"
-                  loading="lazy"
+            {/* Right Column: 3D Rotating Book Mockup (5 cols) */}
+            <div
+              className="lg:col-span-5 flex items-center justify-center py-6 perspective-container"
+              onMouseMove={handleBookMouseMove}
+              onMouseLeave={handleBookMouseLeave}
+            >
+              <div
+                className="relative cursor-pointer transition-transform duration-200 ease-out"
+                style={{
+                  transform: `perspective(1200px) rotateY(${bookRotate.rotateY}deg) rotateX(${bookRotate.rotateX}deg)`,
+                  transformStyle: 'preserve-3d',
+                }}
+                onClick={() => setModalImage('/projects/hello-ai-cover.svg')}
+                title="Click to view full cover in Lightbox"
+              >
+                {/* 3D Book Shadow on table */}
+                <div
+                  className="absolute -bottom-8 left-6 right-6 h-8 bg-black/40 rounded-full blur-xl pointer-events-none"
+                  style={{ transform: 'rotateX(90deg) translateZ(-40px)' }}
                 />
-              </div>
-              <div className="relative group/photo -ml-6 mt-6">
-                <img
-                  src="/Photo2.jpg"
-                  alt="Kasak Batra presenting Hello AI Book"
-                  className="w-32 sm:w-40 h-auto rounded-lg shadow-2xl hairline-all transform rotate-3 hover:rotate-0 transition-transform duration-300 object-cover"
-                  loading="lazy"
+
+                {/* 3D Book Outer Container */}
+                <div
+                  className="w-[220px] sm:w-[260px] h-[330px] sm:h-[390px] rounded-r-lg rounded-l-sm shadow-2xl relative overflow-hidden hairline-all border-l-4 border-l-[#241f18]"
+                  style={{
+                    boxShadow: '15px 25px 50px -10px rgba(0, 0, 0, 0.6), -5px 0 15px rgba(0,0,0,0.4)',
+                  }}
+                >
+                  <img
+                    src="/projects/hello-ai-cover.svg"
+                    alt="Hello AI book cover by Kasak Batra"
+                    className="w-full h-full object-cover"
+                  />
+
+                  {/* 3D Sheen Highlight */}
+                  <div
+                    className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"
+                    style={{ transform: 'translateZ(1px)' }}
+                  />
+                </div>
+
+                {/* 3D Book Spine Indicator (Left side depth) */}
+                <div
+                  className="absolute top-0 bottom-0 left-0 w-4 bg-[#14120f] border-r border-[#262420] pointer-events-none"
+                  style={{
+                    transform: 'rotateY(-90deg) translateX(-8px)',
+                    transformOrigin: 'left',
+                  }}
                 />
               </div>
             </div>
@@ -155,60 +225,104 @@ const Research: React.FC = () => {
           </div>
         </div>
 
-        {/* Academic Journal Index List */}
-        <div>
-          <h4 className="mono-label text-xs text-[#9a968d] light:text-[#6b665c] mb-4">
-            Peer-Reviewed Journal &amp; Conference Articles
-          </h4>
+        {/* Published Papers List */}
+        <div className="space-y-4">
+          <div className="mono-label text-[var(--text-muted)] font-semibold mb-4">
+            PEER-REVIEWED JOURNAL &amp; CONFERENCE PROCEEDINGS
+          </div>
 
-          <div className="divide-y divide-[var(--border-hairline)] hairline-t hairline-b">
-            {publications.map((pub, idx) => (
-              <a
+          <div className="divide-y divide-[var(--border-hairline)]">
+            {publications.map((pub) => (
+              <div
                 key={pub.id}
-                href={pub.links[0]?.url || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group py-6 sm:py-8 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all duration-300 hover:translate-x-2 block"
+                className="py-6 sm:py-8 flex flex-col md:flex-row md:items-start justify-between gap-6 group transition-all duration-300 hover:bg-[var(--bg-surface-elevated)]/40 px-4 -mx-4 rounded-2xl"
               >
-                <div className="space-y-1.5 md:max-w-2xl">
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono text-xs text-[#ff6a2b]">
-                      [0{idx + 1}]
-                    </span>
-                    <span className="font-mono text-[11px] uppercase tracking-widest text-[#9a968d] light:text-[#6b665c]">
+                <div className="space-y-2 md:max-w-3xl">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-[var(--bg-surface-elevated)] text-[var(--accent-small)] border border-[var(--border-hairline)] font-semibold">
                       {pub.type}
                     </span>
-                    <span className="text-[#9a968d] text-xs">·</span>
-                    <span className="font-mono text-xs text-[#9a968d] light:text-[#6b665c]">
-                      {pub.date}
+                    <span className="font-mono text-xs text-[var(--text-muted)]">
+                      {pub.venue} · {pub.date}
                     </span>
                   </div>
 
-                  <h3 className="font-serif text-xl sm:text-2xl text-[#f2efe8] light:text-[#141311] group-hover:text-[#ff6a2b] transition-colors">
+                  <h4 className="font-serif text-2xl sm:text-3xl text-[var(--text-primary)] group-hover:text-[#ff6a2b] transition-colors leading-tight">
                     {pub.title}
-                  </h3>
+                  </h4>
 
-                  <p className="font-mono text-xs text-[#ff6a2b]/90">
-                    {pub.venue}
-                  </p>
-
-                  <p className="text-xs sm:text-sm text-[#9a968d] light:text-[#6b665c] line-clamp-2 mt-1">
+                  <p className="text-sm sm:text-base text-[var(--text-secondary)] font-normal leading-relaxed">
                     {pub.description}
                   </p>
-                </div>
 
-                <div className="flex items-center gap-3 self-end md:self-center">
-                  <span className="font-mono text-xs text-[#9a968d] group-hover:text-[#ff6a2b] transition-colors">
-                    View Paper
-                  </span>
-                  <div className="w-8 h-8 rounded-full hairline-all flex items-center justify-center text-[#9a968d] group-hover:text-[#ff6a2b] group-hover:border-[#ff6a2b] transition-colors">
-                    <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {pub.badges.map((b) => (
+                      <span
+                        key={b}
+                        className="text-[11px] font-mono text-[var(--text-muted)] bg-[var(--bg-surface)] px-2.5 py-1 rounded border border-[var(--border-hairline)] font-medium"
+                      >
+                        {b}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              </a>
+
+                <div className="flex items-center gap-3 flex-shrink-0 self-start md:self-center font-mono text-xs">
+                  {pub.links.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full hairline-all bg-[var(--card-bg)] hover:border-[#ff6a2b] text-[var(--text-primary)] font-semibold transition-all hover:-translate-y-0.5"
+                    >
+                      <span>{link.label.split(':')[0]}</span>
+                      <ArrowUpRight size={13} className="text-[#ff6a2b]" />
+                    </a>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>
+
+        {/* Lightbox Modal for Book Cover */}
+        {modalImage && (
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Book Cover Preview"
+            className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in"
+            onClick={() => setModalImage(null)}
+          >
+            <div
+              className="relative max-w-xl w-full bg-[var(--card-bg)] hairline-all rounded-3xl overflow-hidden shadow-2xl p-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between pb-4 hairline-b mb-4">
+                <h4 className="font-serif text-xl text-[var(--text-primary)]">
+                  Hello AI: Book Cover Monograph
+                </h4>
+                <button
+                  type="button"
+                  onClick={() => setModalImage(null)}
+                  className="p-1 rounded-full text-[var(--text-muted)] hover:text-[#ff6a2b]"
+                  aria-label="Close Preview"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="max-h-[75vh] overflow-auto flex items-center justify-center p-2 bg-[var(--bg-canvas)] rounded-2xl">
+                <img
+                  src={modalImage}
+                  alt="Full Book Cover Preview"
+                  className="max-h-[70vh] w-auto object-contain rounded-lg shadow-xl"
+                />
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </section>

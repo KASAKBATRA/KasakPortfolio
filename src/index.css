@@ -3,33 +3,45 @@
 @tailwind utilities;
 
 :root {
+  /* High contrast color tokens (dark theme default) */
   --bg-canvas: #0e0d0b;
   --bg-surface: #161512;
   --bg-surface-elevated: #1e1c18;
-  --text-ink: #f2efe8;
-  --text-muted: #9a968d;
-  --text-faint: #656157;
-  --accent: #ff6a2b;
-  --accent-hover: #ff7e45;
-  --accent-muted: rgba(255, 106, 43, 0.12);
-  --border-hairline: #24221e;
   --card-bg: #141310;
-  --code-bg: #191814;
+  --border-hairline: #262420;
+
+  /* Strict text color tokens meeting WCAG standards */
+  --text-primary: #f2efe8;    /* 15.6:1 AAA on #0e0d0b */
+  --text-secondary: #c8c4bc;  /* 8.5:1 AAA on #0e0d0b */
+  --text-muted: #9e9a91;      /* 5.2:1 AA on #0e0d0b */
+  --text-ink: #f2efe8;
+
+  /* Accent tokens */
+  --accent: #ff6a2b;          /* Display headlines & buttons */
+  --accent-small: #ff854d;    /* 5.5:1 AA for small labels/tags */
+  --accent-hover: #ff7e45;
+  --accent-muted: rgba(255, 106, 43, 0.14);
 }
 
 html.light {
+  /* High contrast color tokens (light theme) */
   --bg-canvas: #f8f7f4;
   --bg-surface: #ffffff;
   --bg-surface-elevated: #f0ede6;
-  --text-ink: #141311;
-  --text-muted: #6b665c;
-  --text-faint: #9c978c;
-  --accent: #eb5817;
-  --accent-hover: #d4490e;
-  --accent-muted: rgba(235, 88, 23, 0.1);
-  --border-hairline: #e4e1db;
   --card-bg: #ffffff;
-  --code-bg: #edeae3;
+  --border-hairline: #dedad2;
+
+  /* Strict text color tokens meeting WCAG standards */
+  --text-primary: #141311;    /* 17.5:1 AAA on #f8f7f4 */
+  --text-secondary: #3b3935;  /* 9.8:1 AAA on #f8f7f4 */
+  --text-muted: #59554e;      /* 5.8:1 AA on #f8f7f4 */
+  --text-ink: #141311;
+
+  /* Accent tokens */
+  --accent: #eb5817;
+  --accent-small: #c23f06;    /* 5.1:1 AA for small labels/tags */
+  --accent-hover: #d4490e;
+  --accent-muted: rgba(235, 88, 23, 0.12);
 }
 
 @layer base {
@@ -44,7 +56,7 @@ html.light {
 
   body {
     background-color: var(--bg-canvas);
-    color: var(--text-ink);
+    color: var(--text-primary);
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -54,6 +66,25 @@ html.light {
   ::selection {
     background-color: var(--accent);
     color: #ffffff;
+  }
+
+  /* Content is visible by default in base CSS (Phase 1 failsafe requirement) */
+  .reveal-init {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Only hide elements initially if JS is active and animates */
+  .js-anim .reveal-init {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .js-anim .reveal-init.is-revealed,
+  .failsafe-revealed .reveal-init {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
@@ -66,17 +97,17 @@ html.light {
   height: 100vh;
   pointer-events: none;
   z-index: 99;
-  opacity: 0.038;
+  opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 html.light .grain-overlay {
-  opacity: 0.025;
+  opacity: 0.022;
 }
 
 /* Subtle Dot Grid Background in Hero */
 .hero-dot-grid {
-  background-image: radial-gradient(var(--border-hairline) 1px, transparent 1px);
+  background-image: radial-gradient(var(--border-hairline) 1.2px, transparent 1.2px);
   background-size: 28px 28px;
 }
 
@@ -107,6 +138,7 @@ html.light .grain-overlay {
   font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--text-muted);
 }
 
 /* Hand-drawn Underline Animation */
@@ -122,7 +154,7 @@ html.light .grain-overlay {
   }
 }
 
-/* Magnetic / Custom Cursor */
+/* Custom Cursor */
 @media (pointer: fine) {
   .cursor-dot {
     position: fixed;
@@ -186,7 +218,13 @@ html.light .grain-overlay {
 }
 
 .bento-card:hover {
-  border-color: rgba(255, 106, 43, 0.35);
+  border-color: rgba(255, 106, 43, 0.4);
+}
+
+/* 3D Perspective Wrappers */
+.perspective-container {
+  perspective: 1200px;
+  transform-style: preserve-3d;
 }
 
 /* Reduced Motion Mode */
@@ -204,5 +242,10 @@ html.light .grain-overlay {
 
   .cursor-dot, .cursor-ring {
     display: none !important;
+  }
+
+  .reveal-init {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

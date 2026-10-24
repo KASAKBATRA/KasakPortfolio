@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon, Download, ArrowUpRight, Sparkles } from 'lucide-react';
+import { Menu, X, Sun, Moon, Download } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 interface NavItem {
@@ -25,7 +25,7 @@ const Navigation: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 80);
+      setIsScrolled(window.scrollY > 60);
 
       // Active section detection
       const sectionIds = ['hero', 'stats', 'experience', 'projects', 'research', 'skills', 'education', 'contact'];
@@ -33,7 +33,7 @@ const Navigation: React.FC = () => {
         const el = document.getElementById(id);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 200 && rect.bottom >= 200) {
+          if (rect.top <= 240 && rect.bottom >= 180) {
             setActiveSection(id);
             break;
           }
@@ -42,6 +42,7 @@ const Navigation: React.FC = () => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -65,26 +66,26 @@ const Navigation: React.FC = () => {
           aria-label="Main Navigation"
           className={`w-full max-w-7xl mx-auto flex items-center justify-between transition-all duration-300 ${
             isScrolled
-              ? 'bg-[#141310]/85 dark:bg-[#141310]/85 light:bg-[#ffffff]/90 backdrop-blur-md px-5 py-2.5 rounded-full hairline-all shadow-xl max-w-5xl'
+              ? 'bg-[#141310]/95 dark:bg-[#141310]/95 bg-white/95 light:bg-white/95 backdrop-blur-md px-5 py-2.5 rounded-full hairline-all shadow-xl max-w-5xl'
               : ''
           }`}
         >
           {/* Logo / Brand Name */}
           <a
             href="#hero"
-            className="flex items-center gap-2.5 group focus:outline-none focus:ring-2 focus:ring-[#ff6a2b] rounded-lg px-1"
+            className="flex items-center gap-2.5 group focus:outline-none focus:ring-2 focus:ring-[#ff6a2b] rounded-lg px-2 py-1"
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-[#ff6a2b] transition-transform group-hover:scale-125" />
-            <span className="font-serif text-xl sm:text-2xl font-normal text-[#f2efe8] light:text-[#141311] tracking-tight">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff6a2b] transition-transform group-hover:scale-125 shadow-[0_0_8px_rgba(255,106,43,0.6)]" />
+            <span className="font-serif text-2xl font-normal text-[var(--text-primary)] tracking-tight">
               Kasak<span className="text-[#ff6a2b]">.</span>
             </span>
-            <span className="hidden sm:inline-block font-mono text-[10px] text-[#9a968d] light:text-[#6b665c] tracking-widest uppercase ml-1">
+            <span className="hidden sm:inline-block font-mono text-[11px] text-[var(--text-muted)] tracking-widest uppercase ml-1 font-medium">
               / CAG AUDIT
             </span>
           </a>
 
           {/* Desktop Nav Links */}
-          <div className="hidden lg:flex items-center gap-1.5 font-mono text-xs">
+          <div className="hidden lg:flex items-center gap-1 font-mono text-xs">
             {navItems.map((item) => {
               const isActive = activeSection === item.href.replace('#', '');
 
@@ -92,56 +93,57 @@ const Navigation: React.FC = () => {
                 <a
                   key={item.name}
                   href={item.href}
-                  className={`px-3 py-1.5 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+                  className={`px-3 py-1.5 rounded-full transition-all duration-200 flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b] ${
                     isActive
-                      ? 'text-[#ff6a2b] bg-[#ff6a2b]/10 font-medium'
-                      : 'text-[#9a968d] light:text-[#6b665c] hover:text-[#f2efe8] light:hover:text-[#141311]'
+                      ? 'text-[#ff6a2b] bg-[#ff6a2b]/15 font-semibold relative after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:bg-[#ff6a2b] after:rounded-full'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)]'
                   }`}
                 >
-                  <span className="text-[10px] opacity-60">{item.number}</span>
+                  <span className="text-[10px] opacity-75 font-mono">{item.number}</span>
                   <span>{item.name}</span>
                 </a>
               );
             })}
           </div>
 
-          {/* Right Action Icons: Theme Toggle, Resume & Mobile Menu Button */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Theme Switcher Toggle */}
+          {/* Right Action Icons: Theme Toggle, Solid Resume Button & Mobile Menu Button */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Theme Switcher Toggle - Highly visible with SVG icons */}
             <button
               type="button"
               onClick={toggleTheme}
-              className="w-9 h-9 rounded-full hairline-all bg-[#1b1915] light:bg-[#f0ede6] flex items-center justify-center text-[#9a968d] hover:text-[#ff6a2b] transition-colors focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
+              className="w-10 h-10 rounded-full hairline-all bg-[var(--bg-surface-elevated)] flex items-center justify-center text-[var(--text-primary)] hover:text-[#ff6a2b] transition-colors focus:outline-none focus:ring-2 focus:ring-[#ff6a2b] shadow-sm"
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
               {theme === 'dark' ? (
-                <Sun size={16} className="text-[#ff6a2b]" />
+                <Sun size={18} className="text-[#ff854d] stroke-[2.2]" />
               ) : (
-                <Moon size={16} className="text-[#141311]" />
+                <Moon size={18} className="text-[#141311] stroke-[2.2]" />
               )}
             </button>
 
-            {/* Resume Button */}
+            {/* ONE Solid "Download resume" button in the navbar */}
             <a
               href="/Kasak_Resume.pdf"
               download="Kasak_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full hairline-all bg-[#1b1915] light:bg-[#f0ede6] hover:border-[#ff6a2b] text-[#f2efe8] light:text-[#141311] font-mono text-xs uppercase tracking-wider transition-all"
+              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#ff6a2b] hover:bg-[#ff7e45] text-white font-mono text-xs uppercase tracking-wider font-semibold shadow-md shadow-[#ff6a2b]/20 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ff6a2b]"
             >
-              <Download size={12} className="text-[#ff6a2b]" />
-              <span>Resume</span>
+              <Download size={13} className="stroke-[2.5]" />
+              <span>Download resume</span>
             </a>
 
             {/* Mobile Hamburger Toggle Button */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden w-10 h-10 rounded-full hairline-all bg-[#1b1915] light:bg-[#f0ede6] flex items-center justify-center text-[#f2efe8] light:text-[#141311] hover:text-[#ff6a2b] transition-colors focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
+              className="lg:hidden w-10 h-10 rounded-full hairline-all bg-[var(--bg-surface-elevated)] flex items-center justify-center text-[var(--text-primary)] hover:text-[#ff6a2b] transition-colors focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
               aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
               aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileMenuOpen ? <X size={20} className="stroke-[2.2]" /> : <Menu size={20} className="stroke-[2.2]" />}
             </button>
           </div>
         </nav>
@@ -153,10 +155,10 @@ const Navigation: React.FC = () => {
           role="dialog"
           aria-modal="true"
           aria-label="Navigation Menu"
-          className="fixed inset-0 z-40 bg-[#0e0d0b] text-[#f2efe8] flex flex-col justify-between p-6 pt-24 sm:p-10 animate-fade-in lg:hidden"
+          className="fixed inset-0 z-40 bg-[var(--bg-canvas)] text-[var(--text-primary)] flex flex-col justify-between p-6 pt-24 sm:p-10 animate-fade-in lg:hidden overflow-y-auto"
         >
           <div className="space-y-6">
-            <div className="mono-label text-[#ff6a2b] mb-4">
+            <div className="mono-label text-[var(--accent-small)] mb-4 font-semibold">
               INDEX / NAVIGATION
             </div>
 
@@ -166,12 +168,12 @@ const Navigation: React.FC = () => {
                   key={item.name}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-baseline justify-between py-2 border-b border-[#24221e] group"
+                  className="flex items-baseline justify-between py-2 border-b border-[var(--border-hairline)] group"
                 >
-                  <span className="font-serif text-3xl sm:text-4xl text-[#f2efe8] group-hover:text-[#ff6a2b] transition-colors">
+                  <span className="font-serif text-3xl sm:text-4xl text-[var(--text-primary)] group-hover:text-[#ff6a2b] transition-colors">
                     {item.name}
                   </span>
-                  <span className="font-mono text-xs text-[#9a968d]">
+                  <span className="font-mono text-xs text-[var(--text-muted)] group-hover:text-[#ff6a2b]">
                     {item.number} →
                   </span>
                 </a>
@@ -179,15 +181,16 @@ const Navigation: React.FC = () => {
             </nav>
           </div>
 
-          <div className="pt-6 border-t border-[#24221e] space-y-4">
+          <div className="pt-6 border-t border-[var(--border-hairline)] space-y-4">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-xs text-[#9a968d]">PORTFOLIO THEME</span>
+              <span className="font-mono text-xs text-[var(--text-muted)] font-medium">PORTFOLIO THEME</span>
               <button
                 type="button"
                 onClick={toggleTheme}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full hairline-all text-xs font-mono"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full hairline-all bg-[var(--bg-surface-elevated)] text-xs font-mono font-medium text-[var(--text-primary)]"
+                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               >
-                {theme === 'dark' ? <Sun size={14} className="text-[#ff6a2b]" /> : <Moon size={14} />}
+                {theme === 'dark' ? <Sun size={15} className="text-[#ff854d]" /> : <Moon size={15} />}
                 <span>{theme === 'dark' ? 'LIGHT MODE' : 'DARK MODE'}</span>
               </button>
             </div>
@@ -198,10 +201,10 @@ const Navigation: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full py-3 rounded-full bg-[#ff6a2b] text-white flex items-center justify-center gap-2 font-mono text-xs uppercase tracking-wider"
+              className="w-full py-3 rounded-full bg-[#ff6a2b] hover:bg-[#ff7e45] text-white flex items-center justify-center gap-2 font-mono text-xs uppercase tracking-wider font-semibold shadow-lg shadow-[#ff6a2b]/25"
             >
-              <Download size={14} />
-              <span>Download Resume (PDF)</span>
+              <Download size={15} className="stroke-[2.5]" />
+              <span>Download resume (PDF)</span>
             </a>
           </div>
         </div>

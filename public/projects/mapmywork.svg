@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0e0d0b"/>
+      <stop offset="100%" stop-color="#181612"/>
+    </linearGradient>
+    <linearGradient id="accentGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff6a2b" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#ff854d" stop-opacity="0.2"/>
+    </linearGradient>
+    <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff6a2b" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ff6a2b" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#262420" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1200" height="750" fill="url(#bg)"/>
+  <rect width="1200" height="750" fill="url(#grid)" opacity="0.6"/>
+
+  <!-- Top App Window Header -->
+  <rect x="0" y="0" width="1200" height="54" fill="#141310" stroke="#262420" stroke-width="1"/>
+  <circle cx="28" cy="27" r="6" fill="#ff5f56"/>
+  <circle cx="48" cy="27" r="6" fill="#ffbd2e"/>
+  <circle cx="68" cy="27" r="6" fill="#27c93f"/>
+  <text x="105" y="32" fill="#f2efe8" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" letter-spacing="1">MAPMYWORK // GEOSPATIAL WORKFORCE INTELLIGENCE</text>
+  <rect x="1010" y="16" width="160" height="24" rx="12" fill="#ff6a2b" fill-opacity="0.15" stroke="#ff6a2b" stroke-width="1"/>
+  <circle cx="1025" cy="28" r="4" fill="#ff6a2b"/>
+  <text x="1038" y="32" fill="#ff854d" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600">GEOPANDAS ACTIVE</text>
+
+  <!-- Left Sidebar (Controls & Filters) -->
+  <rect x="0" y="54" width="300" height="696" fill="#141310" stroke="#262420" stroke-width="1"/>
+  
+  <text x="24" y="95" fill="#ff854d" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" letter-spacing="1.5">DATA FILTERS</text>
+  
+  <!-- Filter 1 -->
+  <rect x="24" y="115" width="252" height="48" rx="8" fill="#1e1c18" stroke="#262420" stroke-width="1"/>
+  <text x="40" y="136" fill="#9e9a91" font-family="'DM Sans', sans-serif" font-size="11">Workforce Tier</text>
+  <text x="40" y="152" fill="#f2efe8" font-family="'DM Sans', sans-serif" font-size="13" font-weight="600">All Technical Hubs (5)</text>
+
+  <!-- Filter 2 -->
+  <rect x="24" y="175" width="252" height="48" rx="8" fill="#1e1c18" stroke="#262420" stroke-width="1"/>
+  <text x="40" y="196" fill="#9e9a91" font-family="'DM Sans', sans-serif" font-size="11">Density Metric</text>
+  <text x="40" y="212" fill="#f2efe8" font-family="'DM Sans', sans-serif" font-size="13" font-weight="600">Active Field Workforce</text>
+
+  <!-- Filter 3 -->
+  <rect x="24" y="235" width="252" height="48" rx="8" fill="#1e1c18" stroke="#262420" stroke-width="1"/>
+  <text x="40" y="256" fill="#9e9a91" font-family="'DM Sans', sans-serif" font-size="11">Radius Threshold</text>
+  <text x="40" y="272" fill="#f2efe8" font-family="'DM Sans', sans-serif" font-size="13" font-weight="600">25.0 km Urban Buffer</text>
+
+  <!-- Metric Telemetry Cards -->
+  <text x="24" y="325" fill="#ff854d" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" letter-spacing="1.5">REGIONAL TELEMETRY</text>
+
+  <rect x="24" y="345" width="252" height="74" rx="10" fill="#1a1814" stroke="#ff6a2b" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="40" y="372" fill="#9e9a91" font-family="'JetBrains Mono', monospace" font-size="11">TOTAL LOGGED STAFF</text>
+  <text x="40" y="405" fill="#f2efe8" font-family="'Fraunces', serif" font-size="30" font-weight="400">42,850</text>
+  <text x="200" y="405" fill="#27c93f" font-family="'JetBrains Mono', monospace" font-size="11">+14.2%</text>
+
+  <rect x="24" y="430" width="252" height="74" rx="10" fill="#1a1814" stroke="#262420" stroke-width="1"/>
+  <text x="40" y="457" fill="#9e9a91" font-family="'JetBrains Mono', monospace" font-size="11">COVERAGE EFFICIENCY</text>
+  <text x="40" y="490" fill="#f2efe8" font-family="'Fraunces', serif" font-size="30" font-weight="400">96.8%</text>
+
+  <rect x="24" y="515" width="252" height="74" rx="10" fill="#1a1814" stroke="#262420" stroke-width="1"/>
+  <text x="40" y="542" fill="#9e9a91" font-family="'JetBrains Mono', monospace" font-size="11">GEOSPATIAL ANOMALIES</text>
+  <text x="40" y="575" fill="#ff6a2b" font-family="'Fraunces', serif" font-size="30" font-weight="400">0</text>
+  <text x="80" y="575" fill="#9e9a91" font-family="'DM Sans', sans-serif" font-size="12">/ 5 Zones</text>
+
+  <!-- Interactive Map View Area -->
+  <g transform="translate(300, 54)">
+    <!-- Stylized Map Contours -->
+    <path d="M 220,120 Q 280,180 340,160 T 480,240 T 520,380 T 420,520 T 360,600 T 260,540 T 180,420 T 140,260 Z" fill="#181612" stroke="#2c2822" stroke-width="2"/>
+    <path d="M 450,180 Q 550,220 620,300 T 720,440 T 640,580 T 500,560 T 420,440 Z" fill="#161511" stroke="#2c2822" stroke-width="1.5"/>
+
+    <!-- Heatmap Radar Rings -->
+    <circle cx="340" cy="220" r="110" fill="url(#nodeGlow)" opacity="0.3"/>
+    <circle cx="340" cy="220" r="50" fill="url(#nodeGlow)" opacity="0.5"/>
+    <circle cx="340" cy="220" r="8" fill="#ff6a2b"/>
+
+    <circle cx="580" cy="360" r="130" fill="url(#nodeGlow)" opacity="0.25"/>
+    <circle cx="580" cy="360" r="60" fill="url(#nodeGlow)" opacity="0.45"/>
+    <circle cx="580" cy="360" r="8" fill="#ff6a2b"/>
+
+    <circle cx="440" cy="480" r="90" fill="url(#nodeGlow)" opacity="0.2"/>
+    <circle cx="440" cy="480" r="7" fill="#ff6a2b"/>
+
+    <!-- Connection Paths between Hubs -->
+    <line x1="340" y1="220" x2="580" y2="360" stroke="#ff6a2b" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+    <line x1="580" y1="360" x2="440" y2="480" stroke="#ff6a2b" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+    <line x1="340" y1="220" x2="440" y2="480" stroke="#ff6a2b" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.4"/>
+
+    <!-- Interactive Marker Tooltip 1 (Delhi Hub) -->
+    <g transform="translate(360, 160)">
+      <rect width="210" height="96" rx="8" fill="#141310" stroke="#ff6a2b" stroke-width="1.5" filter="drop-shadow(0 10px 20px rgba(0,0,0,0.6))"/>
+      <text x="14" y="24" fill="#f2efe8" font-family="'DM Sans', sans-serif" font-size="13" font-weight="700">NCR / Delhi Cluster</text>
+      <text x="14" y="42" fill="#ff854d" font-family="'JetBrains Mono', monospace" font-size="11">14,200 Active Staff</text>
+      <line x1="14" y1="52" x2="196" y2="52" stroke="#262420" stroke-width="1"/>
+      <text x="14" y="70" fill="#9e9a91" font-family="'JetBrains Mono', monospace" font-size="10">COORDINATES: 28.61° N, 77.20° E</text>
+      <text x="14" y="85" fill="#27c93f" font-family="'JetBrains Mono', monospace" font-size="10">STATUS: OPTIMAL DISPERSION</text>
+    </g>
+
+    <!-- Marker Tooltip 2 (Bengaluru Hub) -->
+    <g transform="translate(600, 320)">
+      <rect width="210" height="96" rx="8" fill="#141310" stroke="#262420" stroke-width="1" filter="drop-shadow(0 10px 20px rgba(0,0,0,0.6))"/>
+      <text x="14" y="24" fill="#f2efe8" font-family="'DM Sans', sans-serif" font-size="13" font-weight="700">Bengaluru South Hub</text>
+      <text x="14" y="42" fill="#ff854d" font-family="'JetBrains Mono', monospace" font-size="11">12,650 Active Staff</text>
+      <line x1="14" y1="52" x2="196" y2="52" stroke="#262420" stroke-width="1"/>
+      <text x="14" y="70" fill="#9e9a91" font-family="'JetBrains Mono', monospace" font-size="10">COORDINATES: 12.97° N, 77.59° E</text>
+      <text x="14" y="85" fill="#27c93f" font-family="'JetBrains Mono', monospace" font-size="10">STATUS: AUDIT-VERIFIED</text>
+    </g>
+
+    <!-- Bottom Map Legend -->
+    <rect x="20" y="620" width="460" height="52" rx="26" fill="#141310" stroke="#262420" stroke-width="1"/>
+    <circle cx="44" cy="646" r="6" fill="#ff6a2b"/>
+    <text x="60" y="650" fill="#f2efe8" font-family="'JetBrains Mono', monospace" font-size="11">High Density Hubs</text>
+    <circle cx="210" cy="646" r="6" fill="#ffbd2e"/>
+    <text x="226" y="650" fill="#f2efe8" font-family="'JetBrains Mono', monospace" font-size="11">Field Corridors</text>
+    <circle cx="360" cy="646" r="6" fill="#27c93f"/>
+    <text x="376" y="650" fill="#f2efe8" font-family="'JetBrains Mono', monospace" font-size="11">Reconciled</text>
+  </g>
+</svg>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowDownRight, Download, Mail, ExternalLink, Sparkles } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ArrowDownRight, Download, ArrowUpRight } from 'lucide-react';
 import AuditDataEngine from './AuditDataEngine';
 
 const TOOLS_MARQUEE = [
@@ -23,30 +23,63 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = () => {
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+  const [cardTilt, setCardTilt] = useState({ rotateX: 0, rotateY: 0 });
+  const [scrollY, setScrollY] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const cardContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      // Calculate normalized mouse offset from screen center (-1 to 1)
-      const x = (e.clientX / window.innerWidth - 0.5) * 16;
-      const y = (e.clientY / window.innerHeight - 0.5) * 16;
-      setMouseOffset({ x, y });
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    };
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDesktop || !cardContainerRef.current) return;
+    const rect = cardContainerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    // Maximum 6deg tilt on desktop mouse move
+    const rotateX = -(y / (rect.height / 2)) * 6;
+    const rotateY = (x / (rect.width / 2)) * 6;
+    setCardTilt({ rotateX, rotateY });
+  };
+
+  const handleCardMouseLeave = () => {
+    setCardTilt({ rotateX: 0, rotateY: 0 });
+  };
+
+  // Parallax calculations
+  const scrollRatio = Math.min(Math.max(scrollY / 800, 0), 1);
+  const scrollTiltX = isDesktop ? scrollRatio * 12 : 0;
+  const scrollTiltY = isDesktop ? -scrollRatio * 8 : 0;
+  const cardScale = isDesktop ? Math.max(1 - scrollRatio * 0.08, 0.92) : 1;
 
   return (
     <section
       id="hero"
       aria-label="Introduction"
-      className="relative min-h-[92vh] pt-28 sm:pt-36 pb-16 flex flex-col justify-between overflow-hidden"
+      className="relative min-h-[92vh] pt-28 sm:pt-36 pb-16 flex flex-col justify-between overflow-hidden perspective-container"
     >
-      {/* Interactive Faint Dotted Grid */}
+      {/* Interactive Faint Dotted Grid with subtle translateZ */}
       <div
-        className="hero-dot-grid absolute inset-0 pointer-events-none opacity-40 dark:opacity-30 light:opacity-20 transition-transform duration-700 ease-out"
+        className="hero-dot-grid absolute inset-0 pointer-events-none opacity-40 dark:opacity-35 light:opacity-25 transition-transform duration-700 ease-out"
         style={{
-          transform: `translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
+          transform: isDesktop
+            ? `translate3d(${mouseOffset.x * 0.4}px, ${mouseOffset.y * 0.4}px, -40px)`
+            : undefined,
         }}
         aria-hidden="true"
       />
@@ -58,12 +91,12 @@ const Hero: React.FC<HeroProps> = () => {
         <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 hairline-b">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#ff6a2b] animate-ping" />
-            <span className="mono-label text-[#9a968d] light:text-[#6b665c]">
+            <span className="mono-label text-[var(--text-muted)] font-medium">
               DELHI, INDIA · 28.6139° N, 77.2090° E
             </span>
           </div>
-          <div className="mono-label text-[#ff6a2b] font-medium tracking-widest">
-            OFFICE OF THE COMPTROLLER & AUDITOR GENERAL OF INDIA
+          <div className="mono-label text-[var(--accent-small)] font-semibold tracking-widest">
+            OFFICE OF THE COMPTROLLER &amp; AUDITOR GENERAL OF INDIA
           </div>
         </div>
 
@@ -71,19 +104,25 @@ const Hero: React.FC<HeroProps> = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Big Headline & Manifesto (7 cols) */}
-          <div className="lg:col-span-7 space-y-8">
+          <div
+            className="lg:col-span-7 space-y-8"
+            style={{
+              transform: isDesktop ? `translate3d(0, ${-scrollY * 0.08}px, 20px)` : undefined,
+              transition: 'transform 0.1s ease-out'
+            }}
+          >
             
             {/* Role Tag in Mono with Glowing Indicator */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full hairline-all bg-[#161512] dark:bg-[#161512] light:bg-[#ffffff] shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-[#ff6a2b]" />
-              <span className="font-mono text-xs text-[#f2efe8] light:text-[#141311] tracking-wider">
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full hairline-all bg-[var(--bg-surface)] shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-[#ff6a2b] shadow-[0_0_6px_rgba(255,106,43,0.8)]" />
+              <span className="font-mono text-xs text-[var(--text-primary)] font-medium tracking-wider">
                 Data Analytics @ CAG · GATE 2026 · UGC NET
               </span>
             </div>
 
             {/* Giant Headline with hand-drawn SVG underline on "audit-ready" */}
             <h1
-              className="font-serif font-normal text-[#f2efe8] light:text-[#141311] tracking-tight leading-[0.98]"
+              className="font-serif font-normal text-[var(--text-primary)] tracking-tight leading-[0.98]"
               style={{
                 fontSize: 'clamp(2.75rem, 6.8vw, 6.2rem)',
               }}
@@ -112,48 +151,64 @@ const Hero: React.FC<HeroProps> = () => {
               insight.
             </h1>
 
-            {/* Subtext - Editorial copy */}
-            <p className="text-base sm:text-lg lg:text-xl text-[#9a968d] light:text-[#6b665c] font-normal max-w-2xl leading-relaxed">
-              B.Tech graduate in Artificial Intelligence & Data Science, working in data analytics and remote audit at the Office of the Comptroller & Auditor General of India. I also teach, mentor and write about machine learning.
+            {/* Subtext - High contrast editorial copy */}
+            <p className="text-base sm:text-lg lg:text-xl text-[var(--text-secondary)] font-normal max-w-2xl leading-relaxed">
+              B.Tech graduate in Artificial Intelligence &amp; Data Science, working in data analytics and remote audit at the Office of the Comptroller &amp; Auditor General of India. I also teach, mentor and write about machine learning.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
+              {/* Primary "Get in touch" */}
               <a
                 href="#contact"
-                className="group relative inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#ff6a2b] hover:bg-[#ff7e45] text-white font-medium text-sm tracking-wide transition-all duration-300 shadow-lg shadow-[#ff6a2b]/25 hover:shadow-xl hover:shadow-[#ff6a2b]/35 hover:-translate-y-0.5 active:translate-y-0"
+                className="group relative inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#ff6a2b] hover:bg-[#ff7e45] text-white font-medium text-sm tracking-wide transition-all duration-300 shadow-lg shadow-[#ff6a2b]/25 hover:shadow-xl hover:shadow-[#ff6a2b]/35 hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
               >
                 <span>Get in touch</span>
                 <ArrowDownRight size={17} className="transition-transform duration-300 group-hover:rotate-[-45deg]" />
               </a>
 
+              {/* Secondary "See my work" */}
               <a
                 href="#projects"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full hairline-all bg-[#141310] dark:bg-[#141310] light:bg-[#ffffff] hover:border-[#ff6a2b]/50 text-[#f2efe8] light:text-[#141311] font-medium text-sm transition-all duration-300 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[var(--border-hairline)] bg-[var(--card-bg)] hover:border-[#ff6a2b] text-[var(--text-primary)] font-medium text-sm transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
               >
                 <span>See my work</span>
               </a>
 
+              {/* Secondary Hero "Download resume": Clearly visible secondary button with 1.5px solid border and full-contrast text */}
               <a
                 href="/Kasak_Resume.pdf"
                 download="Kasak_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-full hairline-all bg-transparent hover:bg-[#ff6a2b]/10 text-[#9a968d] light:text-[#6b665c] hover:text-[#ff6a2b] font-mono text-xs uppercase tracking-wider transition-all duration-300"
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-full border-[1.5px] border-[var(--text-primary)] hover:border-[#ff6a2b] hover:bg-[#ff6a2b]/10 text-[var(--text-primary)] hover:text-[#ff6a2b] font-mono text-xs uppercase tracking-wider font-semibold transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
               >
-                <Download size={14} />
-                <span>Resume (PDF)</span>
+                <Download size={14} className="stroke-[2.5]" />
+                <span>Download resume</span>
               </a>
             </div>
 
           </div>
 
-          {/* Right Column: Live Audit Data Engine (5 cols) */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative">
+          {/* Right Column: 3D Tilting Audit Data Engine Card (5 cols) */}
+          <div
+            ref={cardContainerRef}
+            onMouseMove={handleCardMouseMove}
+            onMouseLeave={handleCardMouseLeave}
+            className="lg:col-span-5 relative perspective-container"
+          >
+            <div
+              className="relative transition-transform duration-200 ease-out"
+              style={{
+                transform: isDesktop
+                  ? `perspective(1200px) rotateX(${cardTilt.rotateX + scrollTiltX}deg) rotateY(${cardTilt.rotateY + scrollTiltY}deg) scale(${cardScale})`
+                  : undefined,
+                transformStyle: 'preserve-3d',
+              }}
+            >
               {/* Subtle accent glow behind the terminal */}
               <div
-                className="absolute -inset-4 bg-[#ff6a2b]/10 rounded-3xl blur-2xl pointer-events-none -z-10"
+                className="absolute -inset-4 bg-[#ff6a2b]/15 rounded-3xl blur-2xl pointer-events-none -z-10"
                 aria-hidden="true"
               />
               <AuditDataEngine />
@@ -165,15 +220,15 @@ const Hero: React.FC<HeroProps> = () => {
       </div>
 
       {/* Scrolling Marquee Strip */}
-      <div className="w-full mt-16 sm:mt-24 hairline-t hairline-b bg-[#12110e] dark:bg-[#12110e] light:bg-[#faf8f5] py-3.5 overflow-hidden">
+      <div className="w-full mt-16 sm:mt-24 hairline-t hairline-b bg-[var(--bg-surface)] py-3.5 overflow-hidden">
         <div className="flex whitespace-nowrap overflow-hidden group">
           <div className="flex items-center gap-8 animate-marquee group-hover:[animation-play-state:paused]">
             {[...TOOLS_MARQUEE, ...TOOLS_MARQUEE, ...TOOLS_MARQUEE].map((tool, idx) => (
               <span key={`${tool}-${idx}`} className="flex items-center gap-3">
-                <span className="font-mono text-xs uppercase tracking-widest text-[#9a968d] light:text-[#6b665c]">
+                <span className="font-mono text-xs uppercase tracking-widest text-[var(--text-secondary)] font-medium">
                   {tool}
                 </span>
-                <span className="text-[#ff6a2b] text-xs">·</span>
+                <span className="text-[#ff6a2b] text-xs font-bold">·</span>
               </span>
             ))}
           </div>

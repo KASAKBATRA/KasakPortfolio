@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+  <defs>
+    <linearGradient id="bookCoverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#191714"/>
+      <stop offset="50%" stop-color="#0e0d0b"/>
+      <stop offset="100%" stop-color="#241f18"/>
+    </linearGradient>
+    <linearGradient id="spineShadow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.8"/>
+      <stop offset="4%" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="8%" stop-color="#000000" stop-opacity="0.6"/>
+      <stop offset="12%" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="neuralGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff6a2b" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#ff6a2b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Book Cover Canvas -->
+  <rect width="600" height="900" fill="url(#bookCoverGrad)" rx="6"/>
+
+  <!-- Left Spine Lighting effect -->
+  <rect x="0" y="0" width="70" height="900" fill="url(#spineShadow)"/>
+
+  <!-- Gold/Orange Accent Border Framing -->
+  <rect x="36" y="36" width="528" height="828" fill="none" stroke="#ff6a2b" stroke-width="1.5" stroke-opacity="0.5"/>
+  <rect x="44" y="44" width="512" height="812" fill="none" stroke="#2a2824" stroke-width="1"/>
+
+  <!-- Publisher Header -->
+  <text x="60" y="90" fill="#ff854d" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" letter-spacing="3">ELIVA PRESS // MONOGRAPH SERIES</text>
+  <text x="510" y="90" fill="#9e9a91" font-family="'JetBrains Mono', monospace" font-size="11" text-anchor="end">ISBN 9999331718</text>
+
+  <!-- Main Title in Editorial Serif -->
+  <text x="60" y="190" fill="#f2efe8" font-family="'Fraunces', serif" font-size="64" font-weight="300" letter-spacing="-1">Hello</text>
+  <text x="60" y="270" fill="#ff6a2b" font-family="'Fraunces', serif" font-size="88" font-weight="600" font-style="italic" letter-spacing="-2">AI.</text>
+
+  <!-- Subtitle -->
+  <text x="60" y="330" fill="#f2efe8" font-family="'DM Sans', sans-serif" font-size="20" font-weight="400" letter-spacing="0.5">A Friendly Introduction</text>
+  <text x="60" y="360" fill="#c8c4bc" font-family="'DM Sans', sans-serif" font-size="20" font-weight="300">to Machine Learning</text>
+
+  <!-- Divider Line -->
+  <line x1="60" y1="395" x2="320" y2="395" stroke="#ff6a2b" stroke-width="2"/>
+
+  <!-- Neural Network Lattice Artwork in center -->
+  <g transform="translate(100, 430)">
+    <circle cx="200" cy="120" r="140" fill="url(#neuralGlow)"/>
+    
+    <!-- Input Layer -->
+    <circle cx="60" cy="40" r="9" fill="#ff6a2b"/>
+    <circle cx="60" cy="90" r="9" fill="#ff6a2b"/>
+    <circle cx="60" cy="140" r="9" fill="#ff6a2b"/>
+    <circle cx="60" cy="190" r="9" fill="#ff6a2b"/>
+
+    <!-- Hidden Layer 1 -->
+    <circle cx="160" cy="20" r="8" fill="#f2efe8"/>
+    <circle cx="160" cy="70" r="8" fill="#f2efe8"/>
+    <circle cx="160" cy="120" r="8" fill="#f2efe8"/>
+    <circle cx="160" cy="170" r="8" fill="#f2efe8"/>
+    <circle cx="160" cy="220" r="8" fill="#f2efe8"/>
+
+    <!-- Hidden Layer 2 -->
+    <circle cx="260" cy="40" r="8" fill="#ff854d"/>
+    <circle cx="260" cy="90" r="8" fill="#ff854d"/>
+    <circle cx="260" cy="140" r="8" fill="#ff854d"/>
+    <circle cx="260" cy="190" r="8" fill="#ff854d"/>
+
+    <!-- Output Layer -->
+    <circle cx="340" cy="80" r="11" fill="#ff6a2b"/>
+    <circle cx="340" cy="150" r="11" fill="#ff6a2b"/>
+
+    <!-- Synaptic Lines -->
+    <path d="M 60,40 L 160,20 M 60,40 L 160,70 M 60,40 L 160,120
+             M 60,90 L 160,70 M 60,90 L 160,120 M 60,90 L 160,170
+             M 60,140 L 160,120 M 60,140 L 160,170 M 60,140 L 160,220
+             M 60,190 L 160,170 M 60,190 L 160,220
+             M 160,20 L 260,40 M 160,70 L 260,40 M 160,70 L 260,90
+             M 160,120 L 260,90 M 160,120 L 260,140 M 160,170 L 260,140
+             M 160,220 L 260,190
+             M 260,40 L 340,80 M 260,90 L 340,80 M 260,140 L 340,150 M 260,190 L 340,150" 
+          stroke="#423e35" stroke-width="1.2"/>
+  </g>
+
+  <!-- Author & Discipline Credits at bottom -->
+  <g transform="translate(60, 750)">
+    <text x="0" y="24" fill="#ff854d" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" letter-spacing="2">AUTHOR</text>
+    <text x="0" y="56" fill="#f2efe8" font-family="'Fraunces', serif" font-size="34" font-weight="400">Kasak Batra</text>
+    <text x="0" y="82" fill="#9e9a91" font-family="'DM Sans', sans-serif" font-size="13">B.Tech AI &amp; Data Science · Young Professional @ CAG</text>
+  </g>
+</svg>
