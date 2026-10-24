@@ -1,13 +1,8 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ArrowUp } from 'lucide-react';
 import Navigation from './components/Navigation';
-import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
-import ExperiencePage from './pages/ExperiencePage';
-import SkillsPage from './pages/SkillsPage';
-import ProjectsPage from './pages/ProjectsPage';
-import CampusHirePage from './pages/CampusHirePage';
 
 function App() {
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -17,7 +12,7 @@ function App() {
       setShowBackToTop(window.scrollY > 400);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -30,24 +25,30 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-slate-900">
+      <div className="min-h-screen bg-slate-900 text-slate-100 selection:bg-cyan-500 selection:text-white">
+        {/* Sticky Navbar linking to each section */}
         <Navigation />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/experience" element={<ExperiencePage />} />
-          <Route path="/skills" element={<SkillsPage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="/projects/campushire" element={<CampusHirePage />} />
-        </Routes>
-  <Footer />
+
+        <main id="main-content">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/experience" element={<Navigate to="/#experience" replace />} />
+            <Route path="/projects" element={<Navigate to="/#projects" replace />} />
+            <Route path="/research" element={<Navigate to="/#research" replace />} />
+            <Route path="/skills" element={<Navigate to="/#skills" replace />} />
+            <Route path="/education" element={<Navigate to="/#education" replace />} />
+            <Route path="/contact" element={<Navigate to="/#contact" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
         
-  {/* Floating Back to Top Button */}
+        {/* Accessible Floating Back to Top Button */}
         <button
           onClick={scrollToTop}
-          className={`back-to-top ${showBackToTop ? 'visible' : ''}`}
-          aria-label="Back to top"
+          className={`back-to-top ${showBackToTop ? 'visible' : ''} focus:outline-none focus:ring-2 focus:ring-cyan-400`}
+          aria-label="Scroll back to top"
         >
-          <ArrowUp size={20} />
+          <ArrowUp size={20} aria-hidden="true" />
         </button>
       </div>
     </Router>

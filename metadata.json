@@ -1,0 +1,8 @@
+{
+  "name": "Kasak Portfolio",
+  "description": "AI & Data Science portfolio of Kasak showcasing machine learning projects, research publications, experience, and technical skills.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

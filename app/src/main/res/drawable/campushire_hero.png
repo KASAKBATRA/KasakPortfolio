@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#ef476f"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="#0b1220"/>
+  <rect x="40" y="40" width="1520" height="820" rx="20" fill="url(#g)" opacity="0.06"/>
+  <g transform="translate(120,120)">
+    <rect width="460" height="660" rx="12" fill="#071126" opacity="0.6" />
+    <text x="30" y="60" fill="#f8fafc" font-size="34" font-family="Arial">CampusHire Analytics</text>
+    <text x="30" y="110" fill="#cbd5e1" font-size="18">Verified placements • T&amp;P workflows • Analytics</text>
+    <g transform="translate(30,150)">
+      <rect width="400" height="120" rx="8" fill="#0b1220" stroke="#1f2937" />
+      <text x="18" y="40" fill="#60a5fa" font-size="18">Placement Rate</text>
+      <rect x="18" y="60" width="320" height="12" rx="6" fill="#06b6d4" />
+    </g>
+  </g>
+
+  <!-- stylized people/illustration block -->
+  <g transform="translate(640,160)">
+    <rect width="820" height="640" rx="16" fill="#071229" />
+    <g transform="translate(60,50)">
+      <circle cx="120" cy="120" r="44" fill="#7c3aed" />
+      <rect x="200" y="40" width="460" height="36" rx="8" fill="#0b1220" />
+      <rect x="200" y="92" width="320" height="18" rx="8" fill="#0b1220" />
+      <rect x="60" y="220" width="700" height="320" rx="12" fill="#081026" />
+      <text x="80" y="260" fill="#94a3b8" font-size="16">T&amp;P Dashboard • Verified Users</text>
+    </g>
+  </g>
+</svg>

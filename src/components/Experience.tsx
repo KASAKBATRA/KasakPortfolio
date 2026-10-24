@@ -1,222 +1,195 @@
 import React from 'react';
-import { Briefcase, Calendar, MapPin, Award, GraduationCap } from 'lucide-react';
+import { Briefcase, Calendar, MapPin, Building2, CheckCircle2, ExternalLink, Activity, Sparkles, Terminal } from 'lucide-react';
 
-const Experience = () => {
-  const workExperiences = [
-    {
-      title: 'Intern',
-      company: 'Defence Research and Development Organisation (DRDO)',
-      location: 'India',
-      period: 'July 2025 - August 2025',
-      description: 'Designed and developed CampusHire Analytics, a comprehensive role-based placement management system. Created automated verification systems and streamlined recruitment workflows for educational institutions.',
-      achievements: [
-        'Developed CampusHire Analytics - a complete placement management system',
-        'Built role-based access for Students, T&P Officers, and Companies',
-        'Implemented automated verification and unique login ID systems',
-        'Created skill and CGPA tracking modules for recruitment optimization',
-        'Delivered responsive UI with efficient backend using PHP and MySQL',
-        'Streamlined recruitment workflows for educational institutions',
-        'Built comprehensive user management and authentication systems',
-      ]
-    },
-    {
-      title: 'Head of Department (Data Science)',
-      company: 'Renu Sharma Foundation',
-      location: 'Remote',
-      period: '2024 - Present',
-      description: 'Started as Data Science Intern and promoted to Head of Department. Led development of two impactful full-stack projects: ATS Resume Checker and AIMock Interviewer. Built secure authentication systems and comprehensive dashboards for HRs and admins.',
-      achievements: [
-        'Promoted from Data Science Intern to HOD due to technical leadership',
-        'Developed ATS Resume Checker with BERT-based semantic matching and skill extraction',
-        'Built AIMock Interviewer platform with LLM-powered real-time feedback',
-        'Implemented secure OTP-based authentication systems',
-        'Created admin and HR monitoring dashboards',
-        'Led full-stack development across frontend and backend systems',
-        'Developed semantic matching algorithms and real-time feedback systems',
-      ]
-    },
-    // Vault of Codes and Accenture entries removed per user request
-  ];
+interface ExperienceItem {
+  role: string;
+  organization: string;
+  period: string;
+  location: string;
+  status: 'Current' | 'Completed';
+  link?: string;
+  bullets: string[];
+  techTags: string[];
+  highlight: string;
+}
 
-  const education = [
-    {
-      title: 'B.Tech in Artificial Intelligence and Data Science',
-      company: 'Dr. Akhilesh Das Gupta Institute of Professional Studies',
-      location: 'Delhi, India',
-      period: '2022 - 2026 (Pursuing)',
-      description: 'Currently pursuing Bachelor of Technology in Artificial Intelligence and Data Science with specialization in Machine Learning, Deep Learning, and Data Analytics.',
-      achievements: [
-        'EPAM Systems Scholarship recipient',
-        'Active in IEEE and NSS activities',
-        'Published research papers',
-      ]
-    },
-    {
-      title: 'Senior Secondary Education',
-      company: 'MotiRam Memorial Girls Senior Secondary School',
-      location: 'Delhi, India',
-      period: '2020 - 2022',
-      description: 'Completed senior secondary education with 89.2% marks in CBSE board.',
-      achievements: [
-        'Achieved 89.2% in CBSE',
-        'Strong foundation in Mathematics and Science',
-        'Active participation in academic activities',
-      ]
-    },
-  ];
+const experiences: ExperienceItem[] = [
+  {
+    role: 'Young Professional',
+    organization: 'Office of the Comptroller & Auditor General of India (CAG)',
+    period: 'Sep 2026 – Present',
+    location: 'Delhi, India',
+    status: 'Current',
+    link: 'https://cag.gov.in',
+    highlight: 'Data-driven remote audit, compliance analytics, and executive analytical reporting',
+    bullets: [
+      'Working on data analytics and remote audit, supporting data-driven audit activities and analytical reporting.',
+      'Applying SQL, Python and data analytics techniques to analyse datasets and generate audit insights.'
+    ],
+    techTags: ['SQL', 'Python', 'Remote Audit', 'Audit Analytics', 'Government Data', 'Analytical Reporting']
+  },
+  {
+    role: 'Software Faculty',
+    organization: 'Delhi Institute of Computer Science',
+    period: 'Jul 2026 – Sep 2026',
+    location: 'Delhi, India',
+    status: 'Completed',
+    link: 'https://dics.in',
+    highlight: 'Curriculum delivery, hands-on lab sessions, and technical mentorship',
+    bullets: [
+      'Trained students in Python, C, C++, Java, SQL, Data Analytics and Programming Fundamentals.',
+      'Taught Data Science, Machine Learning, Data Structures and Algorithms, Internet of Things, Operating Systems and Database concepts through lectures and practical sessions.'
+    ],
+    techTags: ['Python', 'C / C++', 'Java', 'SQL', 'Data Science', 'Machine Learning', 'DSA', 'Operating Systems', 'IoT']
+  },
+  {
+    role: 'Data Analytics Intern',
+    organization: 'Office of the Comptroller & Auditor General of India',
+    period: 'Jan 2026 – Jul 2026',
+    location: 'Delhi, India',
+    status: 'Completed',
+    link: 'https://cag.gov.in',
+    highlight: 'KNIME pipeline automation, welfare audit validation, and multimodal AI evaluation',
+    bullets: [
+      'Developed KNIME workflows for audit analytics: data validation, anomaly detection, duplicate identification and record reconciliation.',
+      'Built REST APIs for NREGA and GeM data integration, automating data transfer between databases and AWS S3.',
+      'Performed SQL-based analysis for government welfare audits, validating datasets and supporting audit observations.',
+      'Evaluated LLMs and Vision Language Models (VLMs) for multimodal data validation and product-image consistency.'
+    ],
+    techTags: ['KNIME', 'SQL', 'REST APIs', 'AWS S3', 'NREGA & GeM', 'Anomaly Detection', 'LLMs & VLMs', 'Reconciliation']
+  }
+];
 
-  const certifications = [
-    { name: 'Business Analytics and Data Mining Modeling using R', issuer: 'NPTEL', year: '2025', note: 'Top 2%', file: '/cert%201.png' },
-    { name: 'Data Analytics with Python', issuer: 'NPTEL', year: '2024', file: '/cert%202.png' },
-    { name: 'IBM Summer Training', issuer: 'IBM', year: '2024', note: 'ML, DL, Gen AI', file: '/cert%203.jpeg' },
-    { name: 'Discrete Mathematics', issuer: 'NPTEL', year: '2023', file: '/cert%204.png' },
-  ];
-
-  
-
-  const TimelineSection = ({ title, items, icon: Icon, color }: { 
-    title: string; 
-    items: typeof workExperiences; 
-    icon: React.ElementType; 
-    color: string;
-  }) => (
-    <div className="glass-morphism p-8 rounded-2xl hover:border-slate-600/50 transition-all duration-300 hover-lift-glow">
-      <div className="flex items-center mb-8">
-        <div className={`p-3 rounded-lg ${color} mr-4`}>
-          <Icon className="text-white" size={24} />
-        </div>
-        <h3 className="font-display text-2xl font-bold text-white">{title}</h3>
-      </div>
-
-      <div className="relative">
-        {/* Timeline line */}
-        <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-400 to-accent-400"></div>
-        
-        <div className="space-y-8">
-          {items.map((item, index) => (
-            <div key={index} className="relative flex items-start">
-              {/* Timeline dot */}
-              <div className="absolute left-6 w-4 h-4 bg-primary-500 border-2 border-primary-400 rounded-full"></div>
-              
-              {/* Content */}
-              <div className="ml-16 glass-morphism p-6 rounded-xl hover:border-slate-600/50 transition-all duration-300 w-full hover-lift-glow">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h4 className="font-display text-lg font-semibold text-white mb-1">{item.title}</h4>
-                    <p className="text-primary-400 font-medium">{item.company}</p>
-                  </div>
-                  <div className="text-right text-sm text-slate-400">
-                    <div className="flex items-center">
-                      <Calendar size={16} className="mr-1" />
-                      {item.period}
-                    </div>
-                    <div className="flex items-center mt-1">
-                      <MapPin size={16} className="mr-1" />
-                      {item.location}
-                    </div>
-                  </div>
-                </div>
-                
-                <p className="text-slate-300 mb-4 leading-relaxed">{item.description}</p>
-                
-                <div className="space-y-2">
-                  {item.achievements.map((achievement, achIndex) => (
-                    <div key={achIndex} className="flex items-center text-sm text-slate-400">
-                      <div className="w-1.5 h-1.5 bg-accent-400 rounded-full mr-3"></div>
-                      {achievement}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
+const Experience: React.FC = () => {
   return (
-    <section id="experience" className="py-24 bg-slate-900">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="experience" aria-labelledby="experience-heading" className="py-24 bg-slate-900 relative">
+      {/* Background ambient lighting */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute top-1/3 left-0 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/3 right-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px]" />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="font-display text-4xl font-bold text-white mb-4">Experience & Education</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary-400 to-accent-400 mx-auto"></div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-3">
+            <Briefcase size={14} aria-hidden="true" />
+            <span>Career Path</span>
+          </div>
+          <h2 id="experience-heading" className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-4">
+            Professional Experience
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full" />
+          <p className="text-slate-300 mt-4 max-w-2xl mx-auto text-base">
+            Data analytics, government welfare audits, automated KNIME pipelines, and software instruction.
+          </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Left: Work Experience */}
-          <div className="space-y-8">
-            <TimelineSection 
-              title="Work Experience" 
-              items={workExperiences} 
-              icon={Briefcase}
-              color="bg-blue-600"
-            />
-          </div>
+        {/* Timeline Container */}
+        <div className="relative">
+          {/* Vertical Glowing Connector Line */}
+          <div className="hidden md:block absolute left-8 top-6 bottom-6 w-0.5 bg-gradient-to-b from-cyan-400 via-blue-500 to-slate-800" />
 
-          {/* Right: Education + Certifications + Leadership */}
-          <div className="space-y-8">
-            <TimelineSection 
-              title="Education" 
-              items={education} 
-              icon={GraduationCap}
-              color="bg-green-600"
-            />
-
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Certifications */}
-              <div className="glass-morphism p-6 rounded-2xl hover-lift-glow">
-                <div className="flex items-center mb-6">
-                  <Award className="text-yellow-400 mr-3" size={24} />
-                  <h3 className="font-display text-xl font-semibold text-white">Certifications</h3>
+          <div className="space-y-10">
+            {experiences.map((exp, index) => (
+              <div key={index} className="relative flex flex-col md:flex-row items-start gap-6 group">
+                
+                {/* Timeline node icon */}
+                <div className="hidden md:flex flex-shrink-0 w-16 h-16 rounded-2xl glass-morphism border border-slate-700 items-center justify-center text-cyan-400 group-hover:scale-110 group-hover:border-cyan-400 transition-all duration-300 shadow-xl z-10 bg-slate-900">
+                  {exp.status === 'Current' ? (
+                    <Activity size={24} className="text-cyan-400 animate-pulse" />
+                  ) : (
+                    <Briefcase size={22} className="text-blue-400" />
+                  )}
                 </div>
-                <div className="space-y-4">
-                  {certifications.map((cert, index) => (
-                    <div key={index} className="border-l-2 border-primary-400/30 pl-4 py-2 hover:border-primary-400/60 transition-colors duration-300">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h4 className="font-medium text-white text-sm">{cert.name}</h4>
-                          <p className="text-slate-400 text-xs">{cert.issuer}</p>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <p className="text-primary-400 text-xs">{cert.year}</p>
-                          {cert.note && <span className="text-green-400 text-xs">{cert.note}</span>}
-                          {/* Eye / view button - opens certificate from public folder */}
-                          <button
-                            aria-label={`View certificate ${index + 1}`}
-                            onClick={() => cert.file && window.open(cert.file, '_blank', 'noopener,noreferrer')}
-                            className="p-1 rounded-md bg-slate-800/40 hover:bg-slate-800/60 text-slate-200"
+
+                {/* Experience Card */}
+                <article className="flex-1 w-full rounded-2xl glass-morphism border border-slate-700/70 p-6 sm:p-8 hover:border-cyan-500/50 transition-all duration-300 shadow-2xl hover-lift-glow">
+                  
+                  {/* Top Bar: Role & Status */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <h3 className="font-display text-xl sm:text-2xl font-bold text-white">
+                          {exp.role}
+                        </h3>
+                        {exp.status === 'Current' && (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                            Active Position
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-2 mt-1 text-base font-semibold text-cyan-400">
+                        <Building2 size={16} aria-hidden="true" />
+                        <span>{exp.organization}</span>
+                        {exp.link && (
+                          <a
+                            href={exp.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-slate-400 hover:text-cyan-300 transition-colors ml-1"
+                            aria-label={`Visit ${exp.organization} website`}
                           >
-                            {/* simple eye svg */}
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                              <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </button>
-                        </div>
+                            <ExternalLink size={14} />
+                          </a>
+                        )}
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
 
-              {/* Leadership */}
-              <div className="glass-morphism p-6 rounded-2xl hover-lift-glow">
-                <div className="flex items-center mb-6">
-                  <Briefcase className="text-green-400 mr-3" size={24} />
-                  <h3 className="font-display text-xl font-semibold text-white">Leadership</h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {['Event Organization', 'Team Leadership', 'Graphics Design', 'Community Service', 'Research', 'Public Speaking'].map((skill, index) => (
-                    <span key={index} className="bg-green-500/20 text-green-400 text-xs px-3 py-1 rounded-full border border-green-500/30">
-                      {skill}
+                    {/* Period and Location Badges */}
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-slate-300">
+                      <div className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 font-medium">
+                        <Calendar size={14} className="text-cyan-400" aria-hidden="true" />
+                        <span>{exp.period}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 font-medium">
+                        <MapPin size={14} className="text-cyan-400" aria-hidden="true" />
+                        <span>{exp.location}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Highlight bar */}
+                  <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/40 mb-5 text-xs sm:text-sm text-cyan-300 flex items-center gap-2 font-medium">
+                    <Sparkles size={16} className="text-cyan-400 flex-shrink-0" />
+                    <span>Focus: {exp.highlight}</span>
+                  </div>
+
+                  {/* Bullet points */}
+                  <ul className="space-y-3 mb-6">
+                    {exp.bullets.map((bullet, bIdx) => (
+                      <li key={bIdx} className="flex items-start gap-3 text-slate-300 text-sm sm:text-base leading-relaxed">
+                        <CheckCircle2 size={18} className="text-cyan-400 mt-1 flex-shrink-0" aria-hidden="true" />
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Tech Pill Badges */}
+                  <div className="pt-4 border-t border-slate-700/50 flex flex-wrap items-center gap-2">
+                    <span className="text-xs text-slate-400 font-medium mr-1 flex items-center gap-1">
+                      <Terminal size={13} className="text-slate-500" />
+                      Tools &amp; Methods:
                     </span>
-                  ))}
-                </div>
+                    {exp.techTags.map((tech, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className="text-xs px-2.5 py-1 rounded-lg bg-slate-800/90 text-slate-200 border border-slate-700 font-medium hover:border-cyan-500/40 transition-colors"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                </article>
               </div>
-            </div>
+            ))}
           </div>
         </div>
+
       </div>
     </section>
   );

@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Kasak Portfolio</string>
+    <string name="title_home">Home</string>
+    <string name="title_experience">Experience</string>
+    <string name="title_skills">Skills</string>
+    <string name="title_projects">Projects</string>
+    <string name="hero_name">Kasak</string>
+    <string name="hero_tagline">AI &amp; Data Science Enthusiast</string>
+    <string name="hero_subtag">Turning Data into Decisions</string>
+    <string name="hero_quote">\"Data has a voice — I just help it speak louder, clearer, and smarter.\"</string>
+    <string name="btn_download_resume">Download Resume</string>
+    <string name="btn_get_in_touch">Get In Touch</string>
+    <string name="section_about">About Me</string>
+    <string name="section_achievements">Milestones &amp; Highlights</string>
+    <string name="section_featured_project">Featured Project</string>
+    <string name="section_other_projects">Other Projects</string>
+    <string name="section_work_experience">Work Experience</string>
+    <string name="section_education">Education</string>
+    <string name="section_certifications">Certifications</string>
+    <string name="section_leadership">Leadership</string>
+</resources>

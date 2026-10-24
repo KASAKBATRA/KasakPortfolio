@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://portfoliokasak.netlify.app/sitemap.xml

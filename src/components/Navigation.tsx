@@ -1,159 +1,161 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, User, Home, Briefcase, Code, FolderOpen, Mail } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
+  const [activeSection, setActiveSection] = useState('experience');
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
+
+      const sections = ['experience', 'projects', 'research', 'skills', 'education', 'contact'];
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navItems = [
-    { href: '/', label: 'Home', icon: Home },
-    { href: '/experience', label: 'Experience', icon: Briefcase },
-    { href: '/skills', label: 'Skills', icon: Code },
-    { href: '/projects', label: 'Projects', icon: FolderOpen },
+    { href: '#experience', label: 'Experience' },
+    { href: '#projects', label: 'Projects' },
+    { href: '#research', label: 'Research & Publications' },
+    { href: '#skills', label: 'Skills' },
+    { href: '#education', label: 'Education & Certificates' },
+    { href: '#contact', label: 'Contact' },
   ];
 
-  const scrollToContact = () => {
-    if (location.pathname === '/') {
-      const element = document.querySelector('#contact');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      window.location.href = '/#contact';
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
     }
     setIsMenuOpen(false);
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled 
-        ? 'bg-slate-900/95 backdrop-blur-md shadow-lg border-b border-slate-700/50' 
-        : 'bg-slate-900/80 backdrop-blur-sm'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <User className="text-white" size={20} />
-            </div>
-            <span className="text-2xl font-bold font-display bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent">
-              Kasak
-            </span>
-          </Link>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
-            {navItems.map((item) => {
-              const ItemIcon = item.icon;
-              return (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  className={`group flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-                    location.pathname === item.href 
-                      ? 'text-primary-400 bg-primary-500/10 border border-primary-500/30' 
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
-                  }`}
-                >
-                  <ItemIcon size={18} className="group-hover:scale-110 transition-transform duration-300" />
-                  <span className="font-medium">{item.label}</span>
-                </Link>
-              );
-            })}
-            
-            {/* Desktop Contact Button */}
-            <button
-              onClick={scrollToContact}
-              className="group flex items-center space-x-2 px-6 py-2 rounded-lg bg-gradient-to-r from-primary-600 to-accent-600 text-white hover:from-primary-700 hover:to-accent-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+    <header className="sticky top-0 z-50">
+      <nav 
+        aria-label="Main Navigation"
+        className={`w-full transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-slate-900/95 backdrop-blur-md shadow-lg border-b border-slate-700/60' 
+            : 'bg-slate-900/80 backdrop-blur-sm border-b border-slate-800/40'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <a 
+              href="#" 
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="flex items-center space-x-3 group focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg p-1"
+              aria-label="Kasak Home"
             >
-              <Mail size={18} className="group-hover:scale-110 transition-transform duration-300" />
-              <span className="font-medium">Contact</span>
+              <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-md">
+                <User className="text-white" size={18} aria-hidden="true" />
+              </div>
+              <span className="text-xl font-bold font-display bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                Kasak
+              </span>
+            </a>
+            
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-1">
+              {navItems.map((item) => {
+                const isActive = activeSection === item.href.replace('#', '');
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 ${
+                      isActive 
+                        ? 'text-cyan-400 bg-cyan-500/10 border border-cyan-500/30' 
+                        : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
+              
+              <a
+                href="#contact"
+                onClick={(e) => handleNavClick(e, '#contact')}
+                className="ml-4 px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 text-white hover:from-blue-500 hover:to-cyan-500 shadow-md hover:shadow-cyan-500/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              >
+                Get in Touch
+              </a>
+            </div>
+            
+            {/* Mobile Hamburger Button */}
+            <button
+              type="button"
+              className="lg:hidden text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-expanded={isMenuOpen}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {isMenuOpen ? (
+                <X size={24} aria-hidden="true" />
+              ) : (
+                <Menu size={24} aria-hidden="true" />
+              )}
             </button>
           </div>
-          
-          {/* Menu Button (All Screens) */}
-          <button
-            className="lg:hidden text-slate-300 hover:text-white p-3 rounded-lg hover:bg-slate-800/50 transition-all duration-300 hover:scale-110 group"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <div className="relative">
-              {isMenuOpen ? (
-                <X size={24} className="transform rotate-0 transition-transform duration-300" />
-              ) : (
-                <Menu size={24} className="transform rotate-0 transition-transform duration-300 group-hover:rotate-180" />
-              )}
-            </div>
-          </button>
         </div>
 
-        {/* Mobile Full Screen Overlay Menu */}
-        <div className={`fixed inset-0 z-50 transition-all duration-500 ${
-          isMenuOpen 
-            ? 'opacity-100 visible' 
-            : 'opacity-0 invisible'
-        } lg:hidden`}>
-          {/* Backdrop */}
-          <div 
-            className="absolute inset-0 bg-slate-900 backdrop-blur-xl"
-            onClick={() => setIsMenuOpen(false)}
-          />
-          
-          {/* Menu Content */}
-          <div className="relative h-full flex items-center justify-center">
-            <div className="text-center space-y-6 animate-fade-in-up max-w-md mx-auto">
-              {/* Navigation Items */}
-              <div className="space-y-4">
-                {navItems.map((item, index) => {
-                  const ItemIcon = item.icon;
-                  return (
-                    <Link
-                      key={item.href}
-                      to={item.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className={`group flex items-center justify-center space-x-4 px-8 py-4 rounded-2xl transition-all duration-300 hover-lift-glow ${
-                        location.pathname === item.href 
-                          ? 'text-primary-400 bg-primary-500/10 border border-primary-500/30' 
-                          : 'text-slate-300 hover:text-white glass-morphism'
-                      }`}
-                      style={{ animationDelay: `${index * 100}ms` }}
-                    >
-                      <ItemIcon size={20} className="group-hover:scale-110 transition-transform duration-300" />
-                      <span className="text-xl sm:text-2xl font-display font-semibold">{item.label}</span>
-                    </Link>
-                  );
-                })}
-                
-                {/* Contact Button */}
-                <button
-                  onClick={scrollToContact}
-                  className="group flex items-center justify-center space-x-4 px-8 py-3 rounded-2xl bg-gradient-to-r from-primary-600 to-accent-600 text-white hover:from-primary-700 hover:to-accent-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl animate-fade-in-up"
-                  style={{ animationDelay: `${navItems.length * 100}ms` }}
+        {/* Mobile Dropdown Menu */}
+        {isMenuOpen && (
+          <div className="lg:hidden bg-slate-900/98 border-b border-slate-700/60 px-4 pt-2 pb-6 space-y-2 shadow-2xl backdrop-blur-xl animate-fade-in-up">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.href.replace('#', '');
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className={`block px-4 py-2.5 rounded-xl text-base font-medium transition-colors ${
+                    isActive 
+                      ? 'text-cyan-400 bg-cyan-500/15 font-semibold' 
+                      : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                  }`}
                 >
-                  <Mail size={20} className="group-hover:scale-110 transition-transform duration-300" />
-                  <span className="text-xl sm:text-2xl font-display font-semibold">Contact</span>
-                </button>
-              </div>
-              
-              {/* Close hint */}
-              <p className="text-slate-500 text-xs sm:text-sm animate-fade-in-up" style={{ animationDelay: `${(navItems.length + 1) * 100}ms` }}>
-                Click anywhere to close
-              </p>
+                  {item.label}
+                </a>
+              );
+            })}
+            <div className="pt-2">
+              <a
+                href="#contact"
+                onClick={(e) => handleNavClick(e, '#contact')}
+                className="block text-center w-full px-4 py-3 text-base font-semibold rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
+              >
+                Get in Touch
+              </a>
             </div>
           </div>
-        </div>
-      </div>
-    </nav>
+        )}
+      </nav>
+    </header>
   );
 };
 
