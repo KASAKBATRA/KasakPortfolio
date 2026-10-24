@@ -19,12 +19,12 @@ const Contact: React.FC = () => {
     <footer
       id="contact"
       aria-labelledby="contact-heading"
-      className="py-24 sm:py-36 hairline-t bg-[#0c0b09] dark:bg-[#0c0b09] light:bg-[#f5f3ee] transition-colors relative"
+      className="py-24 sm:py-36 hairline-t bg-[var(--bg-canvas)] transition-colors relative"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Label */}
-        <div className="mono-label text-[#ff6a2b] mb-6 flex items-center gap-2">
+        <div className="mono-label text-[#ff6a2b] mb-6 flex items-center gap-2 font-semibold">
           <span>06 / CONTACT &amp; INQUIRIES</span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b]" />
         </div>
@@ -33,29 +33,29 @@ const Contact: React.FC = () => {
         <div className="mb-14">
           <h2
             id="contact-heading"
-            className="font-serif font-normal text-[#f2efe8] light:text-[#141311] tracking-tight leading-[0.95]"
+            className="font-serif font-normal text-[var(--text-primary)] tracking-tight leading-[0.95]"
             style={{
               fontSize: 'clamp(2.75rem, 8vw, 7.5rem)',
             }}
           >
             Let's work <span className="italic text-[#ff6a2b]">together</span>.
           </h2>
-          <p className="text-base sm:text-lg text-[#9a968d] light:text-[#6b665c] mt-4 max-w-xl leading-relaxed">
+          <p className="text-base sm:text-lg text-[var(--text-secondary)] mt-4 max-w-xl leading-relaxed">
             Open to data analytics, AI/ML research collaborations, government audit technology, and guest teaching opportunities.
           </p>
         </div>
 
         {/* Big Interactive Mailto Card */}
-        <div className="bento-card rounded-3xl p-6 sm:p-12 mb-16 hairline-all group relative overflow-hidden">
+        <div className="bento-card bg-white dark:bg-[#141310] rounded-3xl p-6 sm:p-12 mb-16 hairline-all group relative overflow-hidden shadow-xl">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             
             <div>
-              <span className="font-mono text-xs uppercase tracking-widest text-[#9a968d] light:text-[#6b665c]">
+              <span className="font-mono text-xs uppercase tracking-widest text-[var(--text-muted)] font-semibold">
                 PRIMARY DIRECT INQUIRY
               </span>
               <a
                 href={`mailto:${email}?subject=Collaboration%20Inquiry%20via%20Portfolio`}
-                className="mt-2 block font-serif text-2xl sm:text-4xl lg:text-5xl text-[#f2efe8] light:text-[#141311] group-hover:text-[#ff6a2b] transition-colors tracking-tight"
+                className="mt-2 block font-serif text-2xl sm:text-4xl lg:text-5xl text-[var(--text-primary)] group-hover:text-[#ff6a2b] transition-colors tracking-tight"
               >
                 {email}
               </a>
@@ -65,7 +65,7 @@ const Contact: React.FC = () => {
               <button
                 type="button"
                 onClick={handleCopyEmail}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-full hairline-all bg-[#1b1915] light:bg-[#f0ede6] hover:border-[#ff6a2b] text-xs font-mono uppercase tracking-wider text-[#f2efe8] light:text-[#141311] transition-all"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-full hairline-all bg-[var(--bg-surface-elevated)] hover:border-[#ff6a2b] text-xs font-mono uppercase tracking-wider text-[var(--text-primary)] transition-all"
               >
                 {copied ? (
                   <>
@@ -100,20 +100,20 @@ const Contact: React.FC = () => {
             href="https://www.linkedin.com/in/kasak-batra/"
             target="_blank"
             rel="noopener noreferrer"
-            className="bento-card rounded-2xl p-6 flex items-center justify-between group"
+            className="bento-card bg-white dark:bg-[#141310] rounded-2xl p-6 flex items-center justify-between group shadow-sm hover:shadow-xl transition-all"
           >
             <div className="flex items-center gap-3">
               <Linkedin size={20} className="text-[#ff6a2b]" />
               <div>
-                <div className="font-serif text-lg text-[#f2efe8] light:text-[#141311] group-hover:text-[#ff6a2b] transition-colors">
+                <div className="font-serif text-lg text-[var(--text-primary)] group-hover:text-[#ff6a2b] transition-colors">
                   LinkedIn
                 </div>
-                <div className="font-mono text-xs text-[#9a968d]">
+                <div className="font-mono text-xs text-[var(--text-muted)] font-medium">
                   kasak-batra
                 </div>
               </div>
             </div>
-            <ArrowUpRight size={16} className="text-[#9a968d] group-hover:text-[#ff6a2b] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <ArrowUpRight size={16} className="text-[var(--text-muted)] group-hover:text-[#ff6a2b] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
 
           {/* GitHub Card */}
@@ -121,20 +121,20 @@ const Contact: React.FC = () => {
             href="https://github.com/KASAKBATRA"
             target="_blank"
             rel="noopener noreferrer"
-            className="bento-card rounded-2xl p-6 flex items-center justify-between group"
+            className="bento-card bg-white dark:bg-[#141310] rounded-2xl p-6 flex items-center justify-between group shadow-sm hover:shadow-xl transition-all"
           >
             <div className="flex items-center gap-3">
               <Github size={20} className="text-[#ff6a2b]" />
               <div>
-                <div className="font-serif text-lg text-[#f2efe8] light:text-[#141311] group-hover:text-[#ff6a2b] transition-colors">
+                <div className="font-serif text-lg text-[var(--text-primary)] group-hover:text-[#ff6a2b] transition-colors">
                   GitHub
                 </div>
-                <div className="font-mono text-xs text-[#9a968d]">
+                <div className="font-mono text-xs text-[var(--text-muted)] font-medium">
                   KASAKBATRA
                 </div>
               </div>
             </div>
-            <ArrowUpRight size={16} className="text-[#9a968d] group-hover:text-[#ff6a2b] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <ArrowUpRight size={16} className="text-[var(--text-muted)] group-hover:text-[#ff6a2b] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
 
           {/* Resume Download Card */}
@@ -143,26 +143,26 @@ const Contact: React.FC = () => {
             download="Kasak_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="bento-card rounded-2xl p-6 flex items-center justify-between group"
+            className="bento-card bg-white dark:bg-[#141310] rounded-2xl p-6 flex items-center justify-between group shadow-sm hover:shadow-xl transition-all"
           >
             <div className="flex items-center gap-3">
               <ExternalLink size={20} className="text-[#ff6a2b]" />
               <div>
-                <div className="font-serif text-lg text-[#f2efe8] light:text-[#141311] group-hover:text-[#ff6a2b] transition-colors">
+                <div className="font-serif text-lg text-[var(--text-primary)] group-hover:text-[#ff6a2b] transition-colors">
                   Curriculum Vitae
                 </div>
-                <div className="font-mono text-xs text-[#9a968d]">
+                <div className="font-mono text-xs text-[var(--text-muted)] font-medium">
                   Kasak_Resume.pdf
                 </div>
               </div>
             </div>
-            <ArrowUpRight size={16} className="text-[#9a968d] group-hover:text-[#ff6a2b] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <ArrowUpRight size={16} className="text-[var(--text-muted)] group-hover:text-[#ff6a2b] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
 
         </div>
 
         {/* Footer Editorial Metadata Strip */}
-        <div className="pt-8 hairline-t flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-[#9a968d] light:text-[#6b665c]">
+        <div className="pt-8 hairline-t flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-[var(--text-muted)]">
           <div className="flex flex-wrap items-center gap-4 text-center sm:text-left">
             <span>© {new Date().getFullYear()} KASAK BATRA. ALL RIGHTS RESERVED.</span>
             <span>·</span>

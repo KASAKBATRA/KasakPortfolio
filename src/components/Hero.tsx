@@ -75,7 +75,7 @@ const Hero: React.FC<HeroProps> = () => {
     >
       {/* Interactive Faint Dotted Grid with subtle translateZ */}
       <div
-        className="hero-dot-grid absolute inset-0 pointer-events-none opacity-40 dark:opacity-35 light:opacity-25 transition-transform duration-700 ease-out"
+        className="hero-dot-grid absolute inset-0 pointer-events-none opacity-25 dark:opacity-35 transition-transform duration-700 ease-out"
         style={{
           transform: isDesktop
             ? `translate3d(${mouseOffset.x * 0.4}px, ${mouseOffset.y * 0.4}px, -40px)`
@@ -114,7 +114,7 @@ const Hero: React.FC<HeroProps> = () => {
             
             {/* Author Profile + Role Tag Pill with Frosted Glass */}
             <div className="flex flex-wrap items-center gap-3">
-              <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full hairline-all bg-[var(--card-bg)]/80 backdrop-blur-md shadow-md">
+              <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full hairline-all bg-white/95 dark:bg-[#141310]/90 backdrop-blur-md shadow-md">
                 <img
                   src="/kasak-removebg-preview.png"
                   alt="Kasak Batra"
@@ -129,7 +129,7 @@ const Hero: React.FC<HeroProps> = () => {
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" title="Active at CAG" />
               </div>
 
-              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full hairline-all bg-[var(--bg-surface)]/80 backdrop-blur-md shadow-sm">
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full hairline-all bg-white/95 dark:bg-[#161512]/90 backdrop-blur-md shadow-sm">
                 <span className="w-2 h-2 rounded-full bg-[#ff6a2b] shadow-[0_0_6px_rgba(255,106,43,0.8)] animate-pulse" />
                 <span className="font-mono text-xs text-[var(--text-primary)] font-medium tracking-wider">
                   Data Analytics @ CAG · GATE 2026 · UGC NET

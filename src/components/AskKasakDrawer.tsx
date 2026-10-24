@@ -279,7 +279,7 @@ const AskKasakDrawer: React.FC = () => {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="group relative inline-flex items-center gap-2.5 px-4 sm:px-5 py-3 rounded-full bg-[var(--card-bg)]/90 backdrop-blur-xl border border-white/10 dark:border-white/10 light:border-black/10 text-[var(--text-primary)] hover:border-[#ff6a2b] shadow-2xl transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
+          className="group relative inline-flex items-center gap-2.5 px-4 sm:px-5 py-3 rounded-full bg-white/95 dark:bg-[#141310]/95 backdrop-blur-xl border border-[var(--border-hairline)] text-[var(--text-primary)] hover:border-[#ff6a2b] shadow-2xl transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
           aria-expanded={isOpen}
           aria-label="Open Ask Kasak AI Assistant"
         >

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BookOpen, ExternalLink, ArrowUpRight, ShoppingCart, Award } from 'lucide-react';
+import BookPageFlip from './BookPageFlip';
 
 interface Publication {
   id: string;
@@ -53,22 +54,6 @@ const publications: Publication[] = [
 ];
 
 const Research: React.FC = () => {
-  const [bookRotate, setBookRotate] = useState({ rotateY: -16, rotateX: 6 });
-
-  const handleBookMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    setBookRotate({
-      rotateY: (x / (rect.width / 2)) * 24,
-      rotateX: -(y / (rect.height / 2)) * 14,
-    });
-  };
-
-  const handleBookMouseLeave = () => {
-    setBookRotate({ rotateY: -16, rotateX: 6 });
-  };
-
   return (
     <section
       id="research"
@@ -96,8 +81,8 @@ const Research: React.FC = () => {
           </p>
         </div>
 
-        {/* Featured Book Bento Card with 3D Rotating Mockup */}
-        <div className="mb-14 bento-card rounded-3xl p-6 sm:p-10 hairline-all relative overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:border-[#ff6a2b]/40">
+        {/* Featured Book Bento Card with 3D Interactive Scroll-Driven Page Flip */}
+        <div className="mb-14 bento-card bg-white dark:bg-[#141310] rounded-3xl p-6 sm:p-10 hairline-all relative overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:border-[#ff6a2b]/40">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Book Meta & Copy (7 cols) */}
@@ -160,54 +145,9 @@ const Research: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: 3D Rotating Book Mockup (5 cols) */}
-            <div
-              className="lg:col-span-5 flex items-center justify-center py-6 perspective-container"
-              onMouseMove={handleBookMouseMove}
-              onMouseLeave={handleBookMouseLeave}
-            >
-              <div
-                className="relative transition-transform duration-200 ease-out"
-                style={{
-                  transform: `perspective(1200px) rotateY(${bookRotate.rotateY}deg) rotateX(${bookRotate.rotateX}deg)`,
-                  transformStyle: 'preserve-3d',
-                }}
-              >
-                {/* 3D Book Shadow on table */}
-                <div
-                  className="absolute -bottom-8 left-6 right-6 h-8 bg-black/40 rounded-full blur-xl pointer-events-none"
-                  style={{ transform: 'rotateX(90deg) translateZ(-40px)' }}
-                />
-
-                {/* 3D Book Outer Container */}
-                <div
-                  className="w-[220px] sm:w-[260px] h-[330px] sm:h-[390px] rounded-r-lg rounded-l-sm shadow-2xl relative overflow-hidden hairline-all border-l-4 border-l-[#241f18]"
-                  style={{
-                    boxShadow: '15px 25px 50px -10px rgba(0, 0, 0, 0.6), -5px 0 15px rgba(0,0,0,0.4)',
-                  }}
-                >
-                  <img
-                    src="/projects/hello-ai-cover.svg"
-                    alt="Hello AI book cover by Kasak Batra"
-                    className="w-full h-full object-cover"
-                  />
-
-                  {/* 3D Sheen Highlight */}
-                  <div
-                    className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"
-                    style={{ transform: 'translateZ(1px)' }}
-                  />
-                </div>
-
-                {/* 3D Book Spine Indicator (Left side depth) */}
-                <div
-                  className="absolute top-0 bottom-0 left-0 w-4 bg-[#14120f] border-r border-[#262420] pointer-events-none"
-                  style={{
-                    transform: 'rotateY(-90deg) translateX(-8px)',
-                    transformOrigin: 'left',
-                  }}
-                />
-              </div>
+            {/* Right Column: 3D Scroll-Driven Flipping Book (5 cols) */}
+            <div className="lg:col-span-5 flex items-center justify-center py-6">
+              <BookPageFlip />
             </div>
 
           </div>
@@ -223,7 +163,7 @@ const Research: React.FC = () => {
             {publications.map((pub) => (
               <div
                 key={pub.id}
-                className="py-6 sm:py-8 flex flex-col md:flex-row md:items-start justify-between gap-6 group transition-all duration-300 hover:bg-[var(--bg-surface-elevated)]/40 px-4 -mx-4 rounded-2xl"
+                className="py-6 sm:py-8 flex flex-col md:flex-row md:items-start justify-between gap-6 group transition-all duration-300 hover:bg-slate-100 dark:hover:bg-[#1e1c18] px-4 -mx-4 rounded-2xl"
               >
                 <div className="space-y-2 md:max-w-3xl">
                   <div className="flex flex-wrap items-center gap-2">

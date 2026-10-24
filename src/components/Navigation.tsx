@@ -66,21 +66,17 @@ const Navigation: React.FC = () => {
           aria-label="Main Navigation"
           className={`w-full max-w-7xl mx-auto flex items-center justify-between transition-all duration-300 ${
             isScrolled
-              ? 'bg-[#141310]/95 dark:bg-[#141310]/95 bg-white/95 light:bg-white/95 backdrop-blur-md px-5 py-2.5 rounded-full hairline-all shadow-xl max-w-5xl'
+              ? 'bg-white/95 dark:bg-[#141310]/95 backdrop-blur-md px-5 py-2.5 rounded-full hairline-all shadow-xl max-w-5xl'
               : ''
           }`}
         >
           {/* Logo / Brand Name */}
           <a
             href="#hero"
-            className="flex items-center gap-2.5 group focus:outline-none focus:ring-2 focus:ring-[#ff6a2b] rounded-lg px-2 py-1"
+            className="flex items-center group focus:outline-none focus:ring-2 focus:ring-[#ff6a2b] rounded-lg px-2 py-1"
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-[#ff6a2b] transition-transform group-hover:scale-125 shadow-[0_0_8px_rgba(255,106,43,0.6)]" />
-            <span className="font-serif text-2xl font-normal text-[var(--text-primary)] tracking-tight">
-              Kasak<span className="text-[#ff6a2b]">.</span>
-            </span>
-            <span className="hidden sm:inline-block font-mono text-[11px] text-[var(--text-muted)] tracking-widest uppercase ml-1 font-medium">
-              / CAG AUDIT
+            <span className="font-serif text-2xl font-normal text-[var(--text-primary)] tracking-tight hover:text-[#ff6a2b] transition-colors">
+              Kasak
             </span>
           </a>
 

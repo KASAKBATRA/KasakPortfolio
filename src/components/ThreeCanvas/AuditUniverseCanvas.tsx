@@ -180,6 +180,8 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
       roughness: 0.3,
       metalness: 0.2,
       vertexColors: true,
+      transparent: true,
+      opacity: 0.85,
     });
 
     const instancedMesh = new THREE.InstancedMesh(boxGeo, boxMat, count);
@@ -188,6 +190,29 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
       instancedMesh.instanceColor.setUsage(THREE.DynamicDrawUsage);
     }
     scene.add(instancedMesh);
+
+    // Adaptive Theme Lighting & Fog (Light mode clarity guarantee)
+    const updateThemeLighting = () => {
+      const isLight = document.documentElement.classList.contains('light');
+      if (scene.fog) {
+        scene.fog.color.setHex(isLight ? 0xf8f7f4 : 0x0e0d0b);
+      }
+      boxMat.opacity = isLight ? 0.30 : 0.85;
+      ambientLight.intensity = isLight ? 2.5 : 0.9;
+      dirLight.intensity = isLight ? 0.9 : 1.4;
+      icoMat.opacity = isLight ? 0.35 : 0.75;
+      octMat.opacity = isLight ? 0.30 : 0.65;
+    };
+
+    updateThemeLighting();
+
+    const themeObserver = new MutationObserver(() => {
+      updateThemeLighting();
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
 
     // Layout Buffers
     const layout: ParticleLayout = {
@@ -550,6 +575,7 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      themeObserver.disconnect();
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
       if (!isMobile) {

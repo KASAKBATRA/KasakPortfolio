@@ -173,11 +173,11 @@ const Experience: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Card Container - 95% Opaque Backdrop for Guaranteed AAA Contrast */}
+                  {/* Card Container - Solid 100% Opaque Backdrop for Guaranteed AAA Contrast */}
                   <div
-                    className={`rounded-2xl hairline-all bg-[var(--card-bg)]/95 backdrop-blur-md transition-all duration-300 overflow-hidden shadow-xl ${
+                    className={`rounded-2xl hairline-all bg-white dark:bg-[#141310] backdrop-blur-xl transition-all duration-300 overflow-hidden shadow-xl ${
                       isExpanded
-                        ? 'border-[#ff6a2b]/60 shadow-[0_12px_32px_rgba(0,0,0,0.4)]'
+                        ? 'border-[#ff6a2b]/60 shadow-[0_12px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_12px_32px_rgba(0,0,0,0.4)]'
                         : 'hover:border-[#ff6a2b]/30 hover:shadow-2xl'
                     }`}
                   >
