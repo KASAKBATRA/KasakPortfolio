@@ -112,12 +112,29 @@ const Hero: React.FC<HeroProps> = () => {
             }}
           >
             
-            {/* Role Tag in Mono with Glowing Indicator */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full hairline-all bg-[var(--bg-surface)] shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-[#ff6a2b] shadow-[0_0_6px_rgba(255,106,43,0.8)]" />
-              <span className="font-mono text-xs text-[var(--text-primary)] font-medium tracking-wider">
-                Data Analytics @ CAG · GATE 2026 · UGC NET
-              </span>
+            {/* Author Profile + Role Tag Pill with Frosted Glass */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full hairline-all bg-[var(--card-bg)]/80 backdrop-blur-md shadow-md">
+                <img
+                  src="/kasak-removebg-preview.png"
+                  alt="Kasak Batra"
+                  className="w-7 h-7 rounded-full object-cover bg-[#ff6a2b]/20 border border-[#ff6a2b]/40"
+                  onError={(e) => {
+                    (e.target as HTMLElement).setAttribute('src', '/Photo1.jpg');
+                  }}
+                />
+                <span className="font-serif text-sm text-[var(--text-primary)] font-medium">
+                  Kasak Batra
+                </span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" title="Active at CAG" />
+              </div>
+
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full hairline-all bg-[var(--bg-surface)]/80 backdrop-blur-md shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-[#ff6a2b] shadow-[0_0_6px_rgba(255,106,43,0.8)] animate-pulse" />
+                <span className="font-mono text-xs text-[var(--text-primary)] font-medium tracking-wider">
+                  Data Analytics @ CAG · GATE 2026 · UGC NET
+                </span>
+              </div>
             </div>
 
             {/* Giant Headline with hand-drawn SVG underline on "audit-ready" */}

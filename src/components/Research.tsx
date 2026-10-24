@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, ExternalLink, ArrowUpRight, ShoppingCart, Award, Eye, X } from 'lucide-react';
+import { BookOpen, ExternalLink, ArrowUpRight, ShoppingCart, Award } from 'lucide-react';
 
 interface Publication {
   id: string;
@@ -54,7 +54,6 @@ const publications: Publication[] = [
 
 const Research: React.FC = () => {
   const [bookRotate, setBookRotate] = useState({ rotateY: -16, rotateX: 6 });
-  const [modalImage, setModalImage] = useState<string | null>(null);
 
   const handleBookMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -158,15 +157,6 @@ const Research: React.FC = () => {
                   <span>Publisher Catalog</span>
                   <ArrowUpRight size={12} />
                 </a>
-
-                <button
-                  type="button"
-                  onClick={() => setModalImage('/projects/hello-ai-cover.svg')}
-                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-[var(--text-muted)] hover:text-[#ff6a2b] transition-colors"
-                >
-                  <Eye size={14} />
-                  <span>Inspect Cover</span>
-                </button>
               </div>
             </div>
 
@@ -177,13 +167,11 @@ const Research: React.FC = () => {
               onMouseLeave={handleBookMouseLeave}
             >
               <div
-                className="relative cursor-pointer transition-transform duration-200 ease-out"
+                className="relative transition-transform duration-200 ease-out"
                 style={{
                   transform: `perspective(1200px) rotateY(${bookRotate.rotateY}deg) rotateX(${bookRotate.rotateX}deg)`,
                   transformStyle: 'preserve-3d',
                 }}
-                onClick={() => setModalImage('/projects/hello-ai-cover.svg')}
-                title="Click to view full cover in Lightbox"
               >
                 {/* 3D Book Shadow on table */}
                 <div
@@ -285,45 +273,6 @@ const Research: React.FC = () => {
             ))}
           </div>
         </div>
-
-        {/* Lightbox Modal for Book Cover */}
-        {modalImage && (
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-label="Book Cover Preview"
-            className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in"
-            onClick={() => setModalImage(null)}
-          >
-            <div
-              className="relative max-w-xl w-full bg-[var(--card-bg)] hairline-all rounded-3xl overflow-hidden shadow-2xl p-6"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between pb-4 hairline-b mb-4">
-                <h4 className="font-serif text-xl text-[var(--text-primary)]">
-                  Hello AI: Book Cover Monograph
-                </h4>
-                <button
-                  type="button"
-                  onClick={() => setModalImage(null)}
-                  className="p-1 rounded-full text-[var(--text-muted)] hover:text-[#ff6a2b]"
-                  aria-label="Close Preview"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-
-              <div className="max-h-[75vh] overflow-auto flex items-center justify-center p-2 bg-[var(--bg-canvas)] rounded-2xl">
-                <img
-                  src={modalImage}
-                  alt="Full Book Cover Preview"
-                  className="max-h-[70vh] w-auto object-contain rounded-lg shadow-xl"
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
       </div>
     </section>
   );

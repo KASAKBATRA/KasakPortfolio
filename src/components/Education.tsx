@@ -184,22 +184,37 @@ const Education: React.FC = () => {
                 {certificates.map((cert) => (
                   <div
                     key={cert.title}
-                    className="py-3 flex items-center justify-between gap-3 group"
+                    className="py-3.5 flex items-center justify-between gap-3 group"
                   >
-                    <div>
-                      <div className="font-serif text-base text-[var(--text-primary)] group-hover:text-[#ff6a2b] transition-colors">
-                        {cert.title}
-                      </div>
-                      <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-[var(--text-muted)] mt-0.5">
-                        <span className="text-[var(--text-secondary)]">{cert.issuer}</span>
-                        <span>·</span>
-                        <span>{cert.year}</span>
-                        {cert.note && (
-                          <>
-                            <span>·</span>
-                            <span className="text-[var(--accent-small)] font-semibold">{cert.note}</span>
-                          </>
-                        )}
+                    <div className="flex items-center gap-3">
+                      {cert.file && (
+                        <div
+                          onClick={() => setModalImage({ src: cert.file!, title: cert.title })}
+                          className="w-12 h-9 rounded-md overflow-hidden hairline-all flex-shrink-0 cursor-pointer bg-[var(--bg-canvas)] hover:border-[#ff6a2b] transition-all group-hover:scale-105"
+                          title="Click to expand certificate"
+                        >
+                          <img
+                            src={cert.file}
+                            alt={cert.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      )}
+                      <div>
+                        <div className="font-serif text-base text-[var(--text-primary)] group-hover:text-[#ff6a2b] transition-colors">
+                          {cert.title}
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-[var(--text-muted)] mt-0.5">
+                          <span className="text-[var(--text-secondary)] font-medium">{cert.issuer}</span>
+                          <span>·</span>
+                          <span>{cert.year}</span>
+                          {cert.note && (
+                            <>
+                              <span>·</span>
+                              <span className="text-[var(--accent-small)] font-semibold">{cert.note}</span>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
 
@@ -207,7 +222,7 @@ const Education: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setModalImage({ src: cert.file!, title: cert.title })}
-                        className="px-2.5 py-1 rounded text-xs font-mono hairline-all bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] hover:text-[#ff6a2b] hover:border-[#ff6a2b] transition-colors flex items-center gap-1.5 flex-shrink-0 font-medium"
+                        className="px-2.5 py-1 rounded-full text-xs font-mono hairline-all bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] hover:text-[#ff6a2b] hover:border-[#ff6a2b] transition-colors flex items-center gap-1.5 flex-shrink-0 font-medium"
                         title="View Certificate"
                       >
                         <Eye size={12} className="text-[#ff6a2b]" />
@@ -224,7 +239,7 @@ const Education: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 3: Beyond Work (3 cols) */}
+          {/* Card 3: Beyond Work (3 cols) with real photo gallery */}
           <div className="lg:col-span-3 bento-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between h-full transition-all duration-300 hover:border-[#ff6a2b]/40">
             <div>
               <div className="flex items-center gap-3 pb-4 hairline-b mb-6">
@@ -246,21 +261,26 @@ const Education: React.FC = () => {
                     Directed design collateral, brand visual language, and social outreach campaigns across multi-state social causes.
                   </p>
 
-                  <div className="flex gap-2 mt-3">
-                    <button
-                      type="button"
+                  {/* Photo thumbnails grid */}
+                  <div className="grid grid-cols-2 gap-2 mt-3">
+                    <div
                       onClick={() => setModalImage({ src: '/ach3.jpg', title: 'NSS Outreach & Leadership' })}
-                      className="px-2.5 py-1 rounded text-xs font-mono hairline-all bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] hover:text-[#ff6a2b] flex items-center gap-1 font-medium"
+                      className="group/img relative aspect-[4/3] rounded-lg overflow-hidden hairline-all cursor-pointer bg-[var(--bg-canvas)] hover:border-[#ff6a2b] transition-all"
                     >
-                      <Eye size={11} className="text-[#ff6a2b]" /> Photo 1
-                    </button>
-                    <button
-                      type="button"
+                      <img src="/ach3.jpg" alt="NSS Outreach" className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity text-white text-[10px] font-mono">
+                        <Eye size={12} className="mr-1 text-[#ff6a2b]" /> View
+                      </div>
+                    </div>
+                    <div
                       onClick={() => setModalImage({ src: '/ach5-1.jpg', title: 'NSS Graphic Campaign & Impact' })}
-                      className="px-2.5 py-1 rounded text-xs font-mono hairline-all bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] hover:text-[#ff6a2b] flex items-center gap-1 font-medium"
+                      className="group/img relative aspect-[4/3] rounded-lg overflow-hidden hairline-all cursor-pointer bg-[var(--bg-canvas)] hover:border-[#ff6a2b] transition-all"
                     >
-                      <Eye size={11} className="text-[#ff6a2b]" /> Photo 2
-                    </button>
+                      <img src="/ach5-1.jpg" alt="NSS Graphic Campaign" className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity text-white text-[10px] font-mono">
+                        <Eye size={12} className="mr-1 text-[#ff6a2b]" /> View
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -274,6 +294,27 @@ const Education: React.FC = () => {
                   <p className="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed">
                     Mentored aspiring engineers and conducted algorithmic problem-solving workshops and technical webinars.
                   </p>
+
+                  <div className="grid grid-cols-2 gap-2 mt-3">
+                    <div
+                      onClick={() => setModalImage({ src: '/ach1.jpeg', title: 'Codeveda Hackathon Mentorship' })}
+                      className="group/img relative aspect-[4/3] rounded-lg overflow-hidden hairline-all cursor-pointer bg-[var(--bg-canvas)] hover:border-[#ff6a2b] transition-all"
+                    >
+                      <img src="/ach1.jpeg" alt="Codeveda Hackathon" className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity text-white text-[10px] font-mono">
+                        <Eye size={12} className="mr-1 text-[#ff6a2b]" /> View
+                      </div>
+                    </div>
+                    <div
+                      onClick={() => setModalImage({ src: '/ach2.png', title: 'Academic Excellence & Recognition' })}
+                      className="group/img relative aspect-[4/3] rounded-lg overflow-hidden hairline-all cursor-pointer bg-[var(--bg-canvas)] hover:border-[#ff6a2b] transition-all"
+                    >
+                      <img src="/ach2.png" alt="Academic Recognition" className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity text-white text-[10px] font-mono">
+                        <Eye size={12} className="mr-1 text-[#ff6a2b]" /> View
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

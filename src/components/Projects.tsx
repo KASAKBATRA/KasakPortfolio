@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, Github, ExternalLink, ShieldAlert, Sparkles, Image as ImageIcon, MapPin, Layers, X, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
-import InteractiveAuditLab from './InteractiveAuditLab';
 
 interface Project {
   number: string;
@@ -14,8 +13,8 @@ interface Project {
   liveUrl?: string;
   linkedinUrl?: string;
   isConfidential?: boolean;
-  screenshotTodo: string;
-  image?: string;
+  featureNote?: string;
+  image: string;
   previewGraphic: 'geospatial' | 'campushire' | 'knime' | 'emotions';
 }
 
@@ -28,8 +27,8 @@ const projects: Project[] = [
     description: 'Interactive geospatial workforce mapping application that visualizes workforce distribution across multiple cities, with user-driven filtering, cluster bounding, and click-enabled map markers showing workforce statistics and location-specific details.',
     techStack: ['Python', 'GeoPandas', 'Pandas', 'Matplotlib', 'GIS'],
     githubUrl: 'https://github.com/KASAKBATRA/MapMyWork-Workforce-mapping-with-user-input-',
-    githubLabel: 'GitHub: [ADD URL]',
-    screenshotTodo: 'TODO: Add MapMyWork UI screenshots (map view & marker details)',
+    githubLabel: 'GitHub: MapMyWork',
+    featureNote: 'Interactive GIS workforce clusters & geo-telemetry',
     image: '/projects/mapmywork.svg',
     previewGraphic: 'geospatial'
   },
@@ -41,9 +40,9 @@ const projects: Project[] = [
     description: 'SQL-backed placement management system with a responsive UI for automated candidate verification, credential validation, and recruitment telemetry across corporate hiring drives.',
     techStack: ['HTML', 'CSS', 'JavaScript', 'SQL', 'PHP', 'MySQL'],
     githubUrl: 'https://github.com/KASAKBATRA/CampusHire_Analytics',
-    githubLabel: 'GitHub: [ADD URL]',
+    githubLabel: 'GitHub: CampusHire',
+    featureNote: 'Automated student candidate verification & audit logging',
     image: '/campushire-hero.png',
-    screenshotTodo: 'TODO: Add CampusHire Analytics dashboard and verification screenshots',
     previewGraphic: 'campushire'
   },
   {
@@ -54,7 +53,8 @@ const projects: Project[] = [
     description: 'Work at the Office of the Comptroller & Auditor General of India (CAG). Automated KNIME workflows for data validation, anomaly detection, duplicate identification, and record reconciliation. Built REST APIs moving NREGA and GeM data between databases and AWS S3.',
     techStack: ['KNIME', 'SQL', 'REST APIs', 'AWS S3', 'Data Validation'],
     isConfidential: true,
-    screenshotTodo: 'TODO: Add sanitized/redacted sample workflow screenshots',
+    featureNote: 'Zero-trust government audit pipeline & anomaly detection',
+    image: '/projects/audit-analytics.svg',
     previewGraphic: 'knime'
   },
   {
@@ -65,10 +65,11 @@ const projects: Project[] = [
     description: 'Immersive deployed web application that transforms user photos and memories into emotionally rich digital collections using AI emotion detection, threaded memory wheels, and certificates.',
     techStack: ['JavaScript', 'HTML/CSS', 'AI APIs', 'Netlify'],
     githubUrl: 'https://github.com/KASAKBATRA/EmotionsMemoria',
-    githubLabel: 'GitHub: [ADD URL]',
+    githubLabel: 'GitHub: EmotionsMemoria',
     liveUrl: 'https://emotionsmemoria.netlify.app/',
     linkedinUrl: 'https://www.linkedin.com/posts/kasak-batra_emotionsmemoria-webapplaunch-kasakcreates-activity-7347712837563097090-TrWi',
-    screenshotTodo: 'TODO: Add EmotionsMemoria live UI screenshot',
+    featureNote: 'Live web app with multi-dimensional sentiment radar',
+    image: '/projects/emotionsmemoria.svg',
     previewGraphic: 'emotions'
   }
 ];
@@ -227,10 +228,10 @@ const Projects: React.FC = () => {
                       )}
                     </div>
 
-                    {/* Reserved Visual Slot Notice for Recruiter */}
-                    <div className="p-3 rounded-lg hairline-all bg-[var(--bg-surface)] font-mono text-[11px] text-[var(--text-muted)] flex items-center gap-2">
-                      <ImageIcon size={13} className="text-[#ff6a2b] flex-shrink-0" />
-                      <span>{project.screenshotTodo}</span>
+                    {/* Architectural Feature Badge */}
+                    <div className="p-3 rounded-xl hairline-all bg-[var(--bg-surface-elevated)] font-mono text-[11px] text-[var(--text-primary)] flex items-center gap-2">
+                      <Layers size={13} className="text-[#ff6a2b] flex-shrink-0" />
+                      <span>{project.featureNote}</span>
                     </div>
 
                   </div>
@@ -256,86 +257,20 @@ const Projects: React.FC = () => {
                         <div className="w-10" />
                       </div>
 
-                      {/* Mockup Preview Area */}
+                      {/* Mockup Preview Area with dedicated project images */}
                       <div className="relative aspect-[16/10] bg-[var(--bg-canvas)] flex items-center justify-center overflow-hidden">
-                        {project.id === 'mapmywork' && (
-                          <img
-                            src="/projects/mapmywork.svg"
-                            alt="MapMyWork Geospatial Workforce Intelligence UI"
-                            className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform duration-500"
-                            onClick={() => setLightboxIndex(index)}
-                          />
-                        )}
-
-                        {project.id === 'campushire' && (
-                          <img
-                            src="/campushire-hero.png"
-                            alt="CampusHire Analytics Candidate Verification UI"
-                            className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform duration-500"
-                            onClick={() => setLightboxIndex(index)}
-                          />
-                        )}
-
-                        {project.id === 'audit-analytics' && (
-                          <div className="p-6 text-center space-y-4 w-full">
-                            {/* Illustrative workflow diagram */}
-                            <div className="flex items-center justify-center gap-2 sm:gap-4 font-mono text-[11px] text-[var(--text-primary)]">
-                              <div className="px-3 py-2 rounded-lg bg-[var(--bg-surface-elevated)] hairline-all text-center">
-                                <div className="text-[10px] text-[var(--text-muted)]">INPUT</div>
-                                <div className="font-bold text-[#ff6a2b]">NREGA / GeM</div>
-                              </div>
-                              <span className="text-[#ff6a2b] font-bold">→</span>
-                              <div className="px-3 py-2 rounded-lg bg-[var(--bg-surface-elevated)] hairline-all text-center border-[#ff6a2b]/40">
-                                <div className="text-[10px] text-[var(--text-muted)]">PIPELINE</div>
-                                <div className="font-bold">KNIME ETL</div>
-                              </div>
-                              <span className="text-[#ff6a2b] font-bold">→</span>
-                              <div className="px-3 py-2 rounded-lg bg-[var(--bg-surface-elevated)] hairline-all text-center">
-                                <div className="text-[10px] text-[var(--text-muted)]">PERSIST</div>
-                                <div className="font-bold text-emerald-400">AWS S3</div>
-                              </div>
-                            </div>
-                            <p className="font-mono text-xs text-[var(--text-muted)] max-w-sm mx-auto">
-                              Illustrative workflow · Sanitized audit intelligence and multi-modal product verification.
-                            </p>
-                          </div>
-                        )}
-
-                        {project.id === 'emotionsmemoria' && (
-                          <div className="p-6 text-center space-y-3">
-                            <span className="w-12 h-12 rounded-full bg-[#ff6a2b]/15 flex items-center justify-center text-[#ff6a2b] mx-auto">
-                              <Sparkles size={24} />
-                            </span>
-                            <div className="font-serif text-2xl text-[var(--text-primary)]">
-                              EmotionsMemoria Web App
-                            </div>
-                            <p className="font-mono text-xs text-[var(--text-muted)]">
-                              AI Emotion Wheels &amp; Digital Memory Preservation
-                            </p>
-                            <a
-                              href="https://emotionsmemoria.netlify.app/"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#ff6a2b] text-white font-mono text-xs font-semibold"
-                            >
-                              <span>Open Live App</span>
-                              <ExternalLink size={12} />
-                            </a>
-                          </div>
-                        )}
+                        <img
+                          src={project.image}
+                          alt={`${project.title} UI Mockup`}
+                          className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform duration-500"
+                          onClick={() => setLightboxIndex(index)}
+                        />
                       </div>
 
                     </div>
                   </div>
 
                 </div>
-
-                {/* If Audit Analytics, render the Interactive Client-Side Lab right inside the card! */}
-                {project.id === 'audit-analytics' && (
-                  <div className="mt-8 pt-8 hairline-t">
-                    <InteractiveAuditLab />
-                  </div>
-                )}
 
               </div>
             );

@@ -137,9 +137,10 @@ const Contact: React.FC = () => {
             <ArrowUpRight size={16} className="text-[#9a968d] group-hover:text-[#ff6a2b] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
 
-          {/* Google Drive Credentials Folder */}
+          {/* Resume Download Card */}
           <a
-            href="https://drive.google.com/drive/folders/1AzPBkq6D4piA5sCly7odkmMOhpYQDNzi?usp=sharing"
+            href="/Kasak_Resume.pdf"
+            download="Kasak_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="bento-card rounded-2xl p-6 flex items-center justify-between group"
@@ -148,10 +149,10 @@ const Contact: React.FC = () => {
               <ExternalLink size={20} className="text-[#ff6a2b]" />
               <div>
                 <div className="font-serif text-lg text-[#f2efe8] light:text-[#141311] group-hover:text-[#ff6a2b] transition-colors">
-                  Credential Dossier
+                  Curriculum Vitae
                 </div>
                 <div className="font-mono text-xs text-[#9a968d]">
-                  Google Drive Folder
+                  Kasak_Resume.pdf
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 interface AuditUniverseCanvasProps {
@@ -6,18 +6,32 @@ interface AuditUniverseCanvasProps {
 }
 
 interface ParticleLayout {
+  // Stage 0: Chaos
   chaosX: Float32Array;
   chaosY: Float32Array;
   chaosZ: Float32Array;
   chaosColorR: Float32Array;
   chaosColorG: Float32Array;
   chaosColorB: Float32Array;
+
+  // Stage 1: Validation Grid
   gridX: Float32Array;
   gridY: Float32Array;
   gridZ: Float32Array;
   gridColorR: Float32Array;
   gridColorG: Float32Array;
   gridColorB: Float32Array;
+
+  // Stage 2: Projects Focus
+  projectX: Float32Array;
+  projectY: Float32Array;
+  projectZ: Float32Array;
+
+  // Stage 3: Constellation
+  constellationX: Float32Array;
+  constellationY: Float32Array;
+  constellationZ: Float32Array;
+
   isDuplicate: Uint8Array;
   isAnomaly: Uint8Array;
   driftSpeed: Float32Array;
@@ -27,11 +41,10 @@ interface ParticleLayout {
 export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProgressChange }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [webglSupported, setWebglSupported] = useState(true);
-  const [currentStage, setCurrentStage] = useState<'00' | '01'>('00');
+  const [currentStage, setCurrentStage] = useState<'00' | '01' | '02' | '03' | '04'>('00');
   const [stageProgressPercent, setStageProgressPercent] = useState(0);
-  const [collapsedCount, setCollapsedCount] = useState(0);
+  const [stageTitle, setStageTitle] = useState('00 // CHAOS TELEMETRY');
 
-  // Mouse coords normalized (-1 to 1)
   const mouse = useRef({ x: 0, y: 0, active: false });
   const scrollYRef = useRef(0);
   const smoothScrollRef = useRef(0);
@@ -56,20 +69,19 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
     const container = mountRef.current;
     if (!container) return;
 
-    // Detect mobile or reduced motion
     const isMobile = window.innerWidth < 768;
-    const count = isMobile ? 850 : 2800;
+    const count = isMobile ? 900 : 2600;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // Three.js Core Components
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0e0d0b, 0.022);
+    scene.fog = new THREE.FogExp2(0x0e0d0b, 0.02);
 
     const camera = new THREE.PerspectiveCamera(
       48,
       window.innerWidth / window.innerHeight,
       0.1,
-      200
+      250
     );
     camera.position.set(0, 0, 26);
 
@@ -82,40 +94,91 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // Camera Flight Curve for Stage 0 -> Stage 1
-    // Stage 0: wide observation of chaotic floating telemetry
-    // Stage 1: deep dive down into structured ledger planes
+    // Multi-Stage Cinematic Camera Curve traversing 0.0 to 1.0 (Page Start to Page End)
     const cameraPath = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0, 0, 26),
-      new THREE.Vector3(2.5, -3.0, 20),
-      new THREE.Vector3(0.5, -8.0, 14),
-      new THREE.Vector3(0, -12.0, 9),
+      new THREE.Vector3(0, 0, 26),        // 0.00: Hero (front wide)
+      new THREE.Vector3(2.5, -3.0, 20),    // 0.20: Stats & Benchmarks
+      new THREE.Vector3(-1.8, -9.0, 15),   // 0.40: Experience dive
+      new THREE.Vector3(3.2, -15.0, 18),   // 0.60: Projects curve
+      new THREE.Vector3(-2.0, -22.0, 16),  // 0.80: Research & Constellation
+      new THREE.Vector3(0, -28.0, 12),     // 1.00: Contact & Resolved Horizon
     ]);
 
     const cameraLookAt = new THREE.CatmullRomCurve3([
       new THREE.Vector3(0, 0, 0),
       new THREE.Vector3(0.5, -3.5, 0),
-      new THREE.Vector3(0, -8.5, 0),
-      new THREE.Vector3(0, -12.5, 0),
+      new THREE.Vector3(0, -9.5, 0),
+      new THREE.Vector3(0.5, -15.5, 0),
+      new THREE.Vector3(0, -22.5, 0),
+      new THREE.Vector3(0, -28.5, 0),
     ]);
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    // Dynamic Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xff6a2b, 1.2);
-    dirLight.position.set(12, 18, 15);
+    const dirLight = new THREE.DirectionalLight(0xff6a2b, 1.4);
+    dirLight.position.set(15, 20, 18);
     scene.add(dirLight);
 
-    const tealLight = new THREE.PointLight(0x2dd4bf, 1.5, 30);
-    tealLight.position.set(-8, -6, 10);
+    const tealLight = new THREE.PointLight(0x2dd4bf, 2.0, 45);
+    tealLight.position.set(-12, -8, 12);
     scene.add(tealLight);
 
-    // Precalculate instance layouts
-    const boxGeo = new THREE.BoxGeometry(0.18, 0.18, 0.18);
+    const warmLight = new THREE.PointLight(0xff8c42, 1.8, 40);
+    warmLight.position.set(10, -20, 10);
+    scene.add(warmLight);
+
+    // 3D Geometric Floating Objects (Audit Crystals & Rings)
+    const geometricGroup = new THREE.Group();
+    scene.add(geometricGroup);
+
+    // 1. Rotating Wireframe Icosahedron (The Anomaly Core)
+    const icoGeo = new THREE.IcosahedronGeometry(2.4, 1);
+    const icoMat = new THREE.MeshStandardMaterial({
+      color: 0xff6a2b,
+      wireframe: true,
+      emissive: 0xff6a2b,
+      emissiveIntensity: 0.35,
+      transparent: true,
+      opacity: 0.75,
+    });
+    const icoMesh = new THREE.Mesh(icoGeo, icoMat);
+    icoMesh.position.set(7.5, 2, -2);
+    geometricGroup.add(icoMesh);
+
+    // 2. Concentric Scanner Rings
+    const ringGeo1 = new THREE.TorusGeometry(3.6, 0.03, 16, 100);
+    const ringMat1 = new THREE.MeshBasicMaterial({ color: 0x2dd4bf, transparent: true, opacity: 0.45 });
+    const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
+    ring1.rotation.x = Math.PI / 2.8;
+    icoMesh.add(ring1);
+
+    const ringGeo2 = new THREE.TorusGeometry(4.4, 0.02, 16, 100);
+    const ringMat2 = new THREE.MeshBasicMaterial({ color: 0xff6a2b, transparent: true, opacity: 0.3 });
+    const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
+    ring2.rotation.y = Math.PI / 3;
+    icoMesh.add(ring2);
+
+    // 3. Second Geometric Node in lower depth (Stage 2/3 landmark)
+    const octGeo = new THREE.OctahedronGeometry(2.8, 1);
+    const octMat = new THREE.MeshStandardMaterial({
+      color: 0x2dd4bf,
+      wireframe: true,
+      emissive: 0x2dd4bf,
+      emissiveIntensity: 0.3,
+      transparent: true,
+      opacity: 0.65,
+    });
+    const octMesh = new THREE.Mesh(octGeo, octMat);
+    octMesh.position.set(-6.5, -16, 2);
+    geometricGroup.add(octMesh);
+
+    // Instanced Mesh for Particles
+    const boxGeo = new THREE.BoxGeometry(0.19, 0.19, 0.19);
     const boxMat = new THREE.MeshStandardMaterial({
-      roughness: 0.25,
-      metalness: 0.1,
+      roughness: 0.3,
+      metalness: 0.2,
       vertexColors: true,
     });
 
@@ -134,12 +197,22 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
       chaosColorR: new Float32Array(count),
       chaosColorG: new Float32Array(count),
       chaosColorB: new Float32Array(count),
+
       gridX: new Float32Array(count),
       gridY: new Float32Array(count),
       gridZ: new Float32Array(count),
       gridColorR: new Float32Array(count),
       gridColorG: new Float32Array(count),
       gridColorB: new Float32Array(count),
+
+      projectX: new Float32Array(count),
+      projectY: new Float32Array(count),
+      projectZ: new Float32Array(count),
+
+      constellationX: new Float32Array(count),
+      constellationY: new Float32Array(count),
+      constellationZ: new Float32Array(count),
+
       isDuplicate: new Uint8Array(count),
       isAnomaly: new Uint8Array(count),
       driftSpeed: new Float32Array(count),
@@ -147,66 +220,50 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
     };
 
     // Color definitions
-    // Red error: #ef4444
-    const errR = 0.94, errG = 0.26, errB = 0.26;
-    // Orange anomaly: #ff6a2b
+    const errR = 0.95, errG = 0.25, errB = 0.25;
     const orangeR = 1.0, orangeG = 0.41, orangeB = 0.17;
-    // Validated Teal: #2dd4bf
     const tealR = 0.17, tealG = 0.83, tealB = 0.75;
-    // Audit Ledger Off-White: #e6e2d8
-    const whiteR = 0.90, whiteG = 0.88, whiteB = 0.84;
-    // Muted Telemetry Grey: #6e6b65
-    const mutedR = 0.43, mutedG = 0.42, mutedB = 0.39;
+    const whiteR = 0.94, whiteG = 0.92, whiteB = 0.88;
+    const mutedR = 0.45, mutedG = 0.43, mutedB = 0.40;
 
-    // Populate Layouts
-    // Grid dimensions: e.g. 50 columns x rows, centered
-    const cols = isMobile ? 30 : 60;
-    const spacingX = 0.55;
-    const spacingY = 0.48;
-    const totalDuplicates = Math.floor(count * 0.18); // 18% duplicates
+    const cols = isMobile ? 30 : 54;
+    const spacingX = 0.58;
+    const spacingY = 0.50;
+    const totalDuplicates = Math.floor(count * 0.18);
 
     for (let i = 0; i < count; i++) {
-      // 1. Stage 0: Chaos
-      // Distribute randomly in a spherical/box cloud with subtle clustering
+      // 1. Stage 0: Chaos Cloud
       const u = Math.random();
       const v = Math.random();
       const theta = u * 2.0 * Math.PI;
       const phi = Math.acos(2.0 * v - 1.0);
-      const r = Math.cbrt(Math.random()) * 18;
+      const r = Math.cbrt(Math.random()) * 20;
       const sinPhi = Math.sin(phi);
 
       layout.chaosX[i] = r * sinPhi * Math.cos(theta);
-      layout.chaosY[i] = (r * sinPhi * Math.sin(theta)) * 0.75;
-      layout.chaosZ[i] = r * Math.cos(phi) * 0.8;
+      layout.chaosY[i] = (r * sinPhi * Math.sin(theta)) * 0.8;
+      layout.chaosZ[i] = r * Math.cos(phi) * 0.85;
 
       layout.driftSpeed[i] = 0.2 + Math.random() * 0.8;
       layout.driftPhase[i] = Math.random() * Math.PI * 2;
 
-      // Classify particles
-      const isRedError = i < count * 0.05; // 5% errors
-      const isOrangeAnomaly = !isRedError && i < count * 0.16; // 11% flagged
+      const isRedError = i < count * 0.05;
+      const isOrangeAnomaly = !isRedError && i < count * 0.16;
       const isDup = !isRedError && !isOrangeAnomaly && i < totalDuplicates + count * 0.16;
 
       layout.isAnomaly[i] = isOrangeAnomaly ? 1 : 0;
       layout.isDuplicate[i] = isDup ? 1 : 0;
 
       if (isRedError) {
-        layout.chaosColorR[i] = errR;
-        layout.chaosColorG[i] = errG;
-        layout.chaosColorB[i] = errB;
+        layout.chaosColorR[i] = errR; layout.chaosColorG[i] = errG; layout.chaosColorB[i] = errB;
       } else if (isOrangeAnomaly) {
-        layout.chaosColorR[i] = orangeR;
-        layout.chaosColorG[i] = orangeG;
-        layout.chaosColorB[i] = orangeB;
+        layout.chaosColorR[i] = orangeR; layout.chaosColorG[i] = orangeG; layout.chaosColorB[i] = orangeB;
       } else {
         const grey = 0.55 + Math.random() * 0.35;
-        layout.chaosColorR[i] = grey;
-        layout.chaosColorG[i] = grey * 0.96;
-        layout.chaosColorB[i] = grey * 0.92;
+        layout.chaosColorR[i] = grey; layout.chaosColorG[i] = grey * 0.96; layout.chaosColorB[i] = grey * 0.92;
       }
 
-      // 2. Stage 1: Validation Grid (Experience Stage)
-      // Tabular ledger rows at Y approx -6 to -16
+      // 2. Stage 1: Validation Grid (Experience)
       const col = i % cols;
       const row = Math.floor(i / cols);
       const gridBaseX = (col - cols / 2) * spacingX;
@@ -214,52 +271,46 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
       const layerOffsetZ = ((col + row) % 3) * 0.25;
 
       if (isDup) {
-        // Target position collapses into its parent record (i - 10)
         const parentIdx = Math.max(0, i - 12);
         const pCol = parentIdx % cols;
         const pRow = Math.floor(parentIdx / cols);
         layout.gridX[i] = (pCol - cols / 2) * spacingX;
         layout.gridY[i] = -8.0 - pRow * spacingY;
         layout.gridZ[i] = 0.0;
-
-        // Fades into validated background
-        layout.gridColorR[i] = mutedR * 0.5;
-        layout.gridColorG[i] = mutedG * 0.5;
-        layout.gridColorB[i] = mutedB * 0.5;
+        layout.gridColorR[i] = mutedR * 0.4; layout.gridColorG[i] = mutedG * 0.4; layout.gridColorB[i] = mutedB * 0.4;
       } else if (isOrangeAnomaly) {
-        // Anomalies pop slightly forward along Z (+0.8) and keep orange glow
         layout.gridX[i] = gridBaseX;
         layout.gridY[i] = gridBaseY;
-        layout.gridZ[i] = layerOffsetZ + 0.8;
-        layout.gridColorR[i] = orangeR;
-        layout.gridColorG[i] = orangeG;
-        layout.gridColorB[i] = orangeB;
-      } else if (isRedError) {
-        // Red errors are resolved or categorized
-        layout.gridX[i] = gridBaseX;
-        layout.gridY[i] = gridBaseY;
-        layout.gridZ[i] = layerOffsetZ;
-        layout.gridColorR[i] = tealR;
-        layout.gridColorG[i] = tealG;
-        layout.gridColorB[i] = tealB;
+        layout.gridZ[i] = layerOffsetZ + 0.9;
+        layout.gridColorR[i] = orangeR; layout.gridColorG[i] = orangeG; layout.gridColorB[i] = orangeB;
       } else {
-        // Standard validated rows: alternating cool teal and crisp off-white
         layout.gridX[i] = gridBaseX;
         layout.gridY[i] = gridBaseY;
         layout.gridZ[i] = layerOffsetZ;
         if (row % 4 === 0) {
-          layout.gridColorR[i] = tealR;
-          layout.gridColorG[i] = tealG;
-          layout.gridColorB[i] = tealB;
+          layout.gridColorR[i] = tealR; layout.gridColorG[i] = tealG; layout.gridColorB[i] = tealB;
         } else {
-          layout.gridColorR[i] = whiteR;
-          layout.gridColorG[i] = whiteG;
-          layout.gridColorB[i] = whiteB;
+          layout.gridColorR[i] = whiteR; layout.gridColorG[i] = whiteG; layout.gridColorB[i] = whiteB;
         }
       }
+
+      // 3. Stage 2: Projects Spiral
+      const projAngle = i * 0.035;
+      const projRadius = 4.0 + (i % 5) * 1.6;
+      layout.projectX[i] = Math.cos(projAngle) * projRadius;
+      layout.projectY[i] = -15.0 + Math.sin(projAngle) * 3.5 + ((i % 12) - 6) * 0.4;
+      layout.projectZ[i] = Math.sin(projAngle) * projRadius * 0.7;
+
+      // 4. Stage 3: Constellation Galaxy (Research & Skills)
+      const arms = 4;
+      const armIndex = i % arms;
+      const armAngle = (armIndex * (2 * Math.PI / arms)) + (i * 0.008);
+      const distFromCenter = Math.sqrt(i / count) * 14.0;
+      layout.constellationX[i] = Math.cos(armAngle) * distFromCenter;
+      layout.constellationY[i] = -23.0 + ((i % 7) - 3.5) * 0.8;
+      layout.constellationZ[i] = Math.sin(armAngle) * distFromCenter * 0.85;
     }
 
-    // Matrix and Vector scratchpads for 60fps render
     const dummyMatrix = new THREE.Matrix4();
     const dummyPosition = new THREE.Vector3();
     const dummyRotation = new THREE.Euler();
@@ -269,14 +320,12 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
     const mousePlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
     const mouseWorldPos = new THREE.Vector3();
 
-    // Scroll listeners
     const handleScroll = () => {
       scrollYRef.current = window.scrollY;
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
-    // Mouse movement listener (Desktop nudge effect)
     const handleMouseMove = (e: MouseEvent) => {
       mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -292,7 +341,6 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
       window.addEventListener('mouseleave', handleMouseLeave);
     }
 
-    // Resize listener
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -309,106 +357,174 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
 
       const elapsedTime = clock.getElapsedTime();
 
-      // Smooth scroll lerping for fluid cinematic feel
-      // Measure progress from Hero (scrollY = 0) to Experience section
-      const expEl = document.getElementById('experience');
-      const maxScrollDistance = expEl 
-        ? Math.max(expEl.offsetTop - 120, window.innerHeight * 0.9) 
-        : window.innerHeight * 1.2;
-
-      const rawTargetProgress = Math.min(Math.max(scrollYRef.current / maxScrollDistance, 0), 1);
-      smoothScrollRef.current += (rawTargetProgress - smoothScrollRef.current) * 0.08;
+      // Full document scroll progress 0.0 to 1.0
+      const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1000);
+      const rawTargetProgress = Math.min(Math.max(scrollYRef.current / maxScroll, 0), 1);
+      smoothScrollRef.current += (rawTargetProgress - smoothScrollRef.current) * 0.06;
       const t = prefersReducedMotion ? rawTargetProgress : smoothScrollRef.current;
 
-      // Update UI state callback
-      const stage = t < 0.35 ? '00' : '01';
-      setCurrentStage(stage);
-      const pct = Math.round(t * 100);
-      setStageProgressPercent(pct);
-      const currentCollapsed = Math.round(t * totalDuplicates);
-      setCollapsedCount(currentCollapsed);
+      // Rotate geometric landmarks
+      icoMesh.rotation.x = elapsedTime * 0.35 + t * 4.0;
+      icoMesh.rotation.y = elapsedTime * 0.25;
+      ring1.rotation.z = elapsedTime * 0.5;
+      ring2.rotation.z = -elapsedTime * 0.4;
+      octMesh.rotation.x = -elapsedTime * 0.25;
+      octMesh.rotation.y = elapsedTime * 0.3 + t * 3.0;
 
-      if (onProgressChange) {
-        const stageName = t < 0.25 
-          ? '00 // CHAOS: UNSTRUCTURED TELEMETRY' 
-          : t < 0.75 
-            ? `VALIDATION & DEDUPLICATION (${pct}%)` 
-            : '01 // EXPERIENCE: AUDIT-READY GRID';
-        onProgressChange(t, stageName);
+      // Parallax mouse tilt on geometric group
+      if (mouse.current.active && !isMobile) {
+        geometricGroup.rotation.y = mouse.current.x * 0.15;
+        geometricGroup.rotation.x = -mouse.current.y * 0.15;
       }
 
-      // Camera position along CatmullRomCurve3
+      // Determine Story Stage
+      let stage: '00' | '01' | '02' | '03' | '04' = '00';
+      let title = '00 // CHAOS TELEMETRY';
+      if (t < 0.20) {
+        stage = '00';
+        title = '00 // CHAOS TELEMETRY';
+      } else if (t < 0.42) {
+        stage = '01';
+        title = '01 // ORDER & RECONCILIATION';
+      } else if (t < 0.65) {
+        stage = '02';
+        title = '02 // ANOMALIES & SYSTEMS';
+      } else if (t < 0.85) {
+        stage = '03';
+        title = '03 // NEURAL CONSTELLATION';
+      } else {
+        stage = '04';
+        title = '04 // AUDIT-READY HORIZON';
+      }
+
+      setCurrentStage(stage);
+      setStageTitle(title);
+      const pct = Math.round(t * 100);
+      setStageProgressPercent(pct);
+
+      if (onProgressChange) {
+        onProgressChange(t, title);
+      }
+
+      // Camera Fly-Through
       const camP = cameraPath.getPointAt(t);
       const camLook = cameraLookAt.getPointAt(t);
+
+      // Subtle mouse sway on camera
+      if (!isMobile && mouse.current.active) {
+        camP.x += mouse.current.x * 0.8;
+        camP.y += mouse.current.y * 0.6;
+      }
+
       camera.position.copy(camP);
       camera.lookAt(camLook);
 
-      // Mouse Raycast for desktop point repulsion
+      // Raycast for desktop mouse repulsion
       if (mouse.current.active && !isMobile) {
         raycaster.setFromCamera(new THREE.Vector2(mouse.current.x, mouse.current.y), camera);
         raycaster.ray.intersectPlane(mousePlane, mouseWorldPos);
       }
 
-      // Update InstancedMesh instances
-      // Smooth easing function for transition
-      // S-curve: 3t^2 - 2t^3
-      const easeT = t * t * (3 - 2 * t);
-
+      // S-curve interpolation for stages
       for (let i = 0; i < count; i++) {
-        // Natural chaotic drift in Stage 0
+        let posX = 0, posY = 0, posZ = 0;
+        let cR = 0, cG = 0, cB = 0;
+        let scale = 1.0;
+
         const drift = Math.sin(elapsedTime * layout.driftSpeed[i] + layout.driftPhase[i]);
-        const driftX = drift * (1 - easeT) * 0.45;
-        const driftY = Math.cos(elapsedTime * layout.driftSpeed[i] * 0.8) * (1 - easeT) * 0.45;
-        const driftZ = Math.sin(elapsedTime * 0.5 + layout.driftPhase[i]) * (1 - easeT) * 0.5;
+        const driftX = drift * 0.4;
+        const driftY = Math.cos(elapsedTime * layout.driftSpeed[i] * 0.8) * 0.4;
+        const driftZ = Math.sin(elapsedTime * 0.5 + layout.driftPhase[i]) * 0.4;
 
-        // Base lerp position between Chaos and Validation Grid
-        const startX = layout.chaosX[i] + driftX;
-        const startY = layout.chaosY[i] + driftY;
-        const startZ = layout.chaosZ[i] + driftZ;
+        if (t < 0.28) {
+          // Stage 0 -> Stage 1 (Chaos to Grid)
+          const localT = t / 0.28;
+          const easeT = localT * localT * (3 - 2 * localT);
 
-        const targetX = layout.gridX[i];
-        const targetY = layout.gridY[i];
-        const targetZ = layout.gridZ[i];
+          const sX = layout.chaosX[i] + driftX * (1 - easeT);
+          const sY = layout.chaosY[i] + driftY * (1 - easeT);
+          const sZ = layout.chaosZ[i] + driftZ * (1 - easeT);
 
-        let posX = startX + (targetX - startX) * easeT;
-        let posY = startY + (targetY - startY) * easeT;
-        let posZ = startZ + (targetZ - startZ) * easeT;
+          posX = sX + (layout.gridX[i] - sX) * easeT;
+          posY = sY + (layout.gridY[i] - sY) * easeT;
+          posZ = sZ + (layout.gridZ[i] - sZ) * easeT;
+
+          cR = layout.chaosColorR[i] + (layout.gridColorR[i] - layout.chaosColorR[i]) * easeT;
+          cG = layout.chaosColorG[i] + (layout.gridColorG[i] - layout.chaosColorG[i]) * easeT;
+          cB = layout.chaosColorB[i] + (layout.gridColorB[i] - layout.chaosColorB[i]) * easeT;
+
+          if (layout.isDuplicate[i] === 1 && easeT > 0.3) {
+            scale = 1.0 - Math.min((easeT - 0.3) / 0.7, 1.0) * 0.85;
+          }
+        } else if (t < 0.60) {
+          // Stage 1 -> Stage 2 (Grid to Projects Spiral)
+          const localT = (t - 0.28) / 0.32;
+          const easeT = localT * localT * (3 - 2 * localT);
+
+          posX = layout.gridX[i] + (layout.projectX[i] - layout.gridX[i]) * easeT;
+          posY = layout.gridY[i] + (layout.projectY[i] - layout.gridY[i]) * easeT;
+          posZ = layout.gridZ[i] + (layout.projectZ[i] - layout.gridZ[i]) * easeT;
+
+          // Color transition: anomalies shine orange, others settle into cool teal and off-white
+          if (layout.isAnomaly[i] === 1) {
+            cR = orangeR; cG = orangeG; cB = orangeB;
+            scale = 1.2 + Math.sin(elapsedTime * 3.0 + i) * 0.3;
+          } else {
+            cR = layout.gridColorR[i]; cG = layout.gridColorG[i]; cB = layout.gridColorB[i];
+          }
+        } else if (t < 0.85) {
+          // Stage 2 -> Stage 3 (Projects Spiral to Constellation)
+          const localT = (t - 0.60) / 0.25;
+          const easeT = localT * localT * (3 - 2 * localT);
+
+          posX = layout.projectX[i] + (layout.constellationX[i] - layout.projectX[i]) * easeT;
+          posY = layout.projectY[i] + (layout.constellationY[i] - layout.projectY[i]) * easeT;
+          posZ = layout.projectZ[i] + (layout.constellationZ[i] - layout.projectZ[i]) * easeT;
+
+          cR = (i % 3 === 0) ? orangeR : (i % 2 === 0) ? tealR : whiteR;
+          cG = (i % 3 === 0) ? orangeG : (i % 2 === 0) ? tealG : whiteG;
+          cB = (i % 3 === 0) ? orangeB : (i % 2 === 0) ? tealB : whiteB;
+          scale = 0.9 + Math.sin(elapsedTime * 2.0 + i * 0.2) * 0.2;
+        } else {
+          // Stage 4 (Contact: Harmonic cyber plane)
+          const localT = (t - 0.85) / 0.15;
+          const easeT = Math.min(localT * localT * (3 - 2 * localT), 1);
+
+          const col = i % cols;
+          const row = Math.floor(i / cols);
+          const targetX = (col - cols / 2) * spacingX * 1.3;
+          const targetY = -28.0;
+          const targetZ = -row * spacingY * 1.2;
+
+          posX = layout.constellationX[i] + (targetX - layout.constellationX[i]) * easeT;
+          posY = layout.constellationY[i] + (targetY - layout.constellationY[i]) * easeT;
+          posZ = layout.constellationZ[i] + (targetZ - layout.constellationZ[i]) * easeT;
+
+          cR = (row % 2 === 0) ? orangeR : whiteR;
+          cG = (row % 2 === 0) ? orangeG : whiteG;
+          cB = (row % 2 === 0) ? orangeB : whiteB;
+        }
 
         // Desktop mouse repulsion nudge
         if (mouse.current.active && !isMobile) {
           const dx = posX - mouseWorldPos.x;
           const dy = posY - mouseWorldPos.y;
           const distSq = dx * dx + dy * dy;
-          const repelRadiusSq = 12.0;
+          const repelRadiusSq = 14.0;
 
           if (distSq < repelRadiusSq && distSq > 0.001) {
             const dist = Math.sqrt(distSq);
-            const repelStrength = (1 - dist / Math.sqrt(repelRadiusSq)) * 1.2;
+            const repelStrength = (1 - dist / Math.sqrt(repelRadiusSq)) * 1.4;
             posX += (dx / dist) * repelStrength;
             posY += (dy / dist) * repelStrength;
-            posZ += repelStrength * 0.4;
+            posZ += repelStrength * 0.5;
           }
-        }
-
-        // Duplicate collapse behavior:
-        // As t approaches 1, duplicate points shrink down into nothingness or into their parent record
-        let scale = 1.0;
-        if (layout.isDuplicate[i] === 1) {
-          // Collapse scale smoothly starting from t = 0.35 to 0.9
-          if (easeT > 0.3) {
-            const collapseFactor = Math.min((easeT - 0.3) / 0.6, 1.0);
-            scale = 1.0 - collapseFactor * 0.85; // shrinks to tiny collapsed seed
-          }
-        } else if (layout.isAnomaly[i] === 1 && easeT > 0.5) {
-          // Anomalies pulse slightly in Stage 1
-          scale = 1.0 + Math.sin(elapsedTime * 3.0 + i) * 0.2 * easeT;
         }
 
         dummyPosition.set(posX, posY, posZ);
 
-        // Rotation: tumbling in chaos, settling upright in grid
-        const rotX = (1 - easeT) * (elapsedTime * 0.4 + layout.driftPhase[i]);
-        const rotY = (1 - easeT) * (elapsedTime * 0.3 + layout.driftPhase[i]);
+        const rotX = elapsedTime * 0.3 + layout.driftPhase[i] + t * 2.0;
+        const rotY = elapsedTime * 0.2 + layout.driftPhase[i];
         dummyRotation.set(rotX, rotY, 0);
 
         dummyScale.set(scale, scale, scale);
@@ -417,11 +533,6 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
         dummyMatrix.setPosition(dummyPosition);
 
         instancedMesh.setMatrixAt(i, dummyMatrix);
-
-        // Color interpolation
-        const cR = layout.chaosColorR[i] + (layout.gridColorR[i] - layout.chaosColorR[i]) * easeT;
-        const cG = layout.chaosColorG[i] + (layout.gridColorG[i] - layout.chaosColorG[i]) * easeT;
-        const cB = layout.chaosColorB[i] + (layout.gridColorB[i] - layout.chaosColorB[i]) * easeT;
 
         dummyColor.setRGB(cR, cG, cB);
         instancedMesh.setColorAt(i, dummyColor);
@@ -437,7 +548,6 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
 
     animate();
 
-    // Cleanup
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('scroll', handleScroll);
@@ -448,6 +558,14 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
       }
       boxGeo.dispose();
       boxMat.dispose();
+      icoGeo.dispose();
+      icoMat.dispose();
+      ringGeo1.dispose();
+      ringMat1.dispose();
+      ringGeo2.dispose();
+      ringMat2.dispose();
+      octGeo.dispose();
+      octMat.dispose();
       renderer.dispose();
       if (container && renderer.domElement) {
         container.removeChild(renderer.domElement);
@@ -461,45 +579,45 @@ export const AuditUniverseCanvas: React.FC<AuditUniverseCanvasProps> = ({ onProg
       {webglSupported ? (
         <div ref={mountRef} className="w-full h-full" />
       ) : (
-        /* Accessible Fallback when WebGL is unavailable or fails */
         <div className="w-full h-full bg-[#0e0d0b] opacity-40 flex items-center justify-center">
           <div className="w-full h-full bg-[radial-gradient(#ff6a2b_1px,transparent_1px)] [background-size:24px_24px] opacity-20" />
         </div>
       )}
 
-      {/* Floating 3D Narrative Telemetry HUD (Non-obtrusive Stage Pill) */}
+      {/* Floating 3D Narrative Telemetry HUD (Glassmorphism Pill) */}
       <div className="absolute top-24 right-4 sm:right-8 z-30 pointer-events-auto">
         <aside
           role="region"
           aria-label="3D Journey Stage Status"
-          className="hidden md:flex flex-col gap-1.5 px-3.5 py-2.5 rounded-lg border border-white/10 bg-[#0e0d0b]/85 backdrop-blur-md shadow-2xl transition-all duration-300 max-w-xs"
+          className="hidden md:flex flex-col gap-1.5 px-3.5 py-2.5 rounded-2xl border border-white/10 bg-[#0e0d0b]/80 backdrop-blur-xl shadow-2xl transition-all duration-300 max-w-xs"
+          style={{
+            boxShadow: '0 20px 40px -10px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1)',
+          }}
         >
           <div className="flex items-center justify-between gap-3 text-[11px] font-mono tracking-wider">
             <span className="text-[#ff6a2b] font-bold flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-[#ff6a2b] animate-ping" />
               STAGE {currentStage}
             </span>
-            <span className="text-[var(--text-muted)]">
-              {stageProgressPercent}% SYNCED
+            <span className="text-[var(--text-muted)] font-semibold">
+              {stageProgressPercent}% SCROLLED
             </span>
           </div>
 
           <p className="text-[12px] font-mono font-medium text-[var(--text-primary)] leading-tight">
-            {currentStage === '00'
-              ? 'CHAOS: Unstructured Records Drifting'
-              : 'VALIDATION: Order Restored & Deduplicated'}
+            {stageTitle}
           </p>
 
-          <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden mt-1">
+          <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden mt-1">
             <div
-              className="h-full bg-gradient-to-r from-[#ff6a2b] to-[#2dd4bf] transition-all duration-150"
+              className="h-full bg-gradient-to-r from-[#ff6a2b] via-[#2dd4bf] to-[#ff6a2b] transition-all duration-150"
               style={{ width: `${Math.max(5, stageProgressPercent)}%` }}
             />
           </div>
 
           <div className="flex justify-between items-center text-[10px] font-mono text-[var(--text-muted)] mt-0.5">
-            <span>Duplicates Collapsed: {collapsedCount}</span>
-            <span className="text-[#2dd4bf]">WebGL 60FPS</span>
+            <span>Spatial Depth Engine</span>
+            <span className="text-[#2dd4bf] font-semibold">WebGL 60FPS</span>
           </div>
         </aside>
       </div>
