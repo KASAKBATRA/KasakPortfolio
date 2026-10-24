@@ -156,36 +156,46 @@ const Hero: React.FC<HeroProps> = () => {
               B.Tech graduate in Artificial Intelligence &amp; Data Science, working in data analytics and remote audit at the Office of the Comptroller &amp; Auditor General of India. I also teach, mentor and write about machine learning.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              {/* Primary "Get in touch" */}
-              <a
-                href="#contact"
-                className="group relative inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#ff6a2b] hover:bg-[#ff7e45] text-white font-medium text-sm tracking-wide transition-all duration-300 shadow-lg shadow-[#ff6a2b]/25 hover:shadow-xl hover:shadow-[#ff6a2b]/35 hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
-              >
-                <span>Get in touch</span>
-                <ArrowDownRight size={17} className="transition-transform duration-300 group-hover:rotate-[-45deg]" />
-              </a>
+            {/* CTA Buttons & 3D Narrative Scroll Prompt */}
+            <div className="space-y-4 pt-2">
+              <div className="flex flex-wrap items-center gap-4">
+                {/* Primary "Get in touch" */}
+                <a
+                  href="#contact"
+                  className="group relative inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#ff6a2b] hover:bg-[#ff7e45] text-white font-medium text-sm tracking-wide transition-all duration-300 shadow-lg shadow-[#ff6a2b]/25 hover:shadow-xl hover:shadow-[#ff6a2b]/35 hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
+                >
+                  <span>Get in touch</span>
+                  <ArrowDownRight size={17} className="transition-transform duration-300 group-hover:rotate-[-45deg]" />
+                </a>
 
-              {/* Secondary "See my work" */}
-              <a
-                href="#projects"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[var(--border-hairline)] bg-[var(--card-bg)] hover:border-[#ff6a2b] text-[var(--text-primary)] font-medium text-sm transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
-              >
-                <span>See my work</span>
-              </a>
+                {/* Secondary "See my work" */}
+                <a
+                  href="#projects"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[var(--border-hairline)] bg-[var(--card-bg)] hover:border-[#ff6a2b] text-[var(--text-primary)] font-medium text-sm transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
+                >
+                  <span>See my work</span>
+                </a>
 
-              {/* Secondary Hero "Download resume": Clearly visible secondary button with 1.5px solid border and full-contrast text */}
-              <a
-                href="/Kasak_Resume.pdf"
-                download="Kasak_Resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-full border-[1.5px] border-[var(--text-primary)] hover:border-[#ff6a2b] hover:bg-[#ff6a2b]/10 text-[var(--text-primary)] hover:text-[#ff6a2b] font-mono text-xs uppercase tracking-wider font-semibold transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
-              >
-                <Download size={14} className="stroke-[2.5]" />
-                <span>Download resume</span>
-              </a>
+                {/* Secondary Hero "Download resume" */}
+                <a
+                  href="/Kasak_Resume.pdf"
+                  download="Kasak_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-3.5 rounded-full border-[1.5px] border-[var(--text-primary)] hover:border-[#ff6a2b] hover:bg-[#ff6a2b]/10 text-[var(--text-primary)] hover:text-[#ff6a2b] font-mono text-xs uppercase tracking-wider font-semibold transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
+                >
+                  <Download size={14} className="stroke-[2.5]" />
+                  <span>Download resume</span>
+                </a>
+              </div>
+
+              {/* 3D Scroll-Driven Story Guide */}
+              <div className="pt-2 flex items-center gap-3 text-xs font-mono text-[var(--text-muted)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b] animate-ping" />
+                <span className="tracking-wide">
+                  Scroll down to fly into Stage 01 · Watch chaotic records snap into validated rows
+                </span>
+              </div>
             </div>
 
           </div>

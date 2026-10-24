@@ -107,7 +107,10 @@ const Experience: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-16 hairline-b pb-8">
           <div>
             <div className="mono-label text-[var(--accent-small)] mb-3 flex items-center gap-2 font-semibold">
-              <span>01 / EXPERIENCE</span>
+              <span className="px-2 py-0.5 rounded bg-[#ff6a2b]/15 text-[#ff6a2b] border border-[#ff6a2b]/30">
+                STAGE 01
+              </span>
+              <span>01 / EXPERIENCE &amp; REMOTE AUDIT</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b]" />
             </div>
             <h2
@@ -118,7 +121,7 @@ const Experience: React.FC = () => {
             </h2>
           </div>
           <p className="font-mono text-xs text-[var(--text-muted)] max-w-xs font-medium">
-            Timeline of roles in data-driven audit, intelligence pipelines, and university-level instruction.
+            Stage 01: Chaotic telemetry collapses into validated ledger rows. Explore roles in remote audit, data engineering, and machine learning pedagogy.
           </p>
         </div>
 
@@ -170,12 +173,12 @@ const Experience: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Card Container */}
+                  {/* Card Container - 95% Opaque Backdrop for Guaranteed AAA Contrast */}
                   <div
-                    className={`rounded-2xl hairline-all bg-[var(--card-bg)] transition-all duration-300 overflow-hidden ${
+                    className={`rounded-2xl hairline-all bg-[var(--card-bg)]/95 backdrop-blur-md transition-all duration-300 overflow-hidden shadow-xl ${
                       isExpanded
-                        ? 'border-[#ff6a2b]/50 shadow-xl'
-                        : 'hover:border-[#ff6a2b]/30 hover:shadow-md'
+                        ? 'border-[#ff6a2b]/60 shadow-[0_12px_32px_rgba(0,0,0,0.4)]'
+                        : 'hover:border-[#ff6a2b]/30 hover:shadow-2xl'
                     }`}
                   >
                     {/* Header Bar - Clickable to Expand */}
