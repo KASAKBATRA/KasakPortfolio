@@ -10,23 +10,23 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = PrimaryBlueLight,
-    onPrimary = Slate950,
-    primaryContainer = Slate800,
-    onPrimaryContainer = Slate100,
-    secondary = AccentCyanLight,
-    onSecondary = Slate950,
-    secondaryContainer = Slate800,
-    onSecondaryContainer = AccentCyanLight,
-    tertiary = AccentPurpleLight,
-    onTertiary = Slate950,
-    background = Slate900,
-    onBackground = Slate100,
-    surface = CardBackground,
-    onSurface = Slate100,
-    surfaceVariant = Slate800,
-    onSurfaceVariant = Slate300,
-    outline = CardBorder
+    primary = AccentOrange,
+    onPrimary = CanvasDark,
+    primaryContainer = SurfaceElevatedDark,
+    onPrimaryContainer = TextInk,
+    secondary = AccentOrangeHover,
+    onSecondary = CanvasDark,
+    secondaryContainer = SurfaceDark,
+    onSecondaryContainer = AccentOrange,
+    tertiary = AccentOrange,
+    onTertiary = CanvasDark,
+    background = CanvasDark,
+    onBackground = TextInk,
+    surface = SurfaceDark,
+    onSurface = TextInk,
+    surfaceVariant = SurfaceElevatedDark,
+    onSurfaceVariant = TextMuted,
+    outline = HairlineDark
 )
 
 @Composable
@@ -38,8 +38,8 @@ fun KasakPortfolioTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = Slate900.toArgb()
-            window.navigationBarColor = Slate900.toArgb()
+            window.statusBarColor = CanvasDark.toArgb()
+            window.navigationBarColor = CanvasDark.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
         }
     }

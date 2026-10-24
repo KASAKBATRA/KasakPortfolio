@@ -1,161 +1,212 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, Sun, Moon, Download, ArrowUpRight, Sparkles } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
-const Navigation = () => {
+interface NavItem {
+  name: string;
+  href: string;
+  number: string;
+}
+
+const navItems: NavItem[] = [
+  { name: 'Experience', href: '#experience', number: '01' },
+  { name: 'Projects', href: '#projects', number: '02' },
+  { name: 'Research', href: '#research', number: '03' },
+  { name: 'Skills', href: '#skills', number: '04' },
+  { name: 'Education', href: '#education', number: '05' },
+  { name: 'Contact', href: '#contact', number: '06' },
+];
+
+const Navigation: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('experience');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('hero');
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 80);
 
-      const sections = ['experience', 'projects', 'research', 'skills', 'education', 'contact'];
-      const scrollPosition = window.scrollY + 100;
-
-      for (const section of sections) {
-        const el = document.getElementById(section);
+      // Active section detection
+      const sectionIds = ['hero', 'stats', 'experience', 'projects', 'research', 'skills', 'education', 'contact'];
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
         if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(section);
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 200 && rect.bottom >= 200) {
+            setActiveSection(id);
             break;
           }
         }
       }
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
-    { href: '#experience', label: 'Experience' },
-    { href: '#projects', label: 'Projects' },
-    { href: '#research', label: 'Research & Publications' },
-    { href: '#skills', label: 'Skills' },
-    { href: '#education', label: 'Education & Certificates' },
-    { href: '#contact', label: 'Contact' },
-  ];
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
-    setIsMenuOpen(false);
-  };
+  }, [mobileMenuOpen]);
 
   return (
-    <header className="sticky top-0 z-50">
-      <nav 
-        aria-label="Main Navigation"
-        className={`w-full transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-slate-900/95 backdrop-blur-md shadow-lg border-b border-slate-700/60' 
-            : 'bg-slate-900/80 backdrop-blur-sm border-b border-slate-800/40'
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 flex justify-center ${
+          isScrolled ? 'py-3 sm:py-4 px-4' : 'py-5 sm:py-6 px-4 sm:px-8 bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <a 
-              href="#" 
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="flex items-center space-x-3 group focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-lg p-1"
-              aria-label="Kasak Home"
-            >
-              <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-md">
-                <User className="text-white" size={18} aria-hidden="true" />
-              </div>
-              <span className="text-xl font-bold font-display bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                Kasak
-              </span>
-            </a>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-1">
-              {navItems.map((item) => {
-                const isActive = activeSection === item.href.replace('#', '');
-                return (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    onClick={(e) => handleNavClick(e, item.href)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 ${
-                      isActive 
-                        ? 'text-cyan-400 bg-cyan-500/10 border border-cyan-500/30' 
-                        : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                );
-              })}
-              
-              <a
-                href="#contact"
-                onClick={(e) => handleNavClick(e, '#contact')}
-                className="ml-4 px-4 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 text-white hover:from-blue-500 hover:to-cyan-500 shadow-md hover:shadow-cyan-500/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              >
-                Get in Touch
-              </a>
-            </div>
-            
-            {/* Mobile Hamburger Button */}
-            <button
-              type="button"
-              className="lg:hidden text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-expanded={isMenuOpen}
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            >
-              {isMenuOpen ? (
-                <X size={24} aria-hidden="true" />
-              ) : (
-                <Menu size={24} aria-hidden="true" />
-              )}
-            </button>
-          </div>
-        </div>
+        <nav
+          aria-label="Main Navigation"
+          className={`w-full max-w-7xl mx-auto flex items-center justify-between transition-all duration-300 ${
+            isScrolled
+              ? 'bg-[#141310]/85 dark:bg-[#141310]/85 light:bg-[#ffffff]/90 backdrop-blur-md px-5 py-2.5 rounded-full hairline-all shadow-xl max-w-5xl'
+              : ''
+          }`}
+        >
+          {/* Logo / Brand Name */}
+          <a
+            href="#hero"
+            className="flex items-center gap-2.5 group focus:outline-none focus:ring-2 focus:ring-[#ff6a2b] rounded-lg px-1"
+          >
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff6a2b] transition-transform group-hover:scale-125" />
+            <span className="font-serif text-xl sm:text-2xl font-normal text-[#f2efe8] light:text-[#141311] tracking-tight">
+              Kasak<span className="text-[#ff6a2b]">.</span>
+            </span>
+            <span className="hidden sm:inline-block font-mono text-[10px] text-[#9a968d] light:text-[#6b665c] tracking-widest uppercase ml-1">
+              / CAG AUDIT
+            </span>
+          </a>
 
-        {/* Mobile Dropdown Menu */}
-        {isMenuOpen && (
-          <div className="lg:hidden bg-slate-900/98 border-b border-slate-700/60 px-4 pt-2 pb-6 space-y-2 shadow-2xl backdrop-blur-xl animate-fade-in-up">
+          {/* Desktop Nav Links */}
+          <div className="hidden lg:flex items-center gap-1.5 font-mono text-xs">
             {navItems.map((item) => {
               const isActive = activeSection === item.href.replace('#', '');
+
               return (
                 <a
-                  key={item.href}
+                  key={item.name}
                   href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  className={`block px-4 py-2.5 rounded-xl text-base font-medium transition-colors ${
-                    isActive 
-                      ? 'text-cyan-400 bg-cyan-500/15 font-semibold' 
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                  className={`px-3 py-1.5 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+                    isActive
+                      ? 'text-[#ff6a2b] bg-[#ff6a2b]/10 font-medium'
+                      : 'text-[#9a968d] light:text-[#6b665c] hover:text-[#f2efe8] light:hover:text-[#141311]'
                   }`}
                 >
-                  {item.label}
+                  <span className="text-[10px] opacity-60">{item.number}</span>
+                  <span>{item.name}</span>
                 </a>
               );
             })}
-            <div className="pt-2">
-              <a
-                href="#contact"
-                onClick={(e) => handleNavClick(e, '#contact')}
-                className="block text-center w-full px-4 py-3 text-base font-semibold rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg"
-              >
-                Get in Touch
-              </a>
-            </div>
           </div>
-        )}
-      </nav>
-    </header>
+
+          {/* Right Action Icons: Theme Toggle, Resume & Mobile Menu Button */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Theme Switcher Toggle */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="w-9 h-9 rounded-full hairline-all bg-[#1b1915] light:bg-[#f0ede6] flex items-center justify-center text-[#9a968d] hover:text-[#ff6a2b] transition-colors focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? (
+                <Sun size={16} className="text-[#ff6a2b]" />
+              ) : (
+                <Moon size={16} className="text-[#141311]" />
+              )}
+            </button>
+
+            {/* Resume Button */}
+            <a
+              href="/Kasak_Resume.pdf"
+              download="Kasak_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full hairline-all bg-[#1b1915] light:bg-[#f0ede6] hover:border-[#ff6a2b] text-[#f2efe8] light:text-[#141311] font-mono text-xs uppercase tracking-wider transition-all"
+            >
+              <Download size={12} className="text-[#ff6a2b]" />
+              <span>Resume</span>
+            </a>
+
+            {/* Mobile Hamburger Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden w-10 h-10 rounded-full hairline-all bg-[#1b1915] light:bg-[#f0ede6] flex items-center justify-center text-[#f2efe8] light:text-[#141311] hover:text-[#ff6a2b] transition-colors focus:outline-none focus:ring-2 focus:ring-[#ff6a2b]"
+              aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      {/* Full-Screen Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation Menu"
+          className="fixed inset-0 z-40 bg-[#0e0d0b] text-[#f2efe8] flex flex-col justify-between p-6 pt-24 sm:p-10 animate-fade-in lg:hidden"
+        >
+          <div className="space-y-6">
+            <div className="mono-label text-[#ff6a2b] mb-4">
+              INDEX / NAVIGATION
+            </div>
+
+            <nav className="space-y-4">
+              {navItems.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-baseline justify-between py-2 border-b border-[#24221e] group"
+                >
+                  <span className="font-serif text-3xl sm:text-4xl text-[#f2efe8] group-hover:text-[#ff6a2b] transition-colors">
+                    {item.name}
+                  </span>
+                  <span className="font-mono text-xs text-[#9a968d]">
+                    {item.number} →
+                  </span>
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          <div className="pt-6 border-t border-[#24221e] space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-xs text-[#9a968d]">PORTFOLIO THEME</span>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full hairline-all text-xs font-mono"
+              >
+                {theme === 'dark' ? <Sun size={14} className="text-[#ff6a2b]" /> : <Moon size={14} />}
+                <span>{theme === 'dark' ? 'LIGHT MODE' : 'DARK MODE'}</span>
+              </button>
+            </div>
+
+            <a
+              href="/Kasak_Resume.pdf"
+              download="Kasak_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full py-3 rounded-full bg-[#ff6a2b] text-white flex items-center justify-center gap-2 font-mono text-xs uppercase tracking-wider"
+            >
+              <Download size={14} />
+              <span>Download Resume (PDF)</span>
+            </a>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

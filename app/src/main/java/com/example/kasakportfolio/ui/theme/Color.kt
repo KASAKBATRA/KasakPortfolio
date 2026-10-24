@@ -2,33 +2,46 @@ package com.example.kasakportfolio.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Slate950 = Color(0xFF0A0F1D)
-val Slate900 = Color(0xFF0F172A)
-val Slate800 = Color(0xFF1E293B)
-val Slate700 = Color(0xFF334155)
-val Slate600 = Color(0xFF475569)
-val Slate400 = Color(0xFF94A3B8)
-val Slate300 = Color(0xFFCBD5E1)
-val Slate200 = Color(0xFFE2E8F0)
-val Slate100 = Color(0xFFF1F5F9)
+val CanvasDark = Color(0xFF0E0D0B)
+val SurfaceDark = Color(0xFF161512)
+val SurfaceElevatedDark = Color(0xFF1E1C18)
+val HairlineDark = Color(0xFF24221E)
 
-val PrimaryBlue = Color(0xFF3B82F6)
-val PrimaryBlueLight = Color(0xFF60A5FA)
-val PrimaryBlueDark = Color(0xFF1D4ED8)
+val AccentOrange = Color(0xFFFF6A2B)
+val AccentOrangeHover = Color(0xFFFF7E45)
+val AccentOrangeMuted = Color(0x26FF6A2B)
 
-val AccentCyan = Color(0xFF06B6D4)
-val AccentCyanLight = Color(0xFF22D3EE)
+val TextInk = Color(0xFFF2EFE8)
+val TextMuted = Color(0xFF9A968D)
+val TextFaint = Color(0xFF656157)
 
-val AccentPurple = Color(0xFFA855F7)
-val AccentPurpleLight = Color(0xFFC084FC)
+val StatusGreen = Color(0xFF10B981)
+val StatusAmber = Color(0xFFF59E0B)
 
-val AccentPink = Color(0xFFEC4899)
-val AccentPinkLight = Color(0xFFF472B6)
+// Aliases for compatibility
+val Slate950 = CanvasDark
+val Slate900 = CanvasDark
+val Slate800 = SurfaceDark
+val Slate700 = SurfaceElevatedDark
+val Slate600 = HairlineDark
+val Slate400 = TextMuted
+val Slate300 = TextMuted
+val Slate200 = TextInk
+val Slate100 = TextInk
 
-val AccentGreen = Color(0xFF10B981)
-val AccentYellow = Color(0xFFFBBF24)
-val AccentOrange = Color(0xFFF97316)
+val PrimaryBlue = AccentOrange
+val PrimaryBlueLight = AccentOrangeHover
+val PrimaryBlueDark = AccentOrange
 
-val CardBackground = Color(0xFF162032)
-val CardBorder = Color(0xFF2E3E5C)
-val GlassBackground = Color(0x991E293B)
+val AccentCyan = AccentOrange
+val AccentCyanLight = AccentOrangeHover
+val AccentPurple = AccentOrange
+val AccentPurpleLight = AccentOrangeHover
+val AccentPink = AccentOrange
+val AccentPinkLight = AccentOrangeHover
+val AccentGreen = StatusGreen
+val AccentYellow = StatusAmber
+
+val CardBackground = SurfaceDark
+val CardBorder = HairlineDark
+val GlassBackground = SurfaceDark

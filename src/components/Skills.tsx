@@ -1,223 +1,203 @@
 import React, { useState } from 'react';
-import { Code, BarChart3, Brain, Layers, Database, Wrench, Search, Sparkles, Terminal } from 'lucide-react';
+import { Terminal, Database, Cpu, Layers, Cloud, Wrench, Search, Sparkles } from 'lucide-react';
 
-interface SkillItem {
+interface SkillCategory {
+  id: string;
   name: string;
-  application: string;
+  label: string;
+  icon: React.ReactNode;
+  colSpan: string;
+  skills: { name: string; isCore?: boolean }[];
+  context: string;
 }
 
-interface SkillGroup {
-  category: string;
-  icon: React.ElementType;
-  gradient: string;
-  accent: string;
-  skills: SkillItem[];
-}
-
-const skillGroups: SkillGroup[] = [
+const skillCategories: SkillCategory[] = [
   {
-    category: 'Programming',
-    icon: Code,
-    gradient: 'from-blue-500 to-indigo-600',
-    accent: 'text-blue-400',
+    id: 'programming',
+    name: 'Programming',
+    label: 'CORE SYNTAX & RUNTIMES',
+    icon: <Terminal size={16} className="text-[#ff6a2b]" />,
+    colSpan: 'md:col-span-6',
+    context: 'Foundation across algorithmic computing, backend query pipelines, and scripting.',
     skills: [
-      { name: 'Python', application: 'Data analytics, GeoPandas mapping, ML models & automation' },
-      { name: 'SQL', application: 'Relational audit queries, welfare database validations' },
-      { name: 'R', application: 'Statistical analysis, data mining models (NPTEL Top 2%)' },
-      { name: 'Java', application: 'Object-oriented programming, software teaching' },
-      { name: 'C', application: 'Data structures, algorithms, systems fundamentals' },
-      { name: 'JavaScript', application: 'Interactive web apps, APIs & client-side telemetry' },
-      { name: 'HTML', application: 'Semantic web layouts & accessibility structures' },
-      { name: 'CSS', application: 'Responsive design systems, Tailwind & modern styling' }
+      { name: 'Python', isCore: true },
+      { name: 'SQL', isCore: true },
+      { name: 'R', isCore: true },
+      { name: 'Java' },
+      { name: 'C' },
+      { name: 'JavaScript' },
+      { name: 'HTML' },
+      { name: 'CSS' }
     ]
   },
   {
-    category: 'Data Analytics',
-    icon: BarChart3,
-    gradient: 'from-cyan-400 to-teal-500',
-    accent: 'text-cyan-400',
+    id: 'data-analytics',
+    name: 'Data Analytics',
+    label: 'AUDIT & ETL TELEMETRY',
+    icon: <Database size={16} className="text-[#ff6a2b]" />,
+    colSpan: 'md:col-span-6',
+    context: 'Applied at CAG for remote audit analytics, anomaly detection, and record validation.',
     skills: [
-      { name: 'SQL', application: 'Large dataset aggregation, auditing & schema verification' },
-      { name: 'KNIME', application: 'Automated anomaly detection, duplicate record checks' },
-      { name: 'Power BI', application: 'Interactive dashboards & executive metrics' },
-      { name: 'Data Cleaning', application: 'Missing value imputation, normalization & standardization' },
-      { name: 'ETL', application: 'Automated pipelines moving data between databases & AWS' },
-      { name: 'Data Validation', application: 'Welfare audit cross-matching & record reconciliation' },
-      { name: 'Data Visualization', application: 'Actionable visual reporting for auditors & leadership' }
+      { name: 'SQL', isCore: true },
+      { name: 'KNIME', isCore: true },
+      { name: 'Power BI', isCore: true },
+      { name: 'Data Cleaning', isCore: true },
+      { name: 'ETL' },
+      { name: 'Data Validation', isCore: true },
+      { name: 'Data Visualization' }
     ]
   },
   {
-    category: 'Machine Learning',
-    icon: Brain,
-    gradient: 'from-purple-500 to-fuchsia-600',
-    accent: 'text-purple-400',
+    id: 'machine-learning',
+    name: 'Machine Learning',
+    label: 'PREDICTIVE & STATISTICAL SYSTEMS',
+    icon: <Cpu size={16} className="text-[#ff6a2b]" />,
+    colSpan: 'md:col-span-7',
+    context: 'From theoretical statistical mechanics to applied NLP, computer vision, and neural embeddings.',
     skills: [
-      { name: 'Regression', application: 'Continuous estimation & performance modeling' },
-      { name: 'Classification', application: 'Multi-class risk assessment & category predictors' },
-      { name: 'Clustering', application: 'Unsupervised grouping & outlier detection' },
-      { name: 'NLP', application: 'Text classification, BERT semantic resume matching' },
-      { name: 'Feature Engineering', application: 'Dimensionality reduction & predictive feature design' },
-      { name: 'OpenCV', application: 'Computer vision, image edge filters & pencil synthesis' }
+      { name: 'Regression', isCore: true },
+      { name: 'Classification', isCore: true },
+      { name: 'Clustering' },
+      { name: 'NLP', isCore: true },
+      { name: 'Feature Engineering' },
+      { name: 'OpenCV', isCore: true }
     ]
   },
   {
-    category: 'Libraries',
-    icon: Layers,
-    gradient: 'from-amber-400 to-orange-500',
-    accent: 'text-amber-400',
+    id: 'libraries',
+    name: 'Libraries',
+    label: 'COMPUTATIONAL STACK',
+    icon: <Layers size={16} className="text-[#ff6a2b]" />,
+    colSpan: 'md:col-span-5',
+    context: 'Vectorized computing, structured dataframe manipulation, and scientific visualization.',
     skills: [
-      { name: 'NumPy', application: 'High-performance multidimensional arrays & numerical linear algebra' },
-      { name: 'Pandas', application: 'Dataframe manipulation, joins, grouping & aggregations' },
-      { name: 'Scikit-learn', application: 'Supervised & unsupervised model training pipelines' },
-      { name: 'Matplotlib', application: 'Statistical distribution plots & publication charts' }
+      { name: 'NumPy', isCore: true },
+      { name: 'Pandas', isCore: true },
+      { name: 'Scikit-learn', isCore: true },
+      { name: 'Matplotlib' }
     ]
   },
   {
-    category: 'Cloud & Databases',
-    icon: Database,
-    gradient: 'from-emerald-400 to-teal-600',
-    accent: 'text-emerald-400',
+    id: 'cloud-databases',
+    name: 'Cloud & Databases',
+    label: 'INFRASTRUCTURE & PERSISTENCE',
+    icon: <Cloud size={16} className="text-[#ff6a2b]" />,
+    colSpan: 'md:col-span-5',
+    context: 'Sovereign cloud integration, relational audit schemas, and serverless databases.',
     skills: [
-      { name: 'AWS S3', application: 'Secure cloud object storage for audit feeds & datasets' },
-      { name: 'MySQL', application: 'Relational data modeling, ACID transactions & indexing' },
-      { name: 'Neon Database', application: 'Modern serverless PostgreSQL cloud databases' }
+      { name: 'AWS S3', isCore: true },
+      { name: 'MySQL', isCore: true },
+      { name: 'Neon Database' }
     ]
   },
   {
-    category: 'Developer Tools',
-    icon: Wrench,
-    gradient: 'from-rose-500 to-pink-600',
-    accent: 'text-rose-400',
+    id: 'developer-tools',
+    name: 'Developer Tools',
+    label: 'WORKFLOW & AI PAIR PROGRAMMING',
+    icon: <Wrench size={16} className="text-[#ff6a2b]" />,
+    colSpan: 'md:col-span-7',
+    context: 'Modern version control, AI-assisted development environments, and prompt engineering.',
     skills: [
-      { name: 'Git', application: 'Version control, branch management & release tagging' },
-      { name: 'GitHub', application: 'Open-source collaboration, issues & repository hosting' },
-      { name: 'VS Code', application: 'Primary IDE for Python, full-stack & SQL development' },
-      { name: 'Cursor', application: 'AI-first code editor for rapid prototyping' },
-      { name: 'GitHub Copilot', application: 'AI pair programming & pattern completion' },
-      { name: 'Claude', application: 'Prompt engineering, code refactoring & research ideation' }
+      { name: 'Git', isCore: true },
+      { name: 'GitHub' },
+      { name: 'VS Code' },
+      { name: 'Cursor', isCore: true },
+      { name: 'GitHub Copilot' },
+      { name: 'Claude', isCore: true }
     ]
   }
 ];
 
 const Skills: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeSkill, setActiveSkill] = useState<SkillItem | null>(null);
-
-  const filteredGroups = skillGroups.map(group => {
-    if (!searchQuery.trim()) return group;
-    const matchingSkills = group.skills.filter(s =>
-      s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      s.application.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    return { ...group, skills: matchingSkills };
-  }).filter(group => group.skills.length > 0);
+  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
 
   return (
-    <section id="skills" aria-labelledby="skills-heading" className="py-24 bg-slate-950 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section
+      id="skills"
+      aria-labelledby="skills-heading"
+      className="py-24 sm:py-32 hairline-t"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-3">
-            <Terminal size={14} aria-hidden="true" />
-            <span>Technical Capabilities</span>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-16 hairline-b pb-8">
+          <div>
+            <div className="mono-label text-[#ff6a2b] mb-3 flex items-center gap-2">
+              <span>04 / SKILLS</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b]" />
+            </div>
+            <h2
+              id="skills-heading"
+              className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-[#f2efe8] light:text-[#141311] tracking-tight"
+            >
+              Technical Palette &amp; <span className="italic text-[#ff6a2b]">Tooling</span>.
+            </h2>
           </div>
-          <h2 id="skills-heading" className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-4">
-            Skills &amp; Technologies
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full" />
-          <p className="text-slate-300 mt-4 max-w-2xl mx-auto text-base">
-            Categorized technical stack spanning data analytics, machine learning, cloud pipelines, and modern developer tooling.
+          <p className="font-mono text-xs text-[#9a968d] light:text-[#6b665c] max-w-xs">
+            Grouped competency domains. Click any chip to inspect cross-stack application.
           </p>
-
-          {/* Interactive Search Bar */}
-          <div className="mt-8 max-w-md mx-auto relative">
-            <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search skills (e.g., Python, SQL, KNIME, AWS)..."
-              className="w-full pl-11 pr-4 py-3 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 text-sm shadow-xl backdrop-blur-md"
-            />
-          </div>
         </div>
 
-        {/* Selected Skill Detail Banner */}
-        {activeSkill && (
-          <div className="mb-8 p-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 border border-cyan-500/50 shadow-xl animate-fade-in-up flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span className="p-2 rounded-xl bg-cyan-500/20 text-cyan-400 font-bold text-sm">
-                {activeSkill.name}
-              </span>
+        {/* Bento Grid with Varied Proportions */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
+          {skillCategories.map((cat) => (
+            <div
+              key={cat.id}
+              className={`${cat.colSpan} bento-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between group relative overflow-hidden`}
+            >
               <div>
-                <div className="text-xs text-slate-400">Application in Practice:</div>
-                <div className="text-sm font-semibold text-white">{activeSkill.application}</div>
+                {/* Header with Mono Category Label */}
+                <div className="flex items-center justify-between pb-4 hairline-b mb-4">
+                  <div className="flex items-center gap-2.5">
+                    {cat.icon}
+                    <h3 className="font-serif text-xl sm:text-2xl text-[#f2efe8] light:text-[#141311]">
+                      {cat.name}
+                    </h3>
+                  </div>
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-[#9a968d] light:text-[#6b665c]">
+                    {cat.label}
+                  </span>
+                </div>
+
+                <p className="text-xs text-[#9a968d] light:text-[#6b665c] leading-relaxed mb-5">
+                  {cat.context}
+                </p>
+
+                {/* Grouped Chips (Soft hover lift, no cheesy progress bars) */}
+                <div className="flex flex-wrap gap-2">
+                  {cat.skills.map((s) => {
+                    const isSelected = selectedSkill === s.name;
+
+                    return (
+                      <button
+                        key={s.name}
+                        type="button"
+                        onClick={() => setSelectedSkill(prev => (prev === s.name ? null : s.name))}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 ${
+                          isSelected
+                            ? 'bg-[#ff6a2b] text-white shadow-md shadow-[#ff6a2b]/30'
+                            : s.isCore
+                            ? 'bg-[#1b1915] light:bg-[#f0ede6] text-[#f2efe8] light:text-[#141311] hairline-all hover:border-[#ff6a2b]/50'
+                            : 'bg-[#141310] light:bg-[#ffffff] text-[#9a968d] light:text-[#6b665c] hairline-all hover:text-[#f2efe8] light:hover:text-[#141311]'
+                        }`}
+                      >
+                        <span>{s.name}</span>
+                        {s.isCore && (
+                          <span className="ml-1.5 text-[#ff6a2b] font-bold">·</span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Card Footer */}
+              <div className="pt-4 mt-5 hairline-t flex items-center justify-between text-[11px] font-mono text-[#9a968d]">
+                <span>{cat.skills.length} Capabilities</span>
+                <span className="text-[#ff6a2b]">Production-Grade</span>
               </div>
             </div>
-            <button
-              onClick={() => setActiveSkill(null)}
-              className="text-slate-400 hover:text-white text-xs px-2 py-1"
-            >
-              ✕ Close
-            </button>
-          </div>
-        )}
-
-        {/* Groups Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredGroups.map((group, idx) => {
-            const Icon = group.icon;
-            return (
-              <div
-                key={idx}
-                className="p-6 sm:p-7 rounded-3xl glass-morphism border border-slate-700/80 hover:border-cyan-500/40 transition-all duration-300 shadow-xl hover-lift-glow flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className={`p-3 rounded-2xl bg-gradient-to-br ${group.gradient} text-white shadow-lg`}>
-                      <Icon size={20} aria-hidden="true" />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-lg sm:text-xl font-bold text-white">
-                        {group.category}
-                      </h3>
-                      <span className="text-[11px] text-slate-400 font-medium">
-                        {group.skills.length} competencies
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Skills Pills */}
-                  <div className="flex flex-wrap gap-2">
-                    {group.skills.map((skill, sIdx) => {
-                      const isSelected = activeSkill?.name === skill.name;
-                      return (
-                        <button
-                          key={sIdx}
-                          type="button"
-                          onClick={() => setActiveSkill(skill)}
-                          title={`Click to see application for ${skill.name}`}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer ${
-                            isSelected
-                              ? 'bg-cyan-500 text-slate-950 font-bold shadow-lg shadow-cyan-500/30 scale-105'
-                              : 'bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-cyan-400/50 hover:text-cyan-300'
-                          }`}
-                        >
-                          {skill.name}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="mt-6 pt-3 border-t border-slate-800 text-[11px] text-slate-500 flex items-center justify-between">
-                  <span>Tap any pill for usage context</span>
-                  <span className="text-cyan-500/70">✓ Verified</span>
-                </div>
-              </div>
-            );
-          })}
+          ))}
         </div>
 
       </div>

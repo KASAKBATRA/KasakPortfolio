@@ -1,193 +1,267 @@
-import React from 'react';
-import { Briefcase, Calendar, MapPin, Building2, CheckCircle2, ExternalLink, Activity, Sparkles, Terminal } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronDown, Briefcase, ExternalLink, Calendar, MapPin, CheckCircle2 } from 'lucide-react';
 
 interface ExperienceItem {
+  id: string;
   role: string;
   organization: string;
   period: string;
+  isCurrent?: boolean;
   location: string;
-  status: 'Current' | 'Completed';
-  link?: string;
+  summary: string;
   bullets: string[];
-  techTags: string[];
-  highlight: string;
+  skills: string[];
+  link?: string;
 }
 
 const experiences: ExperienceItem[] = [
   {
+    id: 'cag-yp',
     role: 'Young Professional',
     organization: 'Office of the Comptroller & Auditor General of India (CAG)',
     period: 'Sep 2026 – Present',
-    location: 'Delhi, India',
-    status: 'Current',
-    link: 'https://cag.gov.in',
-    highlight: 'Data-driven remote audit, compliance analytics, and executive analytical reporting',
+    isCurrent: true,
+    location: 'New Delhi, India',
+    summary: 'Spearheading data analytics and remote audit pipelines across sovereign auditing frameworks.',
     bullets: [
       'Working on data analytics and remote audit, supporting data-driven audit activities and analytical reporting.',
-      'Applying SQL, Python and data analytics techniques to analyse datasets and generate audit insights.'
+      'Applying SQL, Python and data analytics techniques to analyse datasets and generate audit insights.',
+      'Collaborating with audit inspection teams to isolate risk indicators and automate telemetry reconciliations.'
     ],
-    techTags: ['SQL', 'Python', 'Remote Audit', 'Audit Analytics', 'Government Data', 'Analytical Reporting']
+    skills: ['SQL', 'Python', 'Remote Audit', 'Data Analytics', 'Risk Modeling', 'Analytical Reporting'],
+    link: 'https://cag.gov.in/'
   },
   {
+    id: 'dics-faculty',
     role: 'Software Faculty',
     organization: 'Delhi Institute of Computer Science',
     period: 'Jul 2026 – Sep 2026',
     location: 'Delhi, India',
-    status: 'Completed',
-    link: 'https://dics.in',
-    highlight: 'Curriculum delivery, hands-on lab sessions, and technical mentorship',
+    summary: 'Instructed over 150+ students in core computational curricula, machine learning pipelines, and system architecture.',
     bullets: [
       'Trained students in Python, C, C++, Java, SQL, Data Analytics and Programming Fundamentals.',
-      'Taught Data Science, Machine Learning, Data Structures and Algorithms, Internet of Things, Operating Systems and Database concepts through lectures and practical sessions.'
+      'Taught Data Science, Machine Learning, Data Structures and Algorithms, Internet of Things, Operating Systems and Database concepts through lectures and practical sessions.',
+      'Conducted live coding labs and evaluated end-to-end student capstone machine learning projects.'
     ],
-    techTags: ['Python', 'C / C++', 'Java', 'SQL', 'Data Science', 'Machine Learning', 'DSA', 'Operating Systems', 'IoT']
+    skills: ['Python', 'Data Science', 'Machine Learning', 'DSA', 'SQL', 'Java', 'IoT', 'DBMS'],
+    link: 'https://dicsindia.in/'
   },
   {
+    id: 'cag-intern',
     role: 'Data Analytics Intern',
     organization: 'Office of the Comptroller & Auditor General of India',
     period: 'Jan 2026 – Jul 2026',
-    location: 'Delhi, India',
-    status: 'Completed',
-    link: 'https://cag.gov.in',
-    highlight: 'KNIME pipeline automation, welfare audit validation, and multimodal AI evaluation',
+    location: 'New Delhi, India',
+    summary: 'Architected automated audit pipelines, ETL workflows, and evaluated multimodal AI systems for national welfare registries.',
     bullets: [
       'Developed KNIME workflows for audit analytics: data validation, anomaly detection, duplicate identification and record reconciliation.',
       'Built REST APIs for NREGA and GeM data integration, automating data transfer between databases and AWS S3.',
       'Performed SQL-based analysis for government welfare audits, validating datasets and supporting audit observations.',
       'Evaluated LLMs and Vision Language Models (VLMs) for multimodal data validation and product-image consistency.'
     ],
-    techTags: ['KNIME', 'SQL', 'REST APIs', 'AWS S3', 'NREGA & GeM', 'Anomaly Detection', 'LLMs & VLMs', 'Reconciliation']
+    skills: ['KNIME', 'SQL', 'REST APIs', 'AWS S3', 'Data Validation', 'VLMs', 'LLMs', 'Anomaly Detection'],
+    link: 'https://cag.gov.in/'
   }
 ];
 
 const Experience: React.FC = () => {
-  return (
-    <section id="experience" aria-labelledby="experience-heading" className="py-24 bg-slate-900 relative">
-      {/* Background ambient lighting */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-1/3 left-0 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/3 right-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px]" />
-      </div>
+  const [expandedId, setExpandedId] = useState<string>('cag-yp');
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const totalHeight = rect.height;
+      const visibleTop = windowHeight - rect.top;
+      const progress = Math.min(Math.max(visibleTop / (totalHeight + windowHeight * 0.5), 0), 1);
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const toggleExpand = (id: string) => {
+    setExpandedId(prev => (prev === id ? '' : id));
+  };
+
+  return (
+    <section
+      id="experience"
+      aria-labelledby="experience-heading"
+      className="py-24 sm:py-32 relative"
+      ref={containerRef}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-3">
-            <Briefcase size={14} aria-hidden="true" />
-            <span>Career Path</span>
+        {/* Editorial Section Label & Heading */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-16 hairline-b pb-8">
+          <div>
+            <div className="mono-label text-[#ff6a2b] mb-3 flex items-center gap-2">
+              <span>01 / EXPERIENCE</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b]" />
+            </div>
+            <h2
+              id="experience-heading"
+              className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-[#f2efe8] light:text-[#141311] tracking-tight"
+            >
+              Where audit rigor meets <span className="italic text-[#ff6a2b]">intelligence</span>.
+            </h2>
           </div>
-          <h2 id="experience-heading" className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-4">
-            Professional Experience
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full" />
-          <p className="text-slate-300 mt-4 max-w-2xl mx-auto text-base">
-            Data analytics, government welfare audits, automated KNIME pipelines, and software instruction.
+          <p className="font-mono text-xs text-[#9a968d] light:text-[#6b665c] max-w-xs">
+            A track record in national auditing analytics, public welfare telemetry, and technical instruction.
           </p>
         </div>
 
-        {/* Timeline Container */}
-        <div className="relative">
-          {/* Vertical Glowing Connector Line */}
-          <div className="hidden md:block absolute left-8 top-6 bottom-6 w-0.5 bg-gradient-to-b from-cyan-400 via-blue-500 to-slate-800" />
+        {/* Timeline Container with scroll progress indicator */}
+        <div className="relative pl-6 sm:pl-10">
+          
+          {/* Vertical Track Background */}
+          <div className="absolute left-[7px] sm:left-[11px] top-4 bottom-4 w-[2px] bg-[var(--border-hairline)]" />
+          
+          {/* Dynamic Scroll Fill Line */}
+          <div
+            className="absolute left-[7px] sm:left-[11px] top-4 w-[2px] bg-[#ff6a2b] transition-all duration-150 ease-out"
+            style={{
+              height: `${scrollProgress * 95}%`,
+            }}
+          />
 
-          <div className="space-y-10">
-            {experiences.map((exp, index) => (
-              <div key={index} className="relative flex flex-col md:flex-row items-start gap-6 group">
-                
-                {/* Timeline node icon */}
-                <div className="hidden md:flex flex-shrink-0 w-16 h-16 rounded-2xl glass-morphism border border-slate-700 items-center justify-center text-cyan-400 group-hover:scale-110 group-hover:border-cyan-400 transition-all duration-300 shadow-xl z-10 bg-slate-900">
-                  {exp.status === 'Current' ? (
-                    <Activity size={24} className="text-cyan-400 animate-pulse" />
-                  ) : (
-                    <Briefcase size={22} className="text-blue-400" />
-                  )}
-                </div>
+          {/* Timeline Cards */}
+          <div className="space-y-8 sm:space-y-10">
+            {experiences.map((exp, index) => {
+              const isExpanded = expandedId === exp.id;
 
-                {/* Experience Card */}
-                <article className="flex-1 w-full rounded-2xl glass-morphism border border-slate-700/70 p-6 sm:p-8 hover:border-cyan-500/50 transition-all duration-300 shadow-2xl hover-lift-glow">
+              return (
+                <div key={exp.id} className="relative group">
                   
-                  {/* Top Bar: Role & Status */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-                    <div>
-                      <div className="flex flex-wrap items-center gap-3">
-                        <h3 className="font-display text-xl sm:text-2xl font-bold text-white">
-                          {exp.role}
-                        </h3>
-                        {exp.status === 'Current' && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                            Active Position
-                          </span>
-                        )}
+                  {/* Timeline Dot */}
+                  <div
+                    className={`absolute -left-[27px] sm:-left-[39px] top-6 w-4 h-4 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
+                      exp.isCurrent
+                        ? 'border-[#ff6a2b] bg-[#0e0d0b]'
+                        : 'border-[var(--border-hairline)] bg-[#141310] group-hover:border-[#ff6a2b]'
+                    }`}
+                  >
+                    {exp.isCurrent ? (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b] animate-ping" />
+                    ) : (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#9a968d]" />
+                    )}
+                  </div>
+
+                  {/* Card Content (Click to expand) */}
+                  <div
+                    onClick={() => toggleExpand(exp.id)}
+                    className={`bento-card rounded-2xl p-6 sm:p-8 cursor-pointer transition-all duration-300 ${
+                      isExpanded
+                        ? 'border-[#ff6a2b]/50 shadow-xl'
+                        : 'hover:border-[#ff6a2b]/30'
+                    }`}
+                  >
+                    {/* Header Row */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div>
+                        <div className="flex items-center gap-3">
+                          <h3 className="font-serif text-2xl sm:text-3xl font-normal text-[#f2efe8] light:text-[#141311]">
+                            {exp.role}
+                          </h3>
+                          {exp.isCurrent && (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono tracking-widest uppercase bg-[#ff6a2b]/15 text-[#ff6a2b] border border-[#ff6a2b]/30">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b] animate-pulse" />
+                              NOW
+                            </span>
+                          )}
+                        </div>
+                        <p className="font-serif text-lg text-[#ff6a2b] mt-1 font-normal">
+                          {exp.organization}
+                        </p>
                       </div>
 
-                      <div className="flex items-center gap-2 mt-1 text-base font-semibold text-cyan-400">
-                        <Building2 size={16} aria-hidden="true" />
-                        <span>{exp.organization}</span>
+                      <div className="flex items-center gap-3 self-start sm:self-center">
+                        <span className="font-mono text-xs text-[#9a968d] light:text-[#6b665c] bg-[#1a1814] light:bg-[#edeae3] px-3 py-1 rounded-full hairline-all">
+                          {exp.period}
+                        </span>
+                        <div
+                          className={`w-8 h-8 rounded-full hairline-all flex items-center justify-center text-[#9a968d] transition-transform duration-300 ${
+                            isExpanded ? 'rotate-180 text-[#ff6a2b]' : ''
+                          }`}
+                        >
+                          <ChevronDown size={16} />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Summary */}
+                    <p className="text-sm sm:text-base text-[#9a968d] light:text-[#6b665c] mt-4 leading-relaxed">
+                      {exp.summary}
+                    </p>
+
+                    {/* Expandable Bullets & Skills */}
+                    {isExpanded && (
+                      <div className="mt-6 pt-6 hairline-t space-y-5 animate-fade-in">
+                        <div>
+                          <h4 className="mono-label text-xs text-[#f2efe8] light:text-[#141311] mb-3">
+                            Key Deliverables &amp; Direct Impact
+                          </h4>
+                          <ul className="space-y-2.5">
+                            {exp.bullets.map((bullet, bIdx) => (
+                              <li
+                                key={bIdx}
+                                className="flex items-start gap-3 text-sm text-[#f2efe8] light:text-[#141311] leading-relaxed"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b] mt-2 flex-shrink-0" />
+                                <span>{bullet}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Tech Stack Chips */}
+                        <div>
+                          <h4 className="mono-label text-[11px] text-[#9a968d] light:text-[#6b665c] mb-2.5">
+                            Technologies &amp; Frameworks
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {exp.skills.map(s => (
+                              <span
+                                key={s}
+                                className="px-2.5 py-1 rounded text-xs font-mono bg-[#1b1915] light:bg-[#f0ede6] text-[#f2efe8] light:text-[#141311] hairline-all"
+                              >
+                                {s}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
                         {exp.link && (
-                          <a
-                            href={exp.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-slate-400 hover:text-cyan-300 transition-colors ml-1"
-                            aria-label={`Visit ${exp.organization} website`}
-                          >
-                            <ExternalLink size={14} />
-                          </a>
+                          <div className="pt-2 flex justify-end">
+                            <a
+                              href={exp.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center gap-1.5 text-xs font-mono text-[#ff6a2b] hover:underline"
+                            >
+                              <span>Official Portal</span>
+                              <ExternalLink size={12} />
+                            </a>
+                          </div>
                         )}
                       </div>
-                    </div>
+                    )}
 
-                    {/* Period and Location Badges */}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-slate-300">
-                      <div className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 font-medium">
-                        <Calendar size={14} className="text-cyan-400" aria-hidden="true" />
-                        <span>{exp.period}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 font-medium">
-                        <MapPin size={14} className="text-cyan-400" aria-hidden="true" />
-                        <span>{exp.location}</span>
-                      </div>
-                    </div>
                   </div>
 
-                  {/* Highlight bar */}
-                  <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/40 mb-5 text-xs sm:text-sm text-cyan-300 flex items-center gap-2 font-medium">
-                    <Sparkles size={16} className="text-cyan-400 flex-shrink-0" />
-                    <span>Focus: {exp.highlight}</span>
-                  </div>
-
-                  {/* Bullet points */}
-                  <ul className="space-y-3 mb-6">
-                    {exp.bullets.map((bullet, bIdx) => (
-                      <li key={bIdx} className="flex items-start gap-3 text-slate-300 text-sm sm:text-base leading-relaxed">
-                        <CheckCircle2 size={18} className="text-cyan-400 mt-1 flex-shrink-0" aria-hidden="true" />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Tech Pill Badges */}
-                  <div className="pt-4 border-t border-slate-700/50 flex flex-wrap items-center gap-2">
-                    <span className="text-xs text-slate-400 font-medium mr-1 flex items-center gap-1">
-                      <Terminal size={13} className="text-slate-500" />
-                      Tools &amp; Methods:
-                    </span>
-                    {exp.techTags.map((tech, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="text-xs px-2.5 py-1 rounded-lg bg-slate-800/90 text-slate-200 border border-slate-700 font-medium hover:border-cyan-500/40 transition-colors"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                </article>
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
+
         </div>
 
       </div>

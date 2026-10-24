@@ -1,5 +1,6 @@
 import React from 'react';
 import Hero from '../components/Hero';
+import StatsBento from '../components/StatsBento';
 import Experience from '../components/Experience';
 import Projects from '../components/Projects';
 import Research from '../components/Research';
@@ -9,27 +10,30 @@ import Contact from '../components/Contact';
 
 const HomePage: React.FC = () => {
   return (
-    <div className="bg-slate-900 text-slate-100 min-h-screen">
-      {/* 1. Hero with Positioning & 4 Stat Cards */}
+    <div className="relative">
+      {/* 1. Hero with headline, live audit engine, and tool marquee */}
       <Hero />
 
-      {/* 2. Sections in required order: */}
-      {/* Experience */}
+      {/* 2. Key Milestones & Stats Bento Grid */}
+      <StatsBento />
+
+      {/* 3. Sections in strict required sequence: */}
+      {/* 01 / Experience */}
       <Experience />
 
-      {/* Projects */}
+      {/* 02 / Projects */}
       <Projects />
 
-      {/* Research & Publications */}
+      {/* 03 / Research & Publications */}
       <Research />
 
-      {/* Skills */}
+      {/* 04 / Skills */}
       <Skills />
 
-      {/* Education & Certificates */}
+      {/* 05 / Education & Certificates */}
       <Education />
 
-      {/* Contact */}
+      {/* 06 / Contact */}
       <Contact />
     </div>
   );

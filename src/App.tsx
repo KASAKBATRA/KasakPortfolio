@@ -1,57 +1,45 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ArrowUp } from 'lucide-react';
 import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
+import CustomCursor from './components/CustomCursor';
+import IntroLoader from './components/IntroLoader';
+import { ThemeProvider } from './context/ThemeContext';
 
 function App() {
-  const [showBackToTop, setShowBackToTop] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 400);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
+  const [introFinished, setIntroFinished] = useState(false);
 
   return (
-    <Router>
-      <div className="min-h-screen bg-slate-900 text-slate-100 selection:bg-cyan-500 selection:text-white">
-        {/* Sticky Navbar linking to each section */}
-        <Navigation />
+    <ThemeProvider>
+      <Router>
+        <div className="relative min-h-screen bg-[var(--bg-canvas)] text-[var(--text-ink)] selection:bg-[#ff6a2b] selection:text-white transition-colors duration-300">
+          {/* Subtle Film Grain Noise Layer */}
+          <div className="grain-overlay" aria-hidden="true" />
 
-        <main id="main-content">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/experience" element={<Navigate to="/#experience" replace />} />
-            <Route path="/projects" element={<Navigate to="/#projects" replace />} />
-            <Route path="/research" element={<Navigate to="/#research" replace />} />
-            <Route path="/skills" element={<Navigate to="/#skills" replace />} />
-            <Route path="/education" element={<Navigate to="/#education" replace />} />
-            <Route path="/contact" element={<Navigate to="/#contact" replace />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </main>
-        
-        {/* Accessible Floating Back to Top Button */}
-        <button
-          onClick={scrollToTop}
-          className={`back-to-top ${showBackToTop ? 'visible' : ''} focus:outline-none focus:ring-2 focus:ring-cyan-400`}
-          aria-label="Scroll back to top"
-        >
-          <ArrowUp size={20} aria-hidden="true" />
-        </button>
-      </div>
-    </Router>
+          {/* Interactive Custom Cursor */}
+          <CustomCursor />
+
+          {/* Editorial Intro Splash (Session-checked & Skippable) */}
+          <IntroLoader onComplete={() => setIntroFinished(true)} />
+
+          {/* Sticky & Floating Blurred Pill Navigation */}
+          <Navigation />
+
+          <main id="main-content" className="focus:outline-none">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/experience" element={<Navigate to="/#experience" replace />} />
+              <Route path="/projects" element={<Navigate to="/#projects" replace />} />
+              <Route path="/research" element={<Navigate to="/#research" replace />} />
+              <Route path="/skills" element={<Navigate to="/#skills" replace />} />
+              <Route path="/education" element={<Navigate to="/#education" replace />} />
+              <Route path="/contact" element={<Navigate to="/#contact" replace />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </main>
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
 

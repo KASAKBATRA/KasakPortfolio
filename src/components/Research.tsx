@@ -1,209 +1,216 @@
 import React, { useState } from 'react';
-import { BookOpen, FileText, ExternalLink, Bookmark, Sparkles, CheckCircle2, ChevronRight, X } from 'lucide-react';
+import { BookOpen, ExternalLink, ArrowUpRight, FileText, ShoppingCart, Award } from 'lucide-react';
 
 interface Publication {
+  id: string;
   title: string;
   venue: string;
-  type: 'Book' | 'Journal' | 'Conference';
   date: string;
+  type: 'Book' | 'Journal' | 'Conference';
   description: string;
   links: { label: string; url: string; isPrimary?: boolean }[];
-  image?: string;
-  secondaryImage?: string;
   badges: string[];
+  image?: string;
 }
 
 const publications: Publication[] = [
   {
-    title: 'Hello AI: A Friendly Introduction to Machine Learning',
-    venue: 'Published by Eliva Press (Worldwide Distribution)',
-    type: 'Book',
-    date: '2024',
-    description: 'Debut authored book designed to demystify artificial intelligence and machine learning fundamentals for beginners and tech enthusiasts through real-world insights, intuitive math, and hands-on coding demonstrations.',
-    links: [
-      { label: 'Amazon Store (Paperback)', url: 'https://www.amazon.com/dp/9999331718', isPrimary: true },
-      { label: 'Eliva Press Bookstore', url: 'https://elivabooks.com/en/book/book-2784504513' }
-    ],
-    image: '/Photo1.jpg',
-    secondaryImage: '/Photo2.jpg',
-    badges: ['ISBN: 9999331718', 'Authored Book', 'Eliva Press']
-  },
-  {
+    id: 'nutricaree',
     title: 'Nutricaree: Bridging Nutrition Science and Digital Wellness',
     venue: 'IJEDR Journal, Volume 13, Issue 4',
-    type: 'Journal',
     date: 'November 2025',
+    type: 'Journal',
     description: 'Explores data-driven nutritional telemetry, computational dietetics, and personalized digital health recommendations using machine learning models to prevent lifestyle health risks.',
     links: [
       { label: 'IJEDR Journal: [ADD URL]', url: 'https://www.ijedr.org/', isPrimary: true }
     ],
-    badges: ['Volume 13, Issue 4', 'Peer-Reviewed Journal', 'Digital Health AI']
+    badges: ['Volume 13, Issue 4', 'Peer-Reviewed Journal', 'Computational Dietetics']
   },
   {
+    id: 'next-gen-cities',
     title: 'Data Science Solutions for Next Generation Cities',
     venue: 'IJPREMS Journal, Vol. 04, Issue 11, pp. 928–930',
-    type: 'Journal',
     date: 'November 2024',
+    type: 'Journal',
     description: 'Researched data-driven smart city infrastructure, sensor grid analytics, traffic predictive modeling, and scalable municipal decision support systems.',
     links: [
       { label: 'IJPREMS Journal: [ADD URL]', url: 'https://www.ijprems.com/', isPrimary: true }
     ],
-    image: '/ach2.png',
-    badges: ['Vol. 04, Issue 11', 'pp. 928–930', 'Smart Cities']
+    badges: ['Vol. 04, Issue 11', 'pp. 928–930', 'Smart City Analytics']
   },
   {
+    id: 'pencil-ml',
     title: 'Image to Pencil Recognition using Machine Learning and OpenCV',
     venue: 'Presented at NCBISF\'24 National Conference',
-    type: 'Conference',
     date: '2024',
+    type: 'Conference',
     description: 'Presented a computer vision pipeline utilizing OpenCV edge detectors, dodge-and-burn blurs, and machine learning classifiers to synthesize pencil sketch representations from digital camera imagery.',
     links: [
-      { label: 'Conference Paper & GitHub Repository', url: 'https://github.com/jyotirana2005/Image-to-Pencil-Recognition-Using-ML-OpenCV', isPrimary: true }
+      { label: 'Conference Code: [ADD URL]', url: 'https://github.com/jyotirana2005/Image-to-Pencil-Recognition-Using-ML-OpenCV', isPrimary: true }
     ],
-    image: '/ach1.jpeg',
-    badges: ['NCBISF\'24 Conference', 'OpenCV & ML', 'Computer Vision']
+    badges: ['NCBISF\'24', 'OpenCV Vision', 'Conference Paper']
   }
 ];
 
 const Research: React.FC = () => {
-  const [modalImage, setModalImage] = useState<string | null>(null);
-
   return (
-    <section id="research" aria-labelledby="research-heading" className="py-24 bg-slate-900 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section
+      id="research"
+      aria-labelledby="research-heading"
+      className="py-24 sm:py-32 hairline-t"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold uppercase tracking-wider mb-3">
-            <Bookmark size={14} aria-hidden="true" />
-            <span>Scholarship &amp; Publications</span>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-16 hairline-b pb-8">
+          <div>
+            <div className="mono-label text-[#ff6a2b] mb-3 flex items-center gap-2">
+              <span>03 / RESEARCH &amp; PUBLICATIONS</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff6a2b]" />
+            </div>
+            <h2
+              id="research-heading"
+              className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-[#f2efe8] light:text-[#141311] tracking-tight"
+            >
+              Academic Inquiries &amp; <span className="italic text-[#ff6a2b]">Authorship</span>.
+            </h2>
           </div>
-          <h2 id="research-heading" className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-4">
-            Research, Publications &amp; Book
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-cyan-400 mx-auto rounded-full" />
-          <p className="text-slate-300 mt-4 max-w-2xl mx-auto text-base">
-            Authored literature and peer-reviewed conference research across machine learning, health informatics, and urban data science.
+          <p className="font-mono text-xs text-[#9a968d] light:text-[#6b665c] max-w-xs">
+            Published machine learning literature, journal investigations, and an authored textbook.
           </p>
         </div>
 
-        {/* Publications Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {publications.map((pub, idx) => (
-            <article
-              key={idx}
-              className="rounded-3xl glass-morphism border border-slate-700/80 hover:border-purple-400/50 transition-all duration-300 shadow-2xl hover-lift-glow flex flex-col justify-between overflow-hidden"
-            >
-              {/* Optional Photo Banner */}
-              {pub.image && (
-                <div 
-                  className="relative h-48 bg-slate-950 overflow-hidden cursor-pointer group"
-                  onClick={() => setModalImage(pub.image || null)}
-                  title="Click to view full photo"
-                >
-                  <img
-                    src={pub.image}
-                    alt={pub.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
-                  <span className="absolute bottom-3 right-3 text-[11px] font-medium px-2.5 py-1 rounded-lg bg-slate-950/80 text-cyan-300 border border-slate-700 backdrop-blur-md">
-                    Tap to view photo
-                  </span>
-                </div>
-              )}
+        {/* Featured Book Bento Card */}
+        <div className="mb-14 bento-card rounded-3xl p-6 sm:p-10 hairline-all relative overflow-hidden group">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Book Meta & Copy (8 cols) */}
+            <div className="lg:col-span-8 space-y-5">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider bg-[#ff6a2b]/15 text-[#ff6a2b] border border-[#ff6a2b]/30">
+                  Featured Book Release
+                </span>
+                <span className="font-mono text-xs text-[#9a968d]">
+                  ISBN: 9999331718 · Eliva Press
+                </span>
+              </div>
 
-              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between">
-                <div>
-                  {/* Top pill row */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                    <span className={`text-xs px-3 py-1 rounded-full font-bold border ${
-                      pub.type === 'Book'
-                        ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                        : pub.type === 'Journal'
-                        ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
-                        : 'bg-purple-500/20 text-purple-300 border-purple-500/40'
-                    }`}>
-                      {pub.type === 'Book' ? '📘 Authored Book' : pub.type === 'Journal' ? '📄 Journal Paper' : '🎤 Conference Paper'}
+              <h3 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-[#f2efe8] light:text-[#141311] leading-tight">
+                Hello AI: A Friendly Introduction to Machine Learning
+              </h3>
+
+              <p className="font-mono text-xs text-[#ff6a2b] uppercase tracking-wider">
+                Published with Eliva Press (Worldwide Distribution) · 2024
+              </p>
+
+              <p className="text-sm sm:text-base text-[#9a968d] light:text-[#6b665c] leading-relaxed max-w-2xl">
+                Authored to demystify artificial intelligence and machine learning fundamentals for beginners and practitioners. Covers intuitive math, neural logic, regression, clustering, and hands-on coding demonstrations.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-4 pt-3">
+                <a
+                  href="https://www.amazon.com/dp/9999331718"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#ff6a2b] hover:bg-[#ff7e45] text-white text-xs font-mono uppercase tracking-wider transition-all duration-300 shadow-md shadow-[#ff6a2b]/20"
+                >
+                  <ShoppingCart size={14} />
+                  <span>Amazon Store (Paperback)</span>
+                  <ArrowUpRight size={14} />
+                </a>
+
+                <a
+                  href="https://elivabooks.com/en/book/book-2784504513"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full hairline-all bg-[#161512] light:bg-[#f0ede6] hover:border-[#ff6a2b] text-[#f2efe8] light:text-[#141311] text-xs font-mono uppercase tracking-wider transition-colors"
+                >
+                  <BookOpen size={14} />
+                  <span>Eliva Press Bookstore</span>
+                  <ExternalLink size={13} />
+                </a>
+              </div>
+            </div>
+
+            {/* Book Photos Mockup (4 cols) */}
+            <div className="lg:col-span-4 flex items-center justify-center gap-3">
+              <div className="relative group/photo">
+                <img
+                  src="/Photo1.jpg"
+                  alt="Hello AI Book Cover by Kasak Batra"
+                  className="w-36 sm:w-44 h-auto rounded-lg shadow-2xl hairline-all transform -rotate-3 hover:rotate-0 transition-transform duration-300 object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="relative group/photo -ml-6 mt-6">
+                <img
+                  src="/Photo2.jpg"
+                  alt="Kasak Batra presenting Hello AI Book"
+                  className="w-32 sm:w-40 h-auto rounded-lg shadow-2xl hairline-all transform rotate-3 hover:rotate-0 transition-transform duration-300 object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Academic Journal Index List */}
+        <div>
+          <h4 className="mono-label text-xs text-[#9a968d] light:text-[#6b665c] mb-4">
+            Peer-Reviewed Journal &amp; Conference Articles
+          </h4>
+
+          <div className="divide-y divide-[var(--border-hairline)] hairline-t hairline-b">
+            {publications.map((pub, idx) => (
+              <a
+                key={pub.id}
+                href={pub.links[0]?.url || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group py-6 sm:py-8 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all duration-300 hover:translate-x-2 block"
+              >
+                <div className="space-y-1.5 md:max-w-2xl">
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-xs text-[#ff6a2b]">
+                      [0{idx + 1}]
                     </span>
-                    <span className="text-xs text-slate-400 font-medium">{pub.date}</span>
+                    <span className="font-mono text-[11px] uppercase tracking-widest text-[#9a968d] light:text-[#6b665c]">
+                      {pub.type}
+                    </span>
+                    <span className="text-[#9a968d] text-xs">·</span>
+                    <span className="font-mono text-xs text-[#9a968d] light:text-[#6b665c]">
+                      {pub.date}
+                    </span>
                   </div>
 
-                  <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-2 leading-snug">
-                    "{pub.title}"
+                  <h3 className="font-serif text-xl sm:text-2xl text-[#f2efe8] light:text-[#141311] group-hover:text-[#ff6a2b] transition-colors">
+                    {pub.title}
                   </h3>
 
-                  <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-cyan-400 mb-4">
-                    {pub.type === 'Book' ? <BookOpen size={16} /> : <FileText size={16} />}
-                    <span>{pub.venue}</span>
-                  </div>
-
-                  <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                    {pub.description}
+                  <p className="font-mono text-xs text-[#ff6a2b]/90">
+                    {pub.venue}
                   </p>
 
-                  {/* Badges */}
-                  <div className="flex flex-wrap gap-1.5 mb-6">
-                    {pub.badges.map((badge, bIdx) => (
-                      <span
-                        key={bIdx}
-                        className="text-[11px] px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700/80 font-medium"
-                      >
-                        {badge}
-                      </span>
-                    ))}
+                  <p className="text-xs sm:text-sm text-[#9a968d] light:text-[#6b665c] line-clamp-2 mt-1">
+                    {pub.description}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3 self-end md:self-center">
+                  <span className="font-mono text-xs text-[#9a968d] group-hover:text-[#ff6a2b] transition-colors">
+                    View Paper
+                  </span>
+                  <div className="w-8 h-8 rounded-full hairline-all flex items-center justify-center text-[#9a968d] group-hover:text-[#ff6a2b] group-hover:border-[#ff6a2b] transition-colors">
+                    <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                 </div>
-
-                {/* Direct Action Links */}
-                <div className="pt-5 border-t border-slate-700/60 flex flex-wrap items-center gap-3">
-                  {pub.links.map((link, lIdx) => (
-                    <a
-                      key={lIdx}
-                      href={link.url}
-                      target={link.url.startsWith('http') ? '_blank' : '_self'}
-                      rel={link.url.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className={`inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-xl transition-all ${
-                        link.isPrimary
-                          ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-md shadow-purple-600/20'
-                          : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700'
-                      }`}
-                    >
-                      <span>{link.label}</span>
-                      <ExternalLink size={13} />
-                    </a>
-                  ))}
-                </div>
-
-              </div>
-            </article>
-          ))}
+              </a>
+            ))}
+          </div>
         </div>
 
       </div>
-
-      {/* Lightbox Modal for Photo inspection */}
-      {modalImage && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4"
-          onClick={() => setModalImage(null)}
-        >
-          <div className="relative max-w-3xl max-h-[90vh] p-2 bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl">
-            <button
-              onClick={() => setModalImage(null)}
-              className="absolute -top-4 -right-4 p-2 rounded-full bg-slate-800 text-white hover:bg-slate-700 border border-slate-600"
-              aria-label="Close photo preview"
-            >
-              <X size={20} />
-            </button>
-            <img
-              src={modalImage}
-              alt="Publication preview"
-              className="max-h-[80vh] w-auto rounded-xl object-contain"
-            />
-          </div>
-        </div>
-      )}
     </section>
   );
 };
